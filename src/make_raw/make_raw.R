@@ -97,6 +97,7 @@ my_read_csv <- function(file){
 
 
 raw <- tibble(files = list.files(export_folder)) %>%
+  filter(files != "FileData") %>% 
   mutate(
     id = str_remove(files, paste0(prefix, "_")),
     id = str_remove(id, ".csv"),
