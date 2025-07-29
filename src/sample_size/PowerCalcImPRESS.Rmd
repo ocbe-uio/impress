@@ -1,0 +1,254 @@
+---
+title: "Sample size calculation ImPRESS study v2"
+date: "26th of March 2019"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  word_document: 
+  html_document:
+    df_print: paged
+  html_notebook: default
+subtitle: Sample size calculation
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message = FALSE)
+library(tidyverse)
+library(nlme)
+library(emmeans)
+library(paramtest)
+library(kableExtra)
+library(lme4)
+library(margins)
+library(emmeans)
+library(broom)
+```
+
+
+# Introduction
+This document provides details of the sample size calculation for the Imaging Perfusion Restrictions from Extracellular Solid Stress (ImPRESS), an open-label losartan study. The caluclations are based on simulations.
+
+This updated version is after response from SLV. 
+
+# Study design
+The suggested study design is an individual stepped-wedge, randomized, assessor-blinded, dose-finding trial on three indications. Study A is divided into recurrent glioblastoma and newly diagnosed glioblastoma patients, while Study B includes patients with brain metastases.
+
+Following discussions the following treatment regime is suggested:
+
+**Study A (recurrent glioblastoma)**
+
+```{r studyA1}
+tibble(Group = c("Group 1", "Group 2", "Group 3"), 
+       Baseline = c(0,0,0), 
+       Day14 = c(1,0,0), 
+       Day28 = c(1,1,0), 
+       Day42 = c(1,1,1),
+       Day180 = c(0,0,0)) %>%
+  mutate_if(is.numeric, function(x) {
+    cell_spec(x, color = ifelse(x==0,"red", "blue"), background = ifelse(x==0,"red", "blue"))
+  }
+  ) %>%  
+  kable(escape = F, col.names = c("Group", 
+                                  "Baseline", 
+                                  "Days 1 to 14", 
+                                  "Days 15 to 28", 
+                                  "Days 29 to 42",
+                                  "Days 43 to 180")) %>%
+  kable_styling("striped", full_width = F) %>%
+  footnote(general = "Red is no treatment, blue is treatment with losartan")
+```
+
+Note that all treatment groups are treated with either 25 mg/day, 50 mg/day or 100 mg/day losartan in a 1:1:1 alocation ratio. We denote the treatment groups as Group 1: 25 mg/day, Group 1: 50 mg/day etc. There are 9 treatment groups in total. 
+
+
+**Study A (newly diagnosed glioblastoma)**
+
+```{r studyA2}
+
+tibble(Group = c("Group 1", "Group 2", "Group 3"), 
+       Baseline = c(0,0,0), 
+       Day14 = c(1,1,1), 
+       Day28 = c(1,1,0), 
+       Day42 = c(1,0,0),
+       Day180 = c(0,0,0)) %>%
+  mutate_if(is.numeric, function(x) {
+    cell_spec(x, color = ifelse(x==0,"red", "blue"), background = ifelse(x==0,"red", "blue"))
+  }
+  ) %>%  
+  kable(escape = F, col.names = c("Group", 
+                                  "Baseline", 
+                                  "Days 1 to 14", 
+                                  "Days 15 to 28", 
+                                  "Days 29 to 42",
+                                  "Days 43 to 180")) %>%
+  kable_styling("striped", full_width = F) %>%
+  footnote(general = "Red is no treatment, blue is treatment with losartan")
+```
+
+Note that all treatment groups are treated with either 25 mg/day, 50 mg/day or 100 mg/day losartan in a 1:1:1 alocation ratio. We denote the treatment groups as Group 1: 25 mg/day, Group 1: 50 mg/day etc. There are 9 treatment groups in total. 
+
+**Study B (Brain metastases)**
+
+```{r studyB}
+
+tibble(Group = c("Group 1", "Group 2", "Group 3"), 
+       Baseline = c(0,0,0), 
+       Day90 = c(1,0,0), 
+       Day180 = c(1,1,0), 
+       Day270 = c(1,1,1),
+       Day360 = c(0,0,0)) %>%
+  mutate_if(is.numeric, function(x) {
+    cell_spec(x, color = ifelse(x==0,"red", "blue"), background = ifelse(x==0,"red", "blue"))
+  }
+  ) %>%  
+  kable(escape = F, col.names = c("Group", 
+                                  "Baseline", 
+                                  "Days 1 to 90", 
+                                  "Days 91 to 180", 
+                                  "Days 181 to 270",
+                                  "Days 271 to 360")) %>%
+  kable_styling("striped", full_width = F) %>%
+  footnote(general = "Red is no treatment, blue is treatment with losartan")
+```
+
+All patients will be treated with 50 mg/day losartan. There are 3 treatment groups in total. 
+
+
+# Model
+The underlying model is defined as
+$$ \Delta RPI_{ij} = A_i +  \mu_{trt} + \mu_j + \epsilon_{ij}  $$
+where $\Delta RPI_{ij}$ is the change from baseline Restricted Perfusion Imaging value, measured as a percentage of the optimal value (-100% to 100%)  of patient $i=1..N$ at timepoint $j$, $A_i$ is the random intercept of patient $i$,  $\mu_{trt}$ is the treatment effect , $\mu_j$ is the expected RPI at timepoint $j$, and $\epsilon_{ij}$ is the residual. Note that we assume the treatment effect is equal between the treatment doses, such that the $\mu_j$ denotes the average treatment effect over the three doses. 
+
+# Assumptions and model parameters
+Every sample size calculation needs assumptions on the effect size and the variance of the observations.
+
+## Effect size
+We assume the effect size to be 20%. We also assume that the effect size is equal between the treatment doses in Study A. However, we want to assess the power of different effect sizes, and assess the effect sizes of 5%, 10% and 15% in addition.  
+
+## Variance
+The variance is difficult to assess, but we assume an overall standard deviation of 15%, split with a within and between patient standard deviaiton of 10.6%
+
+```{r modparms}
+
+ngrp <- 3 # number of treatment groups
+mu_trt <- c(5, 10, 15, 20) #treatment effect
+mu_j <- c(0,0,0,0,0) #time effect
+t <- length(mu_j) #number of timepoints
+sd_j <- 10.6 #SD of intercept
+sd_res <- 10.6 #SD of residual
+n.iter <- 1000 #number of simulated trials
+ssize <- c(6, 12, 15, 18) # Sample sizes per intervention group to form the results
+
+design1 <- matrix(c(0,0,0,
+                    1,0,0,
+                    1,1,0,
+                    1,1,1,
+                    0,0,0),nrow = 5, ncol = 3, byrow=TRUE)
+
+design2 <- matrix(c(0,0,0,
+                    1,1,1,
+                    1,1,0,
+                    1,0,0,
+                    0,0,0),nrow = 5, ncol = 3, byrow=TRUE)
+```
+
+# Simulations
+We run simulations with different sample sizes using this design and these assumptions. We run `r n.iter` simulated trials for each sample size. For each simulation we estimate the parameters of interest (treatment effect) and the p-value from a mixed model as defined previously. The power is calculated as the proportion of trials with significant treatment effect. For each simulated trial we simulate `r ssize[1]`, `r ssize[2]` or `r ssize[3]` patients in each intervention group. As previously noted, patients in each treatment group in Study A receives randomly one of three doses. In the calculations, the doses are pooled to assess the overall treatment effect of losartan. 
+
+
+```{r parmtest, results = FALSE}
+pfunc <- function(iter, N, mu_j, trt_eff, sd_j, sd_res, design) {
+  t <- length(mu_j) 
+  simpop <- tibble(pid = rep(1:(ngrp*N),t)) %>%
+  arrange(pid) %>%
+  mutate(group = rep(1:ngrp,each=N*t)) %>%
+  group_by(pid) %>%
+  mutate(time = 1:t-1) %>%
+  mutate(trt = design[,max(group)]) %>%
+  mutate(mu_j = mu_j) %>%
+  modify_at(c("pid", "time", "group", "trt"),as.factor) %>%
+  mutate(a_i=rnorm(1, sd=sd_j)) %>%
+  mutate(res = rnorm(t,sd=sd_res)) %>%
+  ungroup() %>%
+  mutate(y=a_i + mu_j + (trt==1)*trt_eff + res) %>%
+  filter(time != 0 | time != 4)
+ 
+  
+  res1 <- nlme::lme(y ~ time + trt, data=simpop, random = ~ 1|pid)
+
+  est1 <- coef(summary(res1))["trt1", "Value"]
+  p1 <- coef(summary(res1))["trt1","p-value"]
+  n1 <- res1$dim$N
+  ngrp1 <- res1$dim$ngrps[["pid"]]
+  return(c(n1=n1,ngrp1=ngrp1,est1=est1,p1=p1, sig1=est1>0 & p1<=0.05))
+}
+
+power_sim <- grid_search(pfunc, n.iter=n.iter, params=list(N=ssize, trt_eff = mu_trt ),parallel="multicore", ncpus=4, output="data.frame", mu_j = mu_j, sd_j = sd_j, sd_res=sd_res, design=design1)
+```
+
+# Results
+
+## Result of one simulated trial
+
+Below is a plot of one randomly simulated trial with 18 in each group, design is as for Study A (recurrent glioblastoma) and treatment effect is 20%. 
+
+```{r}
+N <- 18
+t <- length(mu_j)
+design <- design1
+trt_eff <- 20
+extrial <- tibble(pid = rep(1:(ngrp*N),t)) %>%
+    arrange(pid) %>%
+    mutate(group = rep(1:ngrp,each=N*t)) %>%
+    group_by(pid) %>%
+    mutate(time = 1:t-1) %>%
+    mutate(trt = design[,max(group)]) %>%
+    mutate(mu_j = mu_j) %>%
+    modify_at(c("pid", "time", "group", "trt"),as.factor) %>%
+    mutate(a_i=rnorm(1, sd=sd_j)) %>%
+    mutate(res = rnorm(t,sd=sd_res)) %>%
+    ungroup() %>%
+    mutate(trt_num = trt==1) %>%
+    mutate(y = a_i + mu_j + (trt==1)*trt_eff + res) %>%
+    filter(time != 0)
+  
+
+extrial %>%
+  lmer(y ~  group + time + group*time + (1|pid),data=., REML=FALSE) %>%
+  ref_grid() %>%
+  emmeans( ~ group | time) %>%
+  tidy() %>%
+  ggplot(aes(time, estimate, color=group, group=group)) +
+  geom_point() +
+  geom_line() + 
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width=0.2) + 
+  theme_classic() + 
+  scale_colour_brewer(palette = "Set1")
+
+
+```
+
+## Power calculation
+
+Based on the simulations, we form tables to estimate the power.
+```{r res}
+library(tidyverse)
+results(power_sim) %>%
+   group_by(N.test, trt_eff.test) %>%
+   summarise(n1=mean(ngrp1), power1=mean(sig1), est1 = mean(est1)) %>%
+   ungroup() %>%
+   knitr::kable(digits=3, col.names = c("Sample size per group", 
+                               "Effect size", 
+                               "Total sample size",  
+                               "Power", 
+                               "Estimate"))
+```
+
+
+
+
+# Conclusion
+Following the simulations, we see that with an effect size of 20% we have very high power for all sample sizes. With 12 in each group, we see that we gain a sufficient power even when the effect size is as low as 10%. 
+
+# References
+

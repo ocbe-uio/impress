@@ -1,0 +1,8 @@
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
+!Raw dataset contents.qmd
+!readme.txt
+
+#This folder should contain the raw data as downloaded from Viedoc. This will not be uploaded to GitHub. 

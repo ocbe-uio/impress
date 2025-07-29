@@ -1,0 +1,184 @@
+---
+title: "Sample size calculation ImPRESS study"
+date: "21th of August 2018"
+output:
+  html_document:
+    df_print: paged
+  word_document: 
+  pdf_document:
+    latex_engine: xelatex
+  html_notebook: default
+subtitle: Sample size calculation
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+library(tidyverse)
+library(nlme)
+library(emmeans)
+library(paramtest)
+```
+
+# Introduction
+This document provides details of the sample size calculation for the Imaging Perfusion Restrictions from Extracellular Solid Stress (ImPRESS), an open-label losartan study. The caluclations are based on simulations. 
+
+# Study design
+The suggested study design is an individual stepped-wedge, randomized, assessor-blinded, dose-finding trial on three indications. Study A is divided into recurrent glioblastoma and newly diagnosed glioblastoma patients, while Study B includes patients with brain metastases.
+
+Following discussions the following treatment regime is suggested:
+
+** Study A (recurrent glioblastoma) **
+| Group    | Baseline |Day +14   | Day +28   | Day +42   | Day +180 |
+|:---------|----------|----------|-----------|-----------|----------|
+| Group 1  | Off      | On       | On        | On        | Off      |
+| Group 2  | Off      | Off      | On        | On        | Off      |
+| Group 3  | Off      | Off      | Off       | On        | Off      |
+|----------|----------|----------|-----------|-----------|----------|
+
+
+
+
+All participants start on a natural gluten-free diet on day 0. In addition, all participants will be given a daily muesli bar to be ingested, half in the morning and half in the evening. The muesli bar is either gluten-containing or gluten-free, in the following manner: One-third is allocated to a gluten-free muesli bar from day 0 and throughout the first four months. After two months, another one-third is shifted from a gluten-containing muesli bar to gluten-free muesli bars for the following two months. After yet another two months, the last third of participants will be shifted to a full gluten-free diet, as the rest. As all participants are adhering to a full GFD for the last two months of the intervention, the daily ingestion of muesli bars is stopped after four months . The allocation of participants into treatment groups, and the content of the muesli bars, is blinded to subjects and investigators.
+
+# Model
+The underlying model is defined as
+$$ \Delta RPI_{ij} = A_i +  \mu_{trt} + \mu_j + \epsilon_{ij}  $$
+where $\Delta RPI_{ij}$ is the change from baseline Restricted Perfusion Imaging value, measured as a percentage of the optimal value (-100% to 100%)  of patient $i=1..N$ at timepoint $j$, $A_i$ is the random intercept of patient $i$,  $\mu_{trt}$ is the treatment effect , $\mu_j$ is the expected RPI at timepoint $j$, and $\epsilon_{ij}$ is the residual.
+
+# Assumptions and model parameters
+Every sample size calculation needs assumptions on the effect size and the variance of the observations.
+
+## Effect size
+According to (ref), we assume the effect size to be 20%. We also assume that the effect size is equal between the treatment doses in Study A.  
+
+## Variance
+The variance is difficult to assess, but we assume an overall standard deviation of 15%, split with a within and between patient standard deviaiton of 10.6%
+
+likewise difficult to assess, but in a one-year randomised trial on biosimilar treatment with infliximab in patients with a wide range of chronic inflammatory diseases [Jorgensen:2017je], the within and between patient standard deviations were both about 15.
+
+
+
+### Code
+
+This code defines the assumed underlying model parameters
+```{r modparms}
+
+ngrp <- 3 # number of treatment groups
+n <- 50000 #number of subjects within group for the whole population
+mu_trt <- 20 #treatment effect
+mu_j <- c(0,0,0,0,0) #time effect
+t <- length(mu_j) #number of timepoints
+sd_j <- 10.6 #SD of intercept
+sd_res <- 10.6 #SD of residual
+n.iter <- 100 #number of simulated trials
+ssize <- c(4,6,8) # Sample sizes per intervention group to form the results
+```
+
+
+This code prepares the "simpop"-dataframe for simulations
+```{r simpop}
+
+# Set up the framework
+simpop <- tibble(pid = rep(1:(ngrp*n),t)) %>%
+  arrange(pid) %>%
+  mutate(time = rep(1:t,n*ngrp)-1)
+simpop <- simpop %>%
+  mutate(group = rep(1:ngrp,each=n*t)) %>%
+  mutate(trt = case_when(
+    group == 1 & time > 0 ~ 1,
+    group == 2 & time > 1 ~ 1,
+    group == 3 & time > 2 ~ 1,
+    group == 4 & time > 3 ~ 1,
+    TRUE ~ 0
+  )) %>%
+  mutate(trt = ifelse(time==4,0,trt)) %>%
+  mutate(trt=as.factor(trt), time=as.factor(time), group=as.factor(group))
+
+```
+Then a code that draws random intercepts and then the responses.
+```{r simpop2}
+set.seed(66)
+# Draw responses
+# First the random intercepts
+simpop <- simpop %>% 
+  mutate(mu_j  = rep(mu_j,n*ngrp)) %>%
+  group_by(pid) %>%
+  mutate(a_i=rnorm(1, sd=sd_j)) %>%
+  ungroup(simpop)
+# Then sum the terms and add residual
+simpop <- simpop %>%
+  mutate(y=a_i + mu_j + (as.numeric(trt)-1)*mu_trt + rnorm(n*ngrp*t, sd=sd_res))
+
+```
+
+## Model figure according to assumptions
+
+The following plot shows the underlying populaltion averages in each group. 
+
+### Code and resulting figure
+
+```{r plot}
+
+simpop %>%
+  group_by(group,time) %>%
+  summarise(y=mean(y)) %>%
+  ggplot(aes(time,y,group=group)) +
+  geom_line(aes(color=group)) +
+  theme_classic() +
+  theme(legend.position="bottom") +
+  ylim(-5,25) +
+  labs(y="PGA/PhGA",x="Time points") 
+```
+
+
+
+
+# Simulations
+We run simulations with different sample sizes using this design and these assumptions. We run `r n.iter` simulated trials for each sample size. For each simulation we estimate the parameters of interest (treatment effect) and the p-value from a mixed model as defined previously. The power is calculated as the proportion of trials with significant treatment effect.
+
+## Simulation code
+For each simulation we sample `r ssize[1]`, `r ssize[2]` or `r ssize[3]` patients from each intervention group, analyse according to the mixed model and save the result. The results are saved in the "power_sim"-dataframe
+```{r parmtest}
+library(nlme)
+library(emmeans)
+library(paramtest)
+
+sample <- simpop %>%
+  filter(time==1) %>%
+  select(pid,group) %>%
+  group_by(group)
+set.seed(666)
+
+pfunc <- function(iter,N1=50) {
+  trial1 <- semi_join(simpop,sample_n(sample,N1),by = c("pid", "group"))
+  res1 <- nlme::lme(y ~ -1 + time + trt, data=trial1, random = ~ 1|pid)
+  est1 <- coef(summary(res1))["trt1", "Value"]
+  p1 <- coef(summary(res1))["trt1","p-value"]
+  n1 <- res1$dim$N
+  ngrp1 <- res1$dim$ngrps[["pid"]]
+  return(c(n1=n1,ngrp1=ngrp1,est1=est1,p1=p1, sig1=est1>0 & p1<=0.05))
+
+}
+
+power_sim <- run_test(pfunc, n.iter=n.iter, params=data.frame(N1=ssize),parallel="multicore", ncpus=4, output="data.frame")
+```
+
+# Results
+Based on the simulations, we form tables to estimate the power.
+```{r res}
+library(tidyverse)
+tmp <- results(power_sim) %>%
+   group_by(N1.test) %>%
+  summarise(n1=mean(ngrp1),power1=mean(sig1), est1 = mean(est1)) %>%
+  ungroup()
+
+
+ tmp %>%
+   knitr::kable(digits=3,col.names = c( "Sample size per group", "Total sample size",  "Power", "Estimate"))
+```
+
+# Conclusion
+Following these simulations, we need to include about 20 patients in each treatment group to achieve a power above 80%. With the tight control regime and motivated patients, we expect very few drop-outs.
+
+# References
+
