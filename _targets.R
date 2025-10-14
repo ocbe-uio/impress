@@ -54,7 +54,7 @@ tar_source("R/external/functions.R")
 tar_source("R/make_ad/make_adsl.R")
 tar_source("R/make_raw/make_shamrand.R")
 tar_source("R/make_raw/make_raw.R")
-tar_source("R/make_ad/make_adeff.R")
+#tar_source("R/make_ad/make_adeff.R")
 
 
 # Replace the target list below with your own:
@@ -84,22 +84,5 @@ list(
   tar_target(
     shamraw,
     make_shamrand(raw, cfg)
-  ),
-  tar_target(
-    adsl,
-    make_adsl(shamraw, cfg_adam, cfg, identifiers = "subjectid")
-  ), 
-  tar_target(
-    raw_domains,
-    as_raw_domains(shamraw)
-  ),
-  tar_target(
-    adeff,
-    make_adeff(
-      lineage_yml  = cfg_adam_file,
-      raw          = raw_domains,
-      adsl         = adsl,
-      cfg          = cfg  
-    )
   )
 )
