@@ -1,0 +1,374 @@
+# =========================================================
+# adam.yml
+# ADaM configuration for ImPRESS trial
+# =========================================================
+
+visits:
+  map:
+  - eventname: "Screening"
+    avisit: "Screening"
+    avisitn: -14
+  - eventname: "Randomization and baseline MRI"
+    avisit: "Randomization And Baseline MRI"
+    avisitn: -7
+  - eventname: "Cycle 1 -4 days"
+    avisit: "Cycle 1 -4 Days"
+    avisitn: -4
+  - eventname: "Cycle 1"
+    avisit: "Cycle 1"
+    avisitn: 1
+  - eventname: "Cycle 2"
+    avisit: "Cycle 2"
+    avisitn: 15
+  - eventname: "Cycle 3"
+    avisit: "Cycle 3"
+    avisitn: 29
+  - eventname: "Cycle 4"
+    avisit: "Cycle 4"
+    avisitn: 43
+  - eventname: "Cycle 5"
+    avisit: "Cycle 5"
+    avisitn: 57
+  - eventname: "Cycle 6"
+    avisit: "Cycle 6"
+    avisitn: 71
+  - eventname: "Cycle 7"
+    avisit: "Cycle 7"
+    avisitn: 85
+  - eventname: "Cycle 8"
+    avisit: "Cycle 8"
+    avisitn: 99
+  - eventname: "Cycle 9"
+    avisit: "Cycle 9"
+    avisitn: 113
+  - eventname: "Cycle 10"
+    avisit: "Cycle 10"
+    avisitn: 127
+  - eventname: "Cycle 11"
+    avisit: "Cycle 11"
+    avisitn: 141
+  - eventname: "Cycle 12"
+    avisit: "Cycle 12"
+    avisitn: 155
+  - eventname: "Cycle 13"
+    avisit: "Cycle 13"
+    avisitn: 169
+  - eventname: "Cycle 14"
+    avisit: "Cycle 14"
+    avisitn: 183
+  - eventname: "Cycle 15"
+    avisit: "Cycle 15"
+    avisitn: 197
+  - eventname: "Cycle 16"
+    avisit: "Cycle 16"
+    avisitn: 211
+  - eventname: "Cycle 17"
+    avisit: "Cycle 17"
+    avisitn: 225
+  - eventname: "Cycle 18"
+    avisit: "Cycle 18"
+    avisitn: 239
+  - eventname: "Cycle 19"
+    avisit: "Cycle 19"
+    avisitn: 253
+  - eventname: "Cycle20"
+    avisit: "Cycle20"
+    avisitn: 267
+  - eventname: "Cycle21"
+    avisit: "Cycle21"
+    avisitn: 281
+  - eventname: "Cycle 22"
+    avisit: "Cycle 22"
+    avisitn: 295
+  - eventname: "Cycle 23"
+    avisit: "Cycle 23"
+    avisitn: 309
+  - eventname: "12 months FU"
+    avisit: "12 Months FU"
+    avisitn: 360
+  - eventname: "24 months FU"
+    avisit: "24 Months FU"
+    avisitn: 720
+  - eventname: "Cycle 1-Day 1"
+    avisit: "Cycle 1-Day 1"
+    avisitn: 1001
+  - eventname: "Cycle 1-Day 22"
+    avisit: "Cycle 1-Day 22"
+    avisitn: 1022
+  - eventname: "Cycle 1-Day 43"
+    avisit: "Cycle 1-Day 43"
+    avisitn: 1043
+  - eventname: "Cycle 1-Day 64"
+    avisit: "Cycle 1-Day 64"
+    avisitn: 1064
+  - eventname: "Cycle 1-Day 90"
+    avisit: "Cycle 1-Day 90"
+    avisitn: 1090
+  - eventname: "Cycle 2-Day 91"
+    avisit: "Cycle 2-Day 91"
+    avisitn: 1091
+  - eventname: "Cycle 2-Day 112"
+    avisit: "Cycle 2-Day 112"
+    avisitn: 1112
+  - eventname: "Cycle 2-Day 133"
+    avisit: "Cycle 2-Day 133"
+    avisitn: 1133
+  - eventname: "Cycle 2-Day 180"
+    avisit: "Cycle 2-Day 180"
+    avisitn: 1180
+  - eventname: "Day 154"
+    avisit: "Day 154"
+    avisitn: 1154
+  - eventname: "Cycle 3-Day 181"
+    avisit: "Cycle 3-Day 181"
+    avisitn: 1181
+  - eventname: "Cycle 3-Day 202"
+    avisit: "Cycle 3-Day 202"
+    avisitn: 1202
+  - eventname: "Cycle 3-Day 223"
+    avisit: "Cycle 3-Day 223"
+    avisitn: 1223
+  - eventname: "Cycle 3-Day 244"
+    avisit: "Cycle 3-Day 244"
+    avisitn: 1244
+  - eventname: "Cycle 3-Day 270"
+    avisit: "Cycle 3-Day 270"
+    avisitn: 1270
+  - eventname: "Day 284"
+    avisit: "Day 284"
+    avisitn: 1284
+  - eventname: "Safety FU-Day 360"
+    avisit: "Safety FU-Day 360"
+    avisitn: 1360
+  - eventname: "Safety FU-Day 720"
+    avisit: "Safety FU-Day 720"
+    avisitn: 1720
+  defaults:
+    avisit_fallback_from_eventname: false
+    avisitn_unmapped: 999
+
+
+datasets:
+  ADSL:
+    structure: "SPECIAL-PURPOSE"
+    keys: ["USUBJID"]
+
+    # -------------------------
+    # Variable lineage (CDASH -> ADaM)
+    # -------------------------
+    variables:
+      # --- Identifiers ---
+      - name: STUDYID
+        label: "Study Identifier"
+        type: char
+        length: 20
+        origin: Assigned
+        derivation: "cfg$studyid"
+
+      - name: DIAGNOSIS
+        label: "Diagnosis"
+        type: char
+        length: 50
+        origin: Collected
+        sources:
+          - { id: "sitename", dataset: "DM" }         # <- Items.csv id + dataset
+
+      - name: SUBJID
+        label: "Subject Identifier for Study"
+        type: char
+        length: 24
+        origin: Collected
+        sources:
+          - { id: "subjectid", dataset: "DM" }
+
+      - name: USUBJID
+        label: "Unique Subject Identifier"
+        type: char
+        length: 36
+        origin: Derived
+        derivation: "paste(STUDYID, '-', SUBJID)"
+        sources:
+          - { id: "subjectid", dataset: "DM" }
+          - { id: "sitename", dataset: "DM" }
+
+      - name: COUNTRY
+        label: "Country (ISO3)"
+        type: char
+        length: 3
+        origin: Assigned
+        derivation: "cfg$country_code"
+
+      # --- Demography / baseline covariates ---
+      - name: AGE
+        label: "Age at Baseline"
+        type: num
+        origin: Collected
+        sources:
+          - { id: "dmage", dataset: "DM" }
+
+      - name: SEX
+        label: "Sex"
+        type: char
+        length: 1
+        origin: Collected
+        codelist: SEX
+        sources:
+          - { id: "sex", dataset: "DM" }
+
+      - name: RANDDT
+        label: "Date of Randomization"
+        type: date
+        origin: Collected
+        sources:
+          - { id: "randat", dataset: "RAN" }
+
+      - name: RFSTDT
+        label: "First Study Treatment Date"
+        type: date
+        origin: Derived
+        derivation: "RFSTDT_EVT" # From date of Cycle 1
+
+     # --- Planned treatment at baseline (randomization #1) ---
+      - name: STEP
+        label: "Planned Start-up Step (Stepped-Wedge)"
+        type: char
+        length: 25
+        origin: Collected
+        sources:
+          - { id: "ranst", dataset: "RAN" }   # from randomization module
+
+      - name: DOSE01P
+        label: "Planned First Dose (mg)"
+        type: num
+        origin: Derived
+        derivation: "str_remove(randos, 'mg') %>% as.numeric()"
+        sources:
+          - { id: "randos", dataset: "RAN" }
+     
+      - name: DOSE01PU
+        label: "Planned First Dose Unit"
+        type: char
+        length: 2
+        origin: Assigned
+        derivation: "'mg'"
+        
+      - name: TRT01P
+        label: "Planned First Treatment"
+        type: char
+        length: 50
+        origin: Derived
+        derivation: "paste0('Losartan ', DOSE01P, ' mg; Step ', STEP)"     
+
+      - name: DOSE02P
+        label: "Planned Extended Dose (mg)"
+        type: num
+        origin: Derived
+        derivation: "if_else(is.na(ranfudos), ' ', str_remove(ranfudos, 'mg')) %>% as.numeric()"
+        sources:
+          - { id: "ranfudos", dataset: "RAN" }
+     
+      - name: DOSE02PU
+        label: "Planned Extended Dose Unit"
+        type: char
+        length: 2
+        origin: Assigned
+        derivation: "'mg'"
+        
+      - name: TRT02P
+        label: "Planned Extended Treatment"
+        type: char
+        length: 50
+        origin: Derived
+        derivation: "paste0('Losartan ', DOSE02P, ' mg')"      
+          
+      - name: ARM
+        label: "Planned Arm"
+        type: char
+        length: 80
+        origin: Derived
+        derivation: "paste0('Losartan ', DOSE01P, ' mg; Step ', STEP, ' > Losartan ', DOSE02P, ' mg')"
+
+      - name: ARMCD
+        label: "Planned Arm Code"
+        type: char
+        length: 12
+        origin: Derived
+        derivation: "paste0(rantrt, if_else(str_starts(rantrt, 'A'), paste0('_', DOSE02P), ''))"
+        sources:
+          - { id: "rantrt", dataset: "RAN" }
+    # -------------------------
+    # Value-level metadata (ADSL rarely needs it; left empty intentionally)
+    # -------------------------
+    value_level: []
+ 
+  ADEFF:
+    structure: "BDS"
+    keys: ["USUBJID","PARAMCD","AVISIT"]
+
+    variables:
+      - name: STUDYID
+        label: "Study Identifier"
+        type: char
+        length: 20
+        origin: Assigned
+        derivation: "cfg$studyid"
+
+      - name: USUBJID
+        type: char
+        origin: Collected
+        sources:
+          - { id: "USUBJID", dataset: "ADSL" }
+
+      # --- Timing ---
+      - name: EVENTNAME
+        type: char
+        length: 60
+        origin: Collected
+        sources:
+          - { id: "eventname", dataset: "RS" }
+        intermediate: true
+
+      - name: AVISIT
+        type: char
+        length: 40
+        origin: Derived
+        derivation: "lookup_avisit(EVENTNAME)"
+
+      - name: AVISITN
+        type: num
+        origin: Derived
+        derivation: "lookup_avisitn(EVENTNAME)"
+
+      - name: ADT
+        type: date
+        origin: Collected
+        sources:
+          - { id: "mridat", dataset: "RS" }
+
+      - name: RFSTDT
+        type: date
+        origin: Derived
+        sources:
+          - { id: "RFSTDT", dataset: "ADSL" }
+        intermediate: true
+
+      - name: ADY
+        type: num
+        origin: Derived
+        derivation: "as.numeric(ADT - RFSTDT)"
+
+    #   # --- Parameter scaffold ---
+    #   - { name: PARAMCD, type: char, length: 8, origin: Collected, sources: [ {id: "paramcd", dataset: "RS"} ] }
+    #   - { name: PARAM,   type: char, length: 40, origin: Collected, sources: [ {id: "param", dataset: "RS"} ] }
+    #   - { name: AVAL,    type: num, origin: Collected, sources: [ {id: "aval", dataset: "RS"} ] }
+
+    #   # --- Baseline/change ---
+    #   - { name: BASE,  type: num, origin: Derived, derivation: "baseline_value(USUBJID, PARAMCD)" }
+    #   - { name: CHG,   type: num, origin: Derived, derivation: "AVAL - BASE" }
+    #   - { name: PCHG,  type: num, origin: Derived, derivation: "100 * (AVAL - BASE) / BASE" }
+
+    #   - { name: ANL01FL, type: char, length: 1, origin: Derived, derivation: "ifelse(!is.na(AVAL), 'Y','N')" }
+
+    # value_level:
+    #   - { variable: AVALU, where: "PARAMCD == 'MRI_VOL'", label: "Unit", type: char, length: 8, value: "mL" }
+    #   - { variable: AVALU, where: "PARAMCD == 'EQ5D'", label: "Unit", type: char, length: 8, value: "index" }

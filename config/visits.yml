@@ -1,0 +1,144 @@
+visits:
+  map:
+  - eventname: "Screening"
+    avisit: "Screening"
+    avisitn: -14
+  - eventname: "Randomization and baseline MRI"
+    avisit: "Randomization And Baseline MRI"
+    avisitn: -7
+  - eventname: "Cycle 1 -4 days"
+    avisit: "Cycle 1 -4 Days"
+    avisitn: -4
+  - eventname: "Cycle 1"
+    avisit: "Cycle 1"
+    avisitn: 1
+  - eventname: "Cycle 2"
+    avisit: "Cycle 2"
+    avisitn: 15
+  - eventname: "Cycle 3"
+    avisit: "Cycle 3"
+    avisitn: 29
+  - eventname: "Cycle 4"
+    avisit: "Cycle 4"
+    avisitn: 43
+  - eventname: "Cycle 5"
+    avisit: "Cycle 5"
+    avisitn: 57
+  - eventname: "Cycle 6"
+    avisit: "Cycle 6"
+    avisitn: 71
+  - eventname: "Cycle 7"
+    avisit: "Cycle 7"
+    avisitn: 85
+  - eventname: "Cycle 8"
+    avisit: "Cycle 8"
+    avisitn: 99
+  - eventname: "Cycle 9"
+    avisit: "Cycle 9"
+    avisitn: 113
+  - eventname: "Cycle 10"
+    avisit: "Cycle 10"
+    avisitn: 127
+  - eventname: "Cycle 11"
+    avisit: "Cycle 11"
+    avisitn: 141
+  - eventname: "Cycle 12"
+    avisit: "Cycle 12"
+    avisitn: 155
+  - eventname: "Cycle 13"
+    avisit: "Cycle 13"
+    avisitn: 169
+  - eventname: "Cycle 14"
+    avisit: "Cycle 14"
+    avisitn: 183
+  - eventname: "Cycle 15"
+    avisit: "Cycle 15"
+    avisitn: 197
+  - eventname: "Cycle 16"
+    avisit: "Cycle 16"
+    avisitn: 211
+  - eventname: "Cycle 17"
+    avisit: "Cycle 17"
+    avisitn: 225
+  - eventname: "Cycle 18"
+    avisit: "Cycle 18"
+    avisitn: 239
+  - eventname: "Cycle 19"
+    avisit: "Cycle 19"
+    avisitn: 253
+  - eventname: "Cycle20"
+    avisit: "Cycle20"
+    avisitn: 267
+  - eventname: "Cycle21"
+    avisit: "Cycle21"
+    avisitn: 281
+  - eventname: "Cycle 22"
+    avisit: "Cycle 22"
+    avisitn: 295
+  - eventname: "Cycle 23"
+    avisit: "Cycle 23"
+    avisitn: 309
+  - eventname: "12 months FU"
+    avisit: "12 Months FU"
+    avisitn: 360
+  - eventname: "24 months FU"
+    avisit: "24 Months FU"
+    avisitn: 720
+  - eventname: "Cycle 1-Day 1"
+    avisit: "Cycle 1-Day 1"
+    avisitn: 1001
+  - eventname: "Cycle 1-Day 22"
+    avisit: "Cycle 1-Day 22"
+    avisitn: 1022
+  - eventname: "Cycle 1-Day 43"
+    avisit: "Cycle 1-Day 43"
+    avisitn: 1043
+  - eventname: "Cycle 1-Day 64"
+    avisit: "Cycle 1-Day 64"
+    avisitn: 1064
+  - eventname: "Cycle 1-Day 90"
+    avisit: "Cycle 1-Day 90"
+    avisitn: 1090
+  - eventname: "Cycle 2-Day 91"
+    avisit: "Cycle 2-Day 91"
+    avisitn: 1091
+  - eventname: "Cycle 2-Day 112"
+    avisit: "Cycle 2-Day 112"
+    avisitn: 1112
+  - eventname: "Cycle 2-Day 133"
+    avisit: "Cycle 2-Day 133"
+    avisitn: 1133
+  - eventname: "Cycle 2-Day 180"
+    avisit: "Cycle 2-Day 180"
+    avisitn: 1180
+  - eventname: "Day 154"
+    avisit: "Day 154"
+    avisitn: 1154
+  - eventname: "Cycle 3-Day 181"
+    avisit: "Cycle 3-Day 181"
+    avisitn: 1181
+  - eventname: "Cycle 3-Day 202"
+    avisit: "Cycle 3-Day 202"
+    avisitn: 1202
+  - eventname: "Cycle 3-Day 223"
+    avisit: "Cycle 3-Day 223"
+    avisitn: 1223
+  - eventname: "Cycle 3-Day 244"
+    avisit: "Cycle 3-Day 244"
+    avisitn: 1244
+  - eventname: "Cycle 3-Day 270"
+    avisit: "Cycle 3-Day 270"
+    avisitn: 1270
+  - eventname: "Day 284"
+    avisit: "Day 284"
+    avisitn: 1284
+  - eventname: "Safety FU-Day 360"
+    avisit: "Safety FU-Day 360"
+    avisitn: 1360
+  - eventname: "Safety FU-Day 720"
+    avisit: "Safety FU-Day 720"
+    avisitn: 1720
+  defaults:
+    avisit_fallback_from_eventname: false
+    avisitn_unmapped: 999
+

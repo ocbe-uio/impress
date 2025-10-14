@@ -68,7 +68,15 @@ labeliser <- function(data, codelist = items){
 }
 
 pick <- function(db, name) {
-  db %>% dplyr::filter(id == name) %>% purrr::pluck("data",1)
+  db %>%
+    dplyr::filter(id == name) %>%
+    purrr::pluck("data", 1)
+}
+
+get_raw <- function(raw, name) {
+  i <- which(tolower(raw$id) == tolower(name))
+  if (length(i) == 0L) return(NULL)
+  raw$data[[i[1]]]
 }
 
 remove_fct <- function(data, codelist = items) {
@@ -268,4 +276,35 @@ plot_cont_margins <- function(data, ytitle = "Value") {
     gf_theme(theme_classic())
   
 }
+
+
+
+# Helper to build a path from the project root + a cfg subpath
+cfg_path <- function(section, ..., must_exist = FALSE) {
+  cfg <- yaml::read_yaml(here::here("config", "cfg.yml"))
+  stopifnot(section %in% names(cfg$paths))
+  p <- fs::path(here::here(), cfg$paths[[section]], ...)
+  if (must_exist) {
+    if (!fs::file_exists(p) && !fs::dir_exists(p)) {
+      abort(paste0("Path does not exist: ", p))
+    }
+  }
+  p
+}
+
+# Shortcuts for each path section
+path_raw     <- function(...) cfg_path("raw",     ...)
+path_adam    <- function(...) cfg_path("adam",    ...)
+path_reports <- function(...) cfg_path("reports", ...)
+path_outputs <- function(...) cfg_path("outputs", ...)
+path_meta    <- function(...) cfg_path("metadata", ...)
+path_export <- function(...) {
+  cfg <- yaml::read_yaml(here::here("config", "cfg.yml"))
+  path_raw(cfg$export, ...)
+}
+path_rawfile <- function(name) {
+  cfg <- yaml::read_yaml(here::here("config", "cfg.yml"))
+  path_export(paste0(cfg$export,"_",name, ".csv"))
+}
+
 

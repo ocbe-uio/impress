@@ -1,0 +1,434 @@
+formatname,datatype,codevalue,codetext
+ABNCSFMT,integer,1,Normal
+ABNCSFMT,integer,2,"Abnormal, NOT clinically significant"
+ABNCSFMT,integer,3,"Abnormal, clinically significant"
+ACTFMT,integer,1,Drug withdrawn
+ACTFMT,integer,2,Dose reduced
+ACTFMT,integer,3,Dose increased
+ACTFMT,integer,4,Dose not changed
+ACTFMT,integer,5,IMP paused
+ACTFMT,integer,97,Not applicable
+ACTFMT,integer,98,Unknown
+AEEXPFMT,integer,1,Expected
+AEEXPFMT,integer,2,Unexpected
+AEOUTFMT,integer,1,Recovering/resolving
+AEOUTFMT,integer,2,Not recovered/not resolved
+AEOUTFMT,integer,3,Recovered/resolved
+AEOUTFMT,integer,4,Recovered/resolved with sequelae
+AEOUTFMT,integer,5,Fatal
+AERE2FMT,integer,1,Unrelated
+AERE2FMT,integer,2,Unlikely related
+AERE2FMT,integer,3,Possibly related
+AERE2FMT,integer,4,Probable related
+AERE2FMT,integer,5,Definite
+AERELFMT,integer,1,Unrelated
+AERELFMT,integer,2,Unlikely related
+AERELFMT,integer,3,Possibly related
+AERELFMT,integer,4,Probable related
+AERELFMT,integer,5,Definite
+AERELFMT,integer,97,Not applicable
+AESAEFMT,integer,1,I hereby confirm that I have reviewed this SAE/AESI and all related information in the CRF
+CHBFMT,integer,1,Carboplatin and Vinorelbine/Pemetrexed
+CHBFMT,integer,99,Other
+CHEMOFMT,integer,1,Carboplatin
+CHEMOFMT,integer,2,Pemetrexed
+CHEMOFMT,integer,3,Paclitaxel
+CHEMOFMT,integer,4,Vinorelbine
+CHEMOFMT,integer,5,Bevacizumab
+CHEMOFMT,integer,99,Other
+CHREGFMT,integer,1,Temozolomide concomitant to radiotherapy
+CHREGFMT,integer,2,Temozolomide 150-200 mg/m2/day 1-5
+CHREGFMT,integer,3,Lomustine
+CL_S591F,integer,5355,Laboratory range - OUS
+CL_S591F,integer,5356,Laboratory range - OUS
+CMDOSFMT,integer,1,g (gram)
+CMDOSFMT,integer,2,mg (milligram)
+CMDOSFMT,integer,3,ug (microgram)
+CMDOSFMT,integer,4,L (liter)
+CMDOSFMT,integer,5,mL (milliliter)
+CMDOSFMT,integer,97,Not applicable
+CMDOSFMT,integer,99,Other
+CMFRQFMT,integer,1,QD (once a day)
+CMFRQFMT,integer,2,BID (twice a day)
+CMFRQFMT,integer,3,TID (three times a day)
+CMFRQFMT,integer,4,QID (four times a day)
+CMFRQFMT,integer,5,QOD (every other day)
+CMFRQFMT,integer,6,QM (every month)
+CMFRQFMT,integer,7,QOM (every other month)
+CMFRQFMT,integer,8,QH (every hour)
+CMFRQFMT,integer,9,Once a week
+CMFRQFMT,integer,10,PRN (as needed)
+CMFRQFMT,integer,99,Other
+CMRTFMT,integer,1,Oral
+CMRTFMT,integer,2,Topical
+CMRTFMT,integer,3,Subcutaneous
+CMRTFMT,integer,4,Intradermal
+CMRTFMT,integer,5,Transdermal
+CMRTFMT,integer,6,Inhalation
+CMRTFMT,integer,7,Intravenous
+CMRTFMT,integer,8,Intraperitoneal
+CMRTFMT,integer,9,Nasal
+CMRTFMT,integer,10,Vaginal
+CMRTFMT,integer,99,Other
+CMRTFMT,integer,98,Not applicable
+COFIDFMT,integer,1,12-lead ECG
+COFIDFMT,integer,2,Adverse Event
+COFIDFMT,integer,3,Blood Test for Exploratory Research
+COFIDFMT,integer,4,Chemotherapy
+COFIDFMT,integer,5,Diagnosis
+COFIDFMT,integer,6,Disease Progression
+COFIDFMT,integer,7,ECOG
+COFIDFMT,integer,8,Eligibility
+COFIDFMT,integer,9,End of Study
+COFIDFMT,integer,10,End of Treatment
+COFIDFMT,integer,11,EORTC QLQ-BN20
+COFIDFMT,integer,12,EORTC QLQ-C30
+COFIDFMT,integer,13,Immunotherapeutic Agents
+COFIDFMT,integer,14,IMP Administration
+COFIDFMT,integer,15,Inclusion/Exclusion Evaluation
+COFIDFMT,integer,16,Informed Consent/Demographics
+COFIDFMT,integer,17,Karnofsky Performance Scale
+COFIDFMT,integer,18,Medical History
+COFIDFMT,integer,19,NANO
+COFIDFMT,integer,20,Other Cancer Therapy
+COFIDFMT,integer,21,Physical Examination
+COFIDFMT,integer,22,Pregnancy Test
+COFIDFMT,integer,23,Previous Treatment
+COFIDFMT,integer,24,Prior and Concomitant Medication
+COFIDFMT,integer,25,Protocol Deviation and Tracking form
+COFIDFMT,integer,26,Radiographic Status
+COFIDFMT,integer,27,Radiology
+COFIDFMT,integer,28,Randomization
+COFIDFMT,integer,29,Safety Questions
+COFIDFMT,integer,30,Steroid Treatment
+COFIDFMT,integer,31,Survival Assessment
+COFIDFMT,integer,32,Upload/Download
+COFIDFMT,integer,33,Visit Information
+COFIDFMT,integer,34,Vital Signs
+COFIDFMT,integer,97,NA
+COHORFMT,string,Recurrent glioblastoma,Recurrent glioblastoma
+COHORFMT,string,Newly diagnosed glioblastoma,Newly diagnosed glioblastoma
+COHORFMT,string,Brain metastases,Brain metastases
+COVIDFMT,integer,1,Screening
+COVIDFMT,integer,2,Randomization and baseline MRI
+COVIDFMT,integer,3,Cycle 1 -4 days
+COVIDFMT,integer,4,Cycle 1
+COVIDFMT,integer,5,Cycle 2
+COVIDFMT,integer,6,Cycle 3
+COVIDFMT,integer,7,Cycle 4
+COVIDFMT,integer,8,Cycle 5
+COVIDFMT,integer,9,Cycle 6
+COVIDFMT,integer,10,Cycle 7
+COVIDFMT,integer,11,Cycle 8
+COVIDFMT,integer,12,Cycle 9
+COVIDFMT,integer,13,Cycle 10
+COVIDFMT,integer,14,Cycle 11
+COVIDFMT,integer,15,Cycle 12
+COVIDFMT,integer,16,Cycle 13
+COVIDFMT,integer,17,Cycle 14
+COVIDFMT,integer,18,Cycle 16
+COVIDFMT,integer,19,Cycle 17
+COVIDFMT,integer,20,Cycle 18
+COVIDFMT,integer,21,Cycle 19
+COVIDFMT,integer,22,Cycle 22
+COVIDFMT,integer,23,Cycle 23
+COVIDFMT,integer,24,12 months FU
+COVIDFMT,integer,25,24 months FU
+COVIDFMT,integer,26,Study B - Cycle 1
+COVIDFMT,integer,27,Study B - Cycle 2
+COVIDFMT,integer,28,Study B - Cycle 3
+COVIDFMT,integer,29,Study B - Safety FU
+COVIDFMT,integer,30,Study B - 12 months FU
+COVIDFMT,integer,31,Study B - 24 months FU
+COVIDFMT,integer,97,NA
+CSCHGFMT,integer,1,Stable
+CSCHGFMT,integer,2,Increase
+CSCHGFMT,integer,3,Decrease
+CTRTFMT,integer,1,Reirradiation
+CTRTFMT,integer,2,Reirradiation with concomitant temozolomide
+CTRTFMT,integer,3,SRS
+CTRTFMT,integer,4,Surgery
+CTRTFMT,integer,5,Temozolomide
+CTRTFMT,integer,6,Lomustine
+CTRTFMT,integer,7,Chemotherapy
+CTRTFMT,integer,8,Immunotherapy combined with Chemotherapy
+CTRTFMT,integer,9,Immunotherapy
+CTRTFMT,integer,10,Targeted therapy/TKI
+CTRTFMT,integer,99,Other
+DIAFMT,string,1,Recurrent glioblastoma
+DIAFMT,string,2,Newly diagnosed glioblastoma
+DIAFMT,string,3,Brain metastases
+DOSEFMT,string,0,0mg
+DOSEFMT,string,25,25mg
+DOSEFMT,string,50,50mg
+DOSEFMT,string,100,100mg
+DOSFMT,integer,25,25mg
+DOSFMT,integer,50,50mg
+DOSFMT,integer,100,100mg
+DPROGFMT,integer,1,Radiographic by RANO
+DPROGFMT,integer,2,By clinical
+DPROGFMT,integer,3,Radiographic by RANO and by clinical
+DSFMT,integer,1,Alive
+DSFMT,integer,2,Dead
+DSLMUFMT,integer,1,EGFR mutation
+DSLMUFMT,integer,2,ALK translocation
+DSLMUFMT,integer,3,ROS-1 translocation
+DSLMUFMT,integer,99,Other
+DSLMUFMT,integer,0,None
+DSLTCFMT,integer,1,Adenocarcinom
+DSLTCFMT,integer,2,Squamous cell carcinoma
+DSLTCFMT,integer,99,Other
+DSLTCFMT__2F,integer,1,Adenocarcinom
+DSLTCFMT__2F,integer,2,Plateepitelcarcinom
+DSTRFMT,string,"12,5","12,5mg"
+DSTRFMT,string,50,50mg
+DSTRFMT,string,100,100mg
+DVAL2FMT,integer,1,SEND AN ALERT TO PROJECT LEADER TO EVALUATE CORRECTIVE AND PREVENTIVE ACTION (CAPA)
+DVALFMT,integer,1,SEND AN ALERT TO PRINCIPAL INVESTIGTOR TO APPROVE THE PD
+ECOGFMT,integer,0,"0 - Normal activity. Fully active, able to carry on all pre-disease performance without restriction"
+ECOGFMT,integer,1,"1 - Symptoms, but ambulatory. Restricted in physically strenuous activity, but ambulatory and able to carry out work of a light or sedentary nature (e.g., light house work, office work)"
+ECOGFMT,integer,2,"2 - In bed <50% of the time. Ambulatory and capable of all self-care, but unable to carry out any work activities. Up and about more than 50% of waking hours"
+ECOGFMT,integer,3,"3 - In bed >50% of the time. Capable of only limited self-care, confined to bed or chair more than 50% of waking hours"
+ECOGFMT,integer,4,4 - 100% bedridden. Completely disabled. Cannot carry on any self-care. Totally confined to bed or chair
+ECOGFMT,integer,5,5 - Dead
+EIRANFMT,integer,1001,1001
+EIRANFMT,integer,1002,1002
+EIRANFMT,integer,1003,1003
+EIRANFMT,integer,2001,2001
+EIRANFMT,integer,2002,2002
+EIRANFMT,integer,2003,2003
+EIRANFMT,integer,1004,1004
+EOSCDFMT,integer,1,Progressive disease
+EOSCDFMT,integer,2,Adverse event
+EOSCDFMT,integer,97,Other cause
+EOSFMT,integer,1,Confirmed radiographic and/or clinical progression of neoplastic disease
+EOSFMT,integer,2,Intercurrent illness that prevents continuation of therapy with the IMP
+EOSFMT,integer,3,Intercurrent illness that prevents further MRI exams
+EOSFMT,integer,4,Unacceptable incidental or adverse event(s) of grade 3 (severe) or grade 4 (life-threatening) rendering the participant unacceptable for further therapy with the IMP and/or MRI exams in the judgment of the study PI or treating physician
+EOSFMT,integer,5,Participant demonstrates an inability or unwillingness to comply with study regimen and/or documentation requirements
+EOSFMT,integer,6,Participant decides to withdraw from the study
+EOSFMT,integer,7,General or specific changes in the participants' condition rendering the participant unacceptable for further therapy with the IMP in the judgment of the study PI or treating physician
+EOSFMT,integer,8,Participant is lost to follow-up
+EOSFMT,integer,10,Death
+EOSFMT,integer,99,Other
+EOTRFMT,integer,1,Unacceptable toxicity/AE
+EOTRFMT,integer,2,Progressive disease according to RANO criteria
+EOTRFMT,integer,3,Inability or unwillingness of the subject to comply with
+EOTRFMT,integer,4,Subject decision
+EOTRFMT,integer,5,Investigators decision
+EOTRFMT,integer,6,Female subject becomes pregnant
+EOTRFMT,integer,7,Study terminated by sponsor
+EOTRFMT,integer,8,Death
+EOTRFMT,integer,9,Protocol deviation
+EOTRFMT,integer,99,Other
+EOTRFMT,integer,10,Extracranial progression
+EXIMMFMT,integer,1,Pembrolizumab
+EXIMMFMT,integer,2,Atezolizumab
+EXIMMFMT,integer,0,No administration
+EXIMPFMT,integer,0,0mg
+EXIMPFMT,integer,25,25mg
+EXIMPFMT,integer,50,50mg
+EXIMPFMT,integer,75,75mg
+EXIMPFMT,integer,100,100mg
+EXIMPFMT,integer,96,No administration
+FUDOSFMT,integer,0,0mg
+FUDOSFMT,integer,25,25mg
+FUDOSFMT,integer,50,50mg
+FUDOSFMT,integer,100,100mg
+HINLOFMT,integer,1,High
+HINLOFMT,integer,2,Normal
+HINLOFMT,integer,3,Low
+IMMTFMT,integer,1,Pembrolizumab
+IMMTFMT,integer,2,Atezolizumab
+IMMTFMT,integer,99,Other
+KPSFMT,integer,100,"100 - Normal, no complaints, no evidence of disease"
+KPSFMT,integer,90,90 - Able to carry on normal activity; minor signs or symptoms of disease
+KPSFMT,integer,80,80 - Normal activity with effort: some signs or symptoms of disease
+KPSFMT,integer,70,"70 - Cares for self, unable to carry on normal activity or to do active work"
+KPSFMT,integer,60,"60 - Requires occasional assistance, but is able to care for most of his/her needs"
+KPSFMT,integer,50,50 - Requires considerable assistance and frequent medical care
+KPSFMT,integer,40,"40 - Disabled, requires special care and assistance"
+KPSFMT,integer,30,"30 - Severely disabled, hospitalization indicated. Death not imminent"
+KPSFMT,integer,20,"20 - Very sick, hospitalization indicated. Death not imminent"
+KPSFMT,integer,10,"10 - Moribund, fatal processes progressing rapidly"
+KPSFMT,integer,0,0 - Dead
+LABFMT,integer,0,Negative
+LABFMT,integer,1,Positive
+LDOSFMT,string,25,25mg
+LDOSFMT,string,50,50mg
+LDOSFMT,string,100,100mg
+NABNDFMT,integer,1,Normal
+NABNDFMT,integer,2,"Abnormal, Not Clinically Significant"
+NABNDFMT,integer,3,"Abnormal, Clinically Significant"
+NABNDFMT,integer,96,Not done
+NANLCFMT,integer,0,Normal
+NANLCFMT,integer,1,Drowsy (easily arousable)
+NANLCFMT,integer,2,Somnolent (difficult to arouse)
+NANLCFMT,integer,3,Unarousable/coma
+NANLCFMT,integer,96,Not assessed
+NANLCFMT,integer,196,Not evaluable
+NANOAFMT,integer,0,Able to finger-to-nose touch without difficulty
+NANOAFMT,integer,1,Able to finger-to-nose touch but difficult
+NANOAFMT,integer,2,Unable to finger-to-nose touch
+NANOAFMT,integer,96,Not assessed
+NANOAFMT,integer,196,Not evaluable
+NANOBFMT,integer,0,Normal
+NANOBFMT,integer,1,Mild/moderate alterations
+NANOBFMT,integer,2,Severe alteration
+NANOBFMT,integer,96,Not assessed
+NANOBFMT,integer,196,Not evaluable
+NANOFFMT,integer,0,Normal
+NANOFFMT,integer,1,Mild/moderate weakness
+NANOFFMT,integer,2,Severe facial weakness
+NANOFFMT,integer,96,Not assessed
+NANOFFMT,integer,196,Not evaluable
+NANOGFMT,integer,0,Normal
+NANOGFMT,integer,1,Abnormal but walks without assistance
+NANOGFMT,integer,2,"Abnormal and requires assistance (companion, cane, walker, etc.)"
+NANOGFMT,integer,3,Unable to walk
+NANOGFMT,integer,96,Not assessed
+NANOGFMT,integer,196,Not evaluable
+NANOLFMT,integer,0,Normal
+NANOLFMT,integer,1,Abnormal but easily conveys meaning to examiner
+NANOLFMT,integer,2,Abnormal and difficulty conveying meaning to examiner
+NANOLFMT,integer,3,"Abnormal: if verbal, unable to convey meaning to examiner: OR nonverbal (mute/global aphasia)"
+NANOLFMT,integer,96,Not assessed
+NANOLFMT,integer,196,Not evaluable
+NANOSFMT,integer,0,Normal
+NANOSFMT,integer,1,Movement present but decreased against resistance
+NANOSFMT,integer,2,Movement present but none against resistance
+NANOSFMT,integer,3,No movement
+NANOSFMT,integer,96,Not assessed
+NANOSFMT,integer,196,Not evaluable
+NANOVFMT,integer,0,Normal
+NANOVFMT,integer,1,Inconsistent or equivocal partial hemianopsia (>=quadrantanopsia)
+NANOVFMT,integer,2,Consistent or unequivocal partial hemianopsia (>=quadrantanopsia)
+NANOVFMT,integer,3,Complete hemianopsia
+NANOVFMT,integer,96,Not assessed
+NANOVFMT,integer,196,Not evaluable
+NANSEFMT,integer,0,Normal
+NANSEFMT,integer,1,Decreased but aware of sensory modality
+NANSEFMT,integer,2,Unaware of sensory modality
+NANSEFMT,integer,96,Not assessed
+NANSEFMT,integer,196,Not evaluable
+OASSFMT,integer,1,Complete response (CR)
+OASSFMT,integer,2,Partial response (PR)
+OASSFMT,integer,3,Stable disease (SD)
+OASSFMT,integer,4,Progressive disease (PD)
+OTHCTFMT,integer,1,Chemotherapy
+OTHCTFMT,integer,2,Surgery
+OTHCTFMT,integer,3,Reirradiation
+OTHCTFMT,integer,4,SRS
+OTHCTFMT,integer,5,Clinical trials
+OTHCTFMT,integer,99,Other
+PDCAPFMT,integer,1,Important
+PDCAPFMT,integer,2,Not important
+PDCATFMT,integer,1,Inclusion/exclusion criteria
+PDCATFMT,integer,2,Incorrectly not withdrawn from study or treatment
+PDCATFMT,integer,3,Incorrect treatment and/or dose
+PDCATFMT,integer,4,Prohibited concomitant medication
+PDCATFMT,integer,5,Failure to collect important data
+PDCATFMT,integer,7,COVID-19
+PDCATFMT,integer,8,Serious breach - SAE notification / safety procedure
+PDCATFMT,integer,9,Serious breach - Informed consent
+PDCATFMT,integer,10,Serious breach - Other
+PDCATFMT,integer,99,Other
+PDCATFMT,integer,11,Deviation from protocol
+PDREPFMT,integer,1,Principal Investigator
+PDREPFMT,integer,2,Investigator
+PDREPFMT,integer,3,Study Nurse
+PELYMFMT,integer,1,Normal
+PELYMFMT,integer,2,"Abnormal, Not Clinically Significant"
+PELYMFMT,integer,3,"Abnormal, Clinically Significant"
+PELYMFMT,integer,97,NA
+PELYMFMT,integer,96,Not done
+PEPEFMT,integer,1,Yes
+PEPEFMT,integer,0,No
+PNNAFMT,integer,1,Positive
+PNNAFMT,integer,2,Negative
+PNNAFMT,integer,97,Not applicable
+QLQ30FMT,integer,1,Ikke i det hele tatt
+QLQ30FMT,integer,2,Litt
+QLQ30FMT,integer,3,En del
+QLQ30FMT,integer,4,Svært mye
+RADFMT,integer,1,WBRT
+RADFMT,integer,2,Partial brain
+RADFMT,integer,3,SRS
+RANS2FMT,integer,1,Cycle 1 - day 1
+RANS2FMT,integer,15,Cycle 2 - day 15
+RANS2FMT,integer,29,Cycle 3 - day 29
+RANS2FMT,integer,91,Cycle 2 - day 91
+RANS2FMT,integer,181,Cycle 3 - day 181
+RANSTFMT,string,1,Cycle 1 - day 1
+RANSTFMT,string,15,Cycle 2 - day 15
+RANSTFMT,string,29,Cycle 3 - day 29
+RANSTFMT,string,91,Cycle 2 - day 91
+RANSTFMT,string,181,Cycle 3 - day 181
+RTRTFMT,string,AR1_1,AR1_1
+RTRTFMT,string,AR1_2,AR1_2
+RTRTFMT,string,AR1_3,AR1_3
+RTRTFMT,string,AR2_4,AR2_4
+RTRTFMT,string,AR2_5,AR2_5
+RTRTFMT,string,AR2_6,AR2_6
+RTRTFMT,string,AR3_1,AR3_1
+RTRTFMT,string,AR3_2,AR3_2
+RTRTFMT,string,AR3_3,AR3_3
+RTRTFMT,string,AN1_1,AN1_1
+RTRTFMT,string,AN1_2,AN1_2
+RTRTFMT,string,AN1_3,AN1_3
+RTRTFMT,string,AN2_4,AN2_4
+RTRTFMT,string,AN2_5,AN2_5
+RTRTFMT,string,AN2_6,AN2_6
+RTRTFMT,string,AN3_1,AN3_1
+RTRTFMT,string,AN3_2,AN3_2
+RTRTFMT,string,AN3_3,AN3_3
+RTRTFMT,string,BM1,BM1
+RTRTFMT,string,BM2,BM2
+RTRTFMT,string,BM3,BM3
+SCAL7FMT,integer,1,1  - Svært dårlig
+SCAL7FMT,integer,2,2
+SCAL7FMT,integer,3,3
+SCAL7FMT,integer,4,4
+SCAL7FMT,integer,5,5
+SCAL7FMT,integer,6,6
+SCAL7FMT,integer,7,7 - Helt utmerket
+SEVCFMT,integer,1,Mild
+SEVCFMT,integer,2,Moderate
+SEVCFMT,integer,3,Severe
+SEVCFMT,integer,4,Life-threatening
+SEVCFMT,integer,5,Death
+SEVCFMT,integer,97,Not applicable
+SEVCTFMT,integer,1,Mild
+SEVCTFMT,integer,2,Moderate
+SEVCTFMT,integer,3,Severe
+SEVCTFMT,integer,4,Life-threatening
+SEVCTFMT,integer,5,Death
+SEVFMT,integer,1,Mild
+SEVFMT,integer,2,Moderate
+SEVFMT,integer,3,Severe
+SEXFMT,string,1,Male
+SEXFMT,string,2,Female
+STAGEFMT,string,Recurrent glioblastoma,Recurrent glioblastoma
+STAGEFMT,string,Newly diagnosed glioblastoma,Newly diagnosed glioblastoma
+STAGEFMT,string,Brain metastases,Brain metastases
+TIMTFMT,integer,1,Prior to study entry
+TIMTFMT,integer,2,After progression
+TIMTFMT,integer,3,After end of treatment
+TRTFMT,integer,1,Procedure
+TRTFMT,integer,2,Medication
+TRTFMT,integer,0,None
+VSYNFMT,integer,1,Yes
+VSYNFMT,integer,0,No
+VSYNFMT,integer,2,Women not of childbearing potential
+YES2FMT,integer,1,NA
+YESFMT,integer,1,Yes
+YN2FMT,integer,1,Yes
+YN2FMT,integer,0,No
+YNFMT,integer,1,Yes
+YNFMT,integer,0,No
+YNNAFMT,integer,1,Yes
+YNNAFMT,integer,0,No
+YNNAFMT,integer,97,NA
+YNUNKFMT,integer,1,Yes
+YNUNKFMT,integer,0,No
+YNUNKFMT,integer,98,Uncertain

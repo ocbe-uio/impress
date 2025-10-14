@@ -1,0 +1,21 @@
+# =========================================================
+# sham.yml
+# Controls sham randomisation used for mock analyses
+# =========================================================
+
+seed: 424242               # reproducibility seed
+
+# Optional: pre-define which dataset to replace
+replace_variable: "ran"
+
+
+diagnoses:
+  - "Recurrent glioblastoma"
+  - "Newly diagnosed glioblastoma"
+  - "Brain metastases"
+
+
+# Optional: test constraints
+checks:
+  balance_tolerance: 0.15      # allowed imbalance per stratum
+  min_per_arm: 5

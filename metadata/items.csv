@@ -1,0 +1,934 @@
+dataset,id,label,datatype,mandatory,decimals,minlength,maxlength,formatname,contentlength,id_,categorical,value_labels,cols_abb
+identifier,siteseq,Site sequence number,integer,NA,NA,NA,NA,NA,1,SiteSeq,0,,i
+identifier,sitename,Site name,text,NA,NA,NA,NA,NA,13,SiteName,0,,c
+identifier,sitecode,Site code,text,NA,NA,NA,NA,NA,1,SiteCode,0,,c
+identifier,subjectseq,Subject sequence number,integer,NA,NA,NA,NA,NA,2,SubjectSeq,0,,i
+identifier,subjectid,Subject Id,text,NA,NA,NA,NA,NA,9,SubjectId,0,,c
+identifier,eventseq,Event sequence number,text,NA,NA,NA,NA,NA,2,EventSeq,0,,c
+identifier,eventid,Event Id,text,NA,NA,NA,NA,NA,8,EventId,0,,c
+identifier,eventname,Event name,text,NA,NA,NA,NA,NA,36,EventName,0,,c
+identifier,eventdate,Event date,date,NA,NA,NA,NA,NA,10,EventDate,0,,c
+identifier,activityid,Activity Id,text,NA,NA,NA,NA,NA,12,ActivityId,0,,c
+identifier,activityname,Activity name,text,NA,NA,NA,NA,NA,36,ActivityName,0,,c
+identifier,formseq,Form sequence number,text,NA,NA,NA,NA,NA,1,FormSeq,0,,c
+identifier,subjectformseq,Subject form sequence number,integer,NA,NA,NA,NA,NA,2,SubjectFormSeq,0,,i
+identifier,originsubjectformseq,Origin Subject form sequence number,integer,NA,NA,NA,NA,NA,2,OriginSubjectFormSeq,0,,i
+identifier,sourcesubjectformseq,Source Subject form sequence number,integer,NA,NA,NA,NA,NA,0,SourceSubjectFormSeq,0,,i
+identifier,designversion,Design version,text,NA,NA,NA,NA,NA,4,DesignVersion,0,,c
+dm,dmicdat,Informed consent date,date,TRUE,NA,NA,NA,NA,10,DMICDAT,0,,c
+dm,cohort,Cohort,text,TRUE,NA,1,NA,DIAFMT,28,COHORT,1,,c
+dm,cohortcd,Cohort - Code,string,TRUE,NA,1,NA,DIAFMT,1,COHORTCD,2,,c
+dm,sex,Gender,text,TRUE,NA,1,NA,SEXFMT,6,SEX,1,,c
+dm,sexcd,Gender - Code,string,TRUE,NA,1,NA,SEXFMT,1,SEXCD,2,,c
+dm,dmcbp,Childbearing potential?,text,TRUE,NA,1,NA,YNFMT,3,DMCBP,1,,c
+dm,dmcbpcd,Childbearing potential? - Code,integer,TRUE,NA,1,NA,YNFMT,1,DMCBPCD,2,,i
+dm,brthyear,Year of birth,double,TRUE,0,1,NA,NA,4,BRTHYEAR,0,,d
+dm,dmage,Age,double,TRUE,0,1,NA,NA,2,DMAGE,0,,d
+dm,dmini,"InitialsFormat initials:  ABC. If no middle name, format: A-C",text,FALSE,NA,1,NA,NA,4,DMINI,0,,c
+dm,studyid,Study ID,text,FALSE,NA,1,NA,NA,4,STUDYID,0,,c
+ie,iein1,Inclusion criteria 1,text,TRUE,NA,1,NA,YNFMT,3,IEIN1,1,,c
+ie,iein1cd,Inclusion criteria 1 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN1CD,2,,i
+ie,iein2,Inclusion criteria 2,text,TRUE,NA,1,NA,YNFMT,3,IEIN2,1,,c
+ie,iein2cd,Inclusion criteria 2 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN2CD,2,,i
+ie,iein3,Inclusion criteria 3,text,TRUE,NA,1,NA,YNNAFMT,3,IEIN3,1,,c
+ie,iein3cd,Inclusion criteria 3 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEIN3CD,2,,i
+ie,iein4,Inclusion criteria 4,text,TRUE,NA,1,NA,YNFMT,3,IEIN4,1,,c
+ie,iein4cd,Inclusion criteria 4 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN4CD,2,,i
+ie,iein5,Inclusion criteria 5,text,TRUE,NA,1,NA,YNFMT,3,IEIN5,1,,c
+ie,iein5cd,Inclusion criteria 5 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN5CD,2,,i
+ie,iein6,Inclusion criteria 6,text,TRUE,NA,1,NA,YNFMT,3,IEIN6,1,,c
+ie,iein6cd,Inclusion criteria 6 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN6CD,2,,i
+ie,iein7,Inclusion criteria 7,text,TRUE,NA,1,NA,YNFMT,3,IEIN7,1,,c
+ie,iein7cd,Inclusion criteria 7 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN7CD,2,,i
+ie,iein8,Inclusion criteria 8,text,TRUE,NA,1,NA,YNFMT,3,IEIN8,1,,c
+ie,iein8cd,Inclusion criteria 8 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN8CD,2,,i
+ie,iein8_6,Inclusion criteria 8,text,TRUE,NA,1,NA,YNFMT,3,IEIN8_6,1,,c
+ie,iein8_6cd,Inclusion criteria 8 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN8_6CD,2,,i
+ie,iein9,Inclusion criteria 9,text,TRUE,NA,1,NA,YNFMT,3,IEIN9,1,,c
+ie,iein9cd,Inclusion criteria 9 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN9CD,2,,i
+ie,iein9_6,Inclusion criteria 9,text,TRUE,NA,1,NA,YNFMT,3,IEIN9_6,1,,c
+ie,iein9_6cd,Inclusion criteria 9 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN9_6CD,2,,i
+ie,iein10,Inclusion criteria 10,text,TRUE,NA,1,NA,YNNAFMT,3,IEIN10,1,,c
+ie,iein10cd,Inclusion criteria 10 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEIN10CD,2,,i
+ie,iein11,Inclusion criteria 11,text,TRUE,NA,1,NA,YNFMT,3,IEIN11,1,,c
+ie,iein11cd,Inclusion criteria 11 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN11CD,2,,i
+ie,iein12,Inclusion criteria 12,text,TRUE,NA,1,NA,YNNAFMT,3,IEIN12,1,,c
+ie,iein12cd,Inclusion criteria 12 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEIN12CD,2,,i
+ie,iein13,Inclusion criteria 13,text,TRUE,NA,1,NA,YNFMT,3,IEIN13,1,,c
+ie,iein13cd,Inclusion criteria 13 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEIN13CD,2,,i
+ie,ieex1,Exclusion criteria 1,text,TRUE,NA,1,NA,YNFMT,2,IEEX1,1,,c
+ie,ieex1cd,Exclusion criteria 1 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX1CD,2,,i
+ie,ieex2,Exclusion criteria 2,text,TRUE,NA,1,NA,YNFMT,2,IEEX2,1,,c
+ie,ieex2cd,Exclusion criteria 2 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX2CD,2,,i
+ie,ieex3,Exclusion criteria 3,text,TRUE,NA,1,NA,YNFMT,2,IEEX3,1,,c
+ie,ieex3cd,Exclusion criteria 3 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX3CD,2,,i
+ie,ieex4,Exclusion criteria 4,text,TRUE,NA,1,NA,YNFMT,2,IEEX4,1,,c
+ie,ieex4cd,Exclusion criteria 4 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX4CD,2,,i
+ie,ieex5,Exclusion criteria 5,text,TRUE,NA,1,NA,YNFMT,2,IEEX5,1,,c
+ie,ieex5cd,Exclusion criteria 5 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX5CD,2,,i
+ie,ieex6,Exclusion criteria 6,text,TRUE,NA,1,NA,YNFMT,2,IEEX6,1,,c
+ie,ieex6cd,Exclusion criteria 6 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX6CD,2,,i
+ie,ieex7,Exclusion criteria 7,text,TRUE,NA,1,NA,YNFMT,2,IEEX7,1,,c
+ie,ieex7cd,Exclusion criteria 7 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX7CD,2,,i
+ie,ieex8,Exclusion criteria 8,text,TRUE,NA,1,NA,YNFMT,2,IEEX8,1,,c
+ie,ieex8cd,Exclusion criteria 8 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX8CD,2,,i
+ie,ieex9,Exclusion criteria 9,text,TRUE,NA,1,NA,YNNAFMT,2,IEEX9,1,,c
+ie,ieex9cd,Exclusion criteria 9 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEEX9CD,2,,i
+ie,ieex10,Exclusion criteria 10,text,TRUE,NA,1,NA,YNNAFMT,2,IEEX10,1,,c
+ie,ieex10cd,Exclusion criteria 10 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEEX10CD,2,,i
+ie,ieex11,Exclusion criteria 11,text,TRUE,NA,1,NA,YNFMT,2,IEEX11,1,,c
+ie,ieex11cd,Exclusion criteria 11 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX11CD,2,,i
+ie,ieex12,Exclusion criteria 12,text,TRUE,NA,1,NA,YNFMT,2,IEEX12,1,,c
+ie,ieex12cd,Exclusion criteria 12 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX12CD,2,,i
+ie,ieex13,Exclusion criteria 13,text,TRUE,NA,1,NA,YNFMT,2,IEEX13,1,,c
+ie,ieex13cd,Exclusion criteria 13 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX13CD,2,,i
+ie,ieex14,Exclusion criteria 14,text,TRUE,NA,1,NA,YNNAFMT,2,IEEX14,1,,c
+ie,ieex14cd,Exclusion criteria 14 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEEX14CD,2,,i
+ie,ieex15,Exclusion criteria 15,text,TRUE,NA,1,NA,YNFMT,2,IEEX15,1,,c
+ie,ieex15cd,Exclusion criteria 15 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX15CD,2,,i
+ie,ieex16,Exclusion criteria 16,text,TRUE,NA,1,NA,YNNAFMT,2,IEEX16,1,,c
+ie,ieex16cd,Exclusion criteria 16 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEEX16CD,2,,i
+ie,ieex17,Exclusion criteria 17,text,TRUE,NA,1,NA,YNFMT,2,IEEX17,1,,c
+ie,ieex17cd,Exclusion criteria 17 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX17CD,2,,i
+ie,ieex18,Exclusion criteria 18,text,TRUE,NA,1,NA,YNFMT,2,IEEX18,1,,c
+ie,ieex18cd,Exclusion criteria 18 - Code,integer,TRUE,NA,1,NA,YNFMT,1,IEEX18CD,2,,i
+ie,ieex19,Exclusion criteria 19,text,TRUE,NA,1,NA,YNNAFMT,2,IEEX19,1,,c
+ie,ieex19cd,Exclusion criteria 19 - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,IEEX19CD,2,,i
+ie,iedat,Inclusion date,date,TRUE,NA,1,NA,NA,10,IEDAT,0,,c
+ds,dsdia,Diagnosis,text,FALSE,NA,1,NA,STAGEFMT,28,DSDIA,1,,c
+ds,dsdiacd,Diagnosis - Code,string,FALSE,NA,1,NA,STAGEFMT,28,DSDIACD,2,,c
+ds,dsardat,Disease progression date,date,TRUE,NA,1,NA,NA,10,DSARDAT,0,,c
+ds,dsurgdat,Surgery date,date,TRUE,NA,1,NA,NA,10,DSURGDAT,0,,c
+ds,dsdiacom,Comment (optional),text,FALSE,NA,1,NA,NA,50,DSDIACOM,0,,c
+ds,dsidh,IDH1/2 mutation,text,TRUE,NA,1,NA,PNNAFMT,14,DSIDH,1,,c
+ds,dsidhcd,IDH1/2 mutation - Code,integer,TRUE,NA,1,NA,PNNAFMT,2,DSIDHCD,2,,i
+ds,dsmgmt,MGMT status,text,TRUE,NA,1,NA,PNNAFMT,14,DSMGMT,1,,c
+ds,dsmgmtcd,MGMT status - Code,integer,TRUE,NA,1,NA,PNNAFMT,2,DSMGMTCD,2,,i
+ds,dspdl1,PD-L1 expression,text,TRUE,NA,1,NA,PNNAFMT,14,DSPDL1,1,,c
+ds,dspdl1cd,PD-L1 expression - Code,integer,TRUE,NA,1,NA,PNNAFMT,2,DSPDL1CD,2,,i
+ds,dsmutcom,Comment (optional),text,FALSE,NA,1,NA,NA,0,DSMUTCOM,0,,c
+ds,dsluntyp,Type of lung cancer,text,TRUE,NA,1,NA,DSLTCFMT,13,DSLUNTYP,1,,c
+ds,dsluntypcd,Type of lung cancer - Code,integer,TRUE,NA,1,NA,DSLTCFMT,2,DSLUNTYPCD,2,,i
+ds,dsluntyp__2,Type of lung cancer__2,text,TRUE,NA,1,NA,DSLTCFMT__2F,0,DSLUNTYP__2,1,,c
+ds,dsluntyp__2cd,Type of lung cancer__2 - Code,integer,TRUE,NA,1,NA,DSLTCFMT__2F,0,DSLUNTYP__2CD,2,,i
+ds,dsltydes,Other type of lung cancer,text,TRUE,NA,1,NA,NA,19,DSLTYDES,0,,c
+ds,dslunmut,NA,text,TRUE,NA,1,NA,DSLMUFMT,5,DSLUNMUT,1,,c
+ds,dslunmutcd,- Code,integer,TRUE,NA,1,NA,DSLMUFMT,2,DSLUNMUTCD,2,,i
+ds,dslundes,Please specify,text,TRUE,NA,1,NA,NA,9,DSLUNDES,0,,c
+ds,dspctrea,Chemotherapy,text,TRUE,NA,1,NA,YNFMT,0,DSPCTREA,1,,c
+ds,dspctreacd,Chemotherapy - Code,integer,TRUE,NA,1,NA,YNFMT,0,DSPCTREACD,2,,i
+ds,dsctre1,1,text,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE1,1,,c
+ds,dsctre1cd,1 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE1CD,2,,i
+ds,dsctre2,2,text,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE2,1,,c
+ds,dsctre2cd,2 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE2CD,2,,i
+ds,dsctre3,3,text,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE3,1,,c
+ds,dsctre3cd,3 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE3CD,2,,i
+ds,dsctre4,4,text,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE4,1,,c
+ds,dsctre4cd,4 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE4CD,2,,i
+ds,dsctre5,5,text,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE5,1,,c
+ds,dsctre5cd,5 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE5CD,2,,i
+ds,dsctre99,99,text,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE99,1,,c
+ds,dsctre99cd,99 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,DSCTRE99CD,2,,i
+ds,dscdes,Other chemotherapy,text,TRUE,NA,1,NA,NA,0,DSCDES,0,,c
+ds,dspitre,Immunotherapy,text,TRUE,NA,1,NA,YNFMT,0,DSPITRE,1,,c
+ds,dspitrecd,Immunotherapy - Code,integer,TRUE,NA,1,NA,YNFMT,0,DSPITRECD,2,,i
+ds,dsitre1,1,text,TRUE,NA,1,NA,IMMTFMT,0,DSITRE1,1,,c
+ds,dsitre1cd,1 - Code,integer,TRUE,NA,1,NA,IMMTFMT,0,DSITRE1CD,2,,i
+ds,dsitre2,2,text,TRUE,NA,1,NA,IMMTFMT,0,DSITRE2,1,,c
+ds,dsitre2cd,2 - Code,integer,TRUE,NA,1,NA,IMMTFMT,0,DSITRE2CD,2,,i
+ds,dsitre99,99,text,TRUE,NA,1,NA,IMMTFMT,0,DSITRE99,1,,c
+ds,dsitre99cd,99 - Code,integer,TRUE,NA,1,NA,IMMTFMT,0,DSITRE99CD,2,,i
+ds,dsides,Other immunotherapy,text,TRUE,NA,1,NA,NA,0,DSIDES,0,,c
+ds,dspotre,Other cancer therapy,text,TRUE,NA,1,NA,YNFMT,0,DSPOTRE,1,,c
+ds,dspotrecd,Other cancer therapy - Code,integer,TRUE,NA,1,NA,YNFMT,0,DSPOTRECD,2,,i
+ds,dsothct1,1,text,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT1,1,,c
+ds,dsothct1cd,1 - Code,integer,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT1CD,2,,i
+ds,dsothct2,2,text,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT2,1,,c
+ds,dsothct2cd,2 - Code,integer,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT2CD,2,,i
+ds,dsothct3,3,text,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT3,1,,c
+ds,dsothct3cd,3 - Code,integer,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT3CD,2,,i
+ds,dsothct4,4,text,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT4,1,,c
+ds,dsothct4cd,4 - Code,integer,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT4CD,2,,i
+ds,dsothct5,5,text,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT5,1,,c
+ds,dsothct5cd,5 - Code,integer,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT5CD,2,,i
+ds,dsothct99,99,text,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT99,1,,c
+ds,dsothct99cd,99 - Code,integer,TRUE,NA,1,NA,OTHCTFMT,0,DSOTHCT99CD,2,,i
+ds,dsocdes,Other chemotherapy,text,TRUE,NA,1,NA,NA,0,DSOCDES,0,,c
+ds,dsoctdes,Clinical trials,text,TRUE,NA,1,NA,NA,0,DSOCTDES,0,,c
+ds,dsoodes,Other cancer therapy,text,TRUE,NA,1,NA,NA,0,DSOODES,0,,c
+pt,ptchemyn,Has the patient received chemotherapy,text,TRUE,NA,1,NA,YNFMT,3,PTCHEMYN,1,,c
+pt,ptchemyncd,Has the patient received chemotherapy - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTCHEMYNCD,2,,i
+pt,ptchemno,Number of lines,double,TRUE,0,1,NA,NA,1,PTCHEMNO,0,,d
+pt,ptimmyn,Has the patient received immunotherapy,text,TRUE,NA,1,NA,YNFMT,3,PTIMMYN,1,,c
+pt,ptimmyncd,Has the patient received immunotherapy - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTIMMYNCD,2,,i
+pt,ptradyn,Has the patient received radiation therapy to the brain?,text,TRUE,NA,1,NA,YNFMT,3,PTRADYN,1,,c
+pt,ptradyncd,Has the patient received radiation therapy to the brain? - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTRADYNCD,2,,i
+pt,ptrad,Radiation therapy,text,TRUE,NA,1,NA,RADFMT,13,PTRAD,1,,c
+pt,ptradcd,Radiation therapy - Code,integer,TRUE,NA,1,NA,RADFMT,1,PTRADCD,2,,i
+pt,ptrtdos,Total dose,double,TRUE,6,1,NA,NA,2,PTRTDOS,0,,d
+pt,ptccyn,Has the patient received concomitant chemotherapy,text,TRUE,NA,1,NA,YNFMT,3,PTCCYN,1,,c
+pt,ptccyncd,Has the patient received concomitant chemotherapy - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTCCYNCD,2,,i
+pt,ptsptlyn,Was the SRS for primary target lesion,text,TRUE,NA,1,NA,YNFMT,3,PTSPTLYN,1,,c
+pt,ptsptlyncd,Was the SRS for primary target lesion - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTSPTLYNCD,2,,i
+pt,ptptloc,Location of primary target lesion,text,TRUE,NA,1,NA,NA,19,PTPTLOC,0,,c
+pt,ptptlno,Number of SRS treatments for primary target lesion,double,TRUE,0,1,NA,NA,1,PTPTLNO,0,,d
+pt,ptothlyn,Was the SRS for other lesion,text,TRUE,NA,1,NA,YNFMT,3,PTOTHLYN,1,,c
+pt,ptothlyncd,Was the SRS for other lesion - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTOTHLYNCD,2,,i
+pt,ptl1loc,Location of lesion 1,text,TRUE,NA,1,NA,NA,23,PTL1LOC,0,,c
+pt,ptl1no,SRS treatments for lesion 1,double,TRUE,0,1,NA,NA,1,PTL1NO,0,,d
+pt,ptl2loc,Location of lesion 2,text,FALSE,NA,1,NA,NA,24,PTL2LOC,0,,c
+pt,ptl2no,SRS treatments for lesion 2,double,FALSE,0,1,NA,NA,1,PTL2NO,0,,d
+pt,ptl3loc,Location of lesion 3,text,FALSE,NA,1,NA,NA,0,PTL3LOC,0,,c
+pt,ptl3no,SRS treatments for lesion 3,double,FALSE,0,1,NA,NA,0,PTL3NO,0,,d
+pt,ptcnsyn,CNS surgery,text,TRUE,NA,1,NA,YNFMT,3,PTCNSYN,1,,c
+pt,ptcnsyncd,CNS surgery - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTCNSYNCD,2,,i
+pt,ptcptlyn,Was the CNS surgery for primary target lesion,text,TRUE,NA,1,NA,YNFMT,3,PTCPTLYN,1,,c
+pt,ptcptlyncd,Was the CNS surgery for primary target lesion - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTCPTLYNCD,2,,i
+pt,ptptlloc,Location of primary target lesion,text,TRUE,NA,1,NA,NA,43,PTPTLLOC,0,,c
+pt,ptplcnno,Number of surgeries for primary target lesion,double,TRUE,0,1,NA,NA,1,PTPLCNNO,0,,d
+pt,ptcnsdat,Date of last surgery for primary target lesion,date,TRUE,NA,1,NA,NA,10,PTCNSDAT,0,,c
+pt,ptcotlyn,Was the CNS surgery for other lesion,text,TRUE,NA,1,NA,YNFMT,3,PTCOTLYN,1,,c
+pt,ptcotlyncd,Was the CNS surgery for other lesion - Code,integer,TRUE,NA,1,NA,YNFMT,1,PTCOTLYNCD,2,,i
+pt,ptcl1loc,Location of lesion 1,text,TRUE,NA,1,NA,NA,57,PTCL1LOC,0,,c
+pt,ptl1cnno,Number of surgeries for lesion 1,double,TRUE,0,1,NA,NA,1,PTL1CNNO,0,,d
+pt,ptcl2loc,Location of lesion 2,text,FALSE,NA,1,NA,NA,0,PTCL2LOC,0,,c
+pt,ptl2cnno,Number of surgeries for lesion 2,double,FALSE,0,1,NA,NA,0,PTL2CNNO,0,,d
+pt,ptcl3loc,Location of lesion 3,text,FALSE,NA,1,NA,NA,0,PTCL3LOC,0,,c
+pt,ptl3cnno,Number of surgeries for lesion 3,double,FALSE,0,1,NA,NA,0,PTL3CNNO,0,,d
+pe,peoccur,Physical examination performed?,text,TRUE,NA,1,NA,YNFMT,3,PEOCCUR,1,,c
+pe,peoccurcd,Physical examination performed? - Code,integer,TRUE,NA,1,NA,YNFMT,1,PEOCCURCD,2,,i
+pe,perea,Reason not performed,text,TRUE,NA,1,NA,NA,39,PEREA,0,,c
+pe,pedat,Date of Examination,date,TRUE,NA,1,NA,NA,10,PEDAT,0,,c
+pe,pesk,Skin,text,TRUE,NA,1,NA,NABNDFMT,36,PESK,1,,c
+pe,peskcd,Skin - Code,integer,TRUE,NA,1,NA,NABNDFMT,2,PESKCD,2,,i
+pe,peskdes,Skin description,text,TRUE,NA,1,NA,NA,31,PESKDES,0,,c
+pe,pere,Lungs,text,TRUE,NA,1,NA,NABNDFMT,8,PERE,1,,c
+pe,perecd,Lungs - Code,integer,TRUE,NA,1,NA,NABNDFMT,2,PERECD,2,,i
+pe,peredes,Lungs description,text,TRUE,NA,1,NA,NA,0,PEREDES,0,,c
+pe,peca,Heart,text,TRUE,NA,1,NA,NABNDFMT,36,PECA,1,,c
+pe,pecacd,Heart - Code,integer,TRUE,NA,1,NA,NABNDFMT,2,PECACD,2,,i
+pe,pecades,Heart description,text,TRUE,NA,1,NA,NA,27,PECADES,0,,c
+pe,peab,Abdomen,text,TRUE,NA,1,NA,NABNDFMT,8,PEAB,1,,c
+pe,peabcd,Abdomen - Code,integer,TRUE,NA,1,NA,NABNDFMT,2,PEABCD,2,,i
+pe,peabdes,Abdomen description,text,TRUE,NA,1,NA,NA,0,PEABDES,0,,c
+pe,peln,Lymph nodes,text,TRUE,NA,1,NA,PELYMFMT,8,PELN,1,,c
+pe,pelncd,Lymph nodes - Code,integer,TRUE,NA,1,NA,PELYMFMT,2,PELNCD,2,,i
+pe,pelndes,Lymph node description,text,TRUE,NA,1,NA,NA,0,PELNDES,0,,c
+pe,peex,Extremities,text,TRUE,NA,1,NA,NABNDFMT,36,PEEX,1,,c
+pe,peexcd,Extremities - Code,integer,TRUE,NA,1,NA,NABNDFMT,2,PEEXCD,2,,i
+pe,peexdes,Extremities description,text,TRUE,NA,1,NA,NA,25,PEEXDES,0,,c
+pe,peoth,Other,text,FALSE,NA,1,NA,NABNDFMT,36,PEOTH,1,,c
+pe,peothcd,Other - Code,integer,FALSE,NA,1,NA,NABNDFMT,2,PEOTHCD,2,,i
+pe,peothdes,Other description,text,TRUE,NA,1,NA,NA,28,PEOTHDES,0,,c
+nano,nanogait,Gait,text,TRUE,NA,1,NA,NANOGFMT,64,NANOGAIT,1,,c
+nano,nanogaitcd,Gait - Code,integer,TRUE,NA,1,NA,NANOGFMT,3,NANOGAITCD,2,,i
+nano,nanostr,Strength,text,TRUE,NA,1,NA,NANOSFMT,49,NANOSTR,1,,c
+nano,nanostrcd,Strength - Code,integer,TRUE,NA,1,NA,NANOSFMT,3,NANOSTRCD,2,,i
+nano,nanoatax,Ataxia (Upper Extremity),text,TRUE,NA,1,NA,NANOAFMT,47,NANOATAX,1,,c
+nano,nanoataxcd,Ataxia (Upper Extremity) - Code,integer,TRUE,NA,1,NA,NANOAFMT,3,NANOATAXCD,2,,i
+nano,nanosens,Sensation,text,TRUE,NA,1,NA,NANSEFMT,39,NANOSENS,1,,c
+nano,nanosenscd,Sensation - Code,integer,TRUE,NA,1,NA,NANSEFMT,3,NANOSENSCD,2,,i
+nano,nanovf,Visual Fields,text,TRUE,NA,1,NA,NANOVFMT,65,NANOVF,1,,c
+nano,nanovfcd,Visual Fields - Code,integer,TRUE,NA,1,NA,NANOVFMT,3,NANOVFCD,2,,i
+nano,nanofs,Facial Strength,text,TRUE,NA,1,NA,NANOFFMT,22,NANOFS,1,,c
+nano,nanofscd,Facial Strength - Code,integer,TRUE,NA,1,NA,NANOFFMT,3,NANOFSCD,2,,i
+nano,nanolang,Language,text,TRUE,NA,1,NA,NANOLFMT,93,NANOLANG,1,,c
+nano,nanolangcd,Language - Code,integer,TRUE,NA,1,NA,NANOLFMT,3,NANOLANGCD,2,,i
+nano,nanoloc,Level of Consciousness,text,TRUE,NA,1,NA,NANLCFMT,25,NANOLOC,1,,c
+nano,nanoloccd,Level of Consciousness - Code,integer,TRUE,NA,1,NA,NANLCFMT,3,NANOLOCCD,2,,i
+nano,nanobah,Behaviour,text,TRUE,NA,1,NA,NANOBFMT,25,NANOBAH,1,,c
+nano,nanobahcd,Behaviour - Code,integer,TRUE,NA,1,NA,NANOBFMT,3,NANOBAHCD,2,,i
+nano,nanotot,Total NANO score,double,FALSE,0,1,NA,NA,1,NANOTOT,0,,d
+nano,nanochg,Change in NANO score from baseline,double,FALSE,0,1,NA,NA,2,NANOCHG,0,,d
+ecog,ecogs,ECOG Score,text,TRUE,NA,1,NA,ECOGFMT,185,ECOGS,1,,c
+ecog,ecogscd,ECOG Score - Code,integer,TRUE,NA,1,NA,ECOGFMT,1,ECOGSCD,2,,i
+kps,kpss,Karnofsky Performance Scale,text,TRUE,NA,1,NA,KPSFMT,82,KPSS,1,,c
+kps,kpsscd,Karnofsky Performance Scale - Code,integer,TRUE,NA,1,NA,KPSFMT,3,KPSSCD,2,,i
+vs,vsyn,Vital signs performed?,text,TRUE,NA,1,NA,YNFMT,3,VSYN,1,,c
+vs,vsyncd,Vital signs performed? - Code,integer,TRUE,NA,1,NA,YNFMT,1,VSYNCD,2,,i
+vs,vsrea,Reason not performed,text,TRUE,NA,1,NA,NA,85,VSREA,0,,c
+vs,vsdat,Date,date,TRUE,NA,1,NA,NA,10,VSDAT,0,,c
+vs,vsweight,Weight (kg),double,TRUE,1,1,NA,NA,5,VSWEIGHT,0,,d
+vs,vsheight,Height (cm),double,TRUE,0,1,NA,NA,3,VSHEIGHT,0,,d
+vs,vsbmi,BMI,double,FALSE,1,1,NA,NA,4,VSBMI,0,,d
+vs,vssys,Systolic blood pressure,double,TRUE,0,1,NA,NA,3,VSSYS,0,,d
+vs,vsdia,Diastolic blood pressure,double,TRUE,0,1,NA,NA,3,VSDIA,0,,d
+vs,vspulse,Pulse Rate,double,TRUE,0,1,NA,NA,3,VSPULSE,0,,d
+ecg,ecgyn,12-lead ECG performed?,text,TRUE,NA,1,NA,YNFMT,3,ECGYN,1,,c
+ecg,ecgyncd,12-lead ECG performed? - Code,integer,TRUE,NA,1,NA,YNFMT,1,ECGYNCD,2,,i
+ecg,ecgdat,Date of 12-lead ECG,date,TRUE,NA,1,NA,NA,10,ECGDAT,0,,c
+ecg,ecgnd,Reason not measured,text,TRUE,NA,1,NA,NA,38,ECGND,0,,c
+ecg,ecgorres,ECG result,text,TRUE,NA,1,NA,ABNCSFMT,36,ECGORRES,1,,c
+ecg,ecgorrescd,ECG result - Code,integer,TRUE,NA,1,NA,ABNCSFMT,1,ECGORRESCD,2,,i
+ecg,ecgspec,Abnormality,text,TRUE,NA,1,NA,NA,38,ECGSPEC,0,,c
+ecg,ecgcom,Abnormality,text,FALSE,NA,1,NA,NA,50,ECGCOM,0,,c
+qlq,qlqc3yn,EORTC QOL-C30 completed,text,TRUE,NA,1,NA,YNFMT,3,QLQC3YN,1,,c
+qlq,qlqc3yncd,EORTC QOL-C30 completed - Code,integer,TRUE,NA,1,NA,YNFMT,1,QLQC3YNCD,2,,i
+qlq,qlqc3nd,EORTC QOL-C30 not performed,text,TRUE,NA,1,NA,NA,45,QLQC3ND,0,,c
+qlq,qlqc3dat,EORTC QLQ-C30 completion date,date,TRUE,NA,1,NA,NA,10,QLQC3DAT,0,,c
+qlq,qlqc3sc,EORTC QLQ-C30 score,double,FALSE,0,1,NA,NA,2,QLQC3SC,0,,d
+qlq,qlq1,QLQ Question 1,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ1,1,,c
+qlq,qlq1cd,QLQ Question 1 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ1CD,2,,i
+qlq,qlq2,QLQ Question 2,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ2,1,,c
+qlq,qlq2cd,QLQ Question 2 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ2CD,2,,i
+qlq,qlq3,QLQ Question 3,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ3,1,,c
+qlq,qlq3cd,QLQ Question 3 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ3CD,2,,i
+qlq,qlq4,QLQ Question 4,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ4,1,,c
+qlq,qlq4cd,QLQ Question 4 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ4CD,2,,i
+qlq,qlq5,QLQ Question 5,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ5,1,,c
+qlq,qlq5cd,QLQ Question 5 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ5CD,2,,i
+qlq,qlq6,QLQ Question 6,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ6,1,,c
+qlq,qlq6cd,QLQ Question 6 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ6CD,2,,i
+qlq,qlq7,QLQ Question 7,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ7,1,,c
+qlq,qlq7cd,QLQ Question 7 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ7CD,2,,i
+qlq,qlq8,QLQ Question 8,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ8,1,,c
+qlq,qlq8cd,QLQ Question 8 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ8CD,2,,i
+qlq,qlq9,QLQ Question 9,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ9,1,,c
+qlq,qlq9cd,QLQ Question 9 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ9CD,2,,i
+qlq,qlq10,QLQ Question 10,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ10,1,,c
+qlq,qlq10cd,QLQ Question 10 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ10CD,2,,i
+qlq,qlq11,QLQ Question 11,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ11,1,,c
+qlq,qlq11cd,QLQ Question 11 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ11CD,2,,i
+qlq,qlq12,QLQ Question 12,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ12,1,,c
+qlq,qlq12cd,QLQ Question 12 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ12CD,2,,i
+qlq,qlq13,QLQ Question 13,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ13,1,,c
+qlq,qlq13cd,QLQ Question 13 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ13CD,2,,i
+qlq,qlq14,QLQ Question 14,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ14,1,,c
+qlq,qlq14cd,QLQ Question 14 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ14CD,2,,i
+qlq,qlq15,QLQ Question 15,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ15,1,,c
+qlq,qlq15cd,QLQ Question 15 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ15CD,2,,i
+qlq,qlq16,QLQ Question 16,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ16,1,,c
+qlq,qlq16cd,QLQ Question 16 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ16CD,2,,i
+qlq,qlq17,QLQ Question 17,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ17,1,,c
+qlq,qlq17cd,QLQ Question 17 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ17CD,2,,i
+qlq,qlq18,QLQ Question 18,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ18,1,,c
+qlq,qlq18cd,QLQ Question 18 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ18CD,2,,i
+qlq,qlq19,QLQ Question 19,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ19,1,,c
+qlq,qlq19cd,QLQ Question 19 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ19CD,2,,i
+qlq,qlq20,QLQ Question 20,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ20,1,,c
+qlq,qlq20cd,QLQ Question 20 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ20CD,2,,i
+qlq,qlq21,QLQ Question 21,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ21,1,,c
+qlq,qlq21cd,QLQ Question 21 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ21CD,2,,i
+qlq,qlq22,QLQ Question 22,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ22,1,,c
+qlq,qlq22cd,QLQ Question 22 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ22CD,2,,i
+qlq,qlq23,QLQ Question 23,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ23,1,,c
+qlq,qlq23cd,QLQ Question 23 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ23CD,2,,i
+qlq,qlq24,QLQ Question 24,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ24,1,,c
+qlq,qlq24cd,QLQ Question 24 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ24CD,2,,i
+qlq,qlq25,QLQ Question 25,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ25,1,,c
+qlq,qlq25cd,QLQ Question 25 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ25CD,2,,i
+qlq,qlq26,QLQ Question 26,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ26,1,,c
+qlq,qlq26cd,QLQ Question 26 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ26CD,2,,i
+qlq,qlq27,QLQ Question 27,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ27,1,,c
+qlq,qlq27cd,QLQ Question 27 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ27CD,2,,i
+qlq,qlq28,QLQ Question 28,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ28,1,,c
+qlq,qlq28cd,QLQ Question 28 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ28CD,2,,i
+qlq,qlq29,QLQ Question 29,text,FALSE,NA,1,NA,SCAL7FMT,19,QLQ29,1,,c
+qlq,qlq29cd,QLQ Question 29 - Code,integer,FALSE,NA,1,NA,SCAL7FMT,1,QLQ29CD,2,,i
+qlq,qlq30,QLQ Question 30,text,FALSE,NA,1,NA,SCAL7FMT,19,QLQ30,1,,c
+qlq,qlq30cd,QLQ Question 30 - Code,integer,FALSE,NA,1,NA,SCAL7FMT,1,QLQ30CD,2,,i
+qlqbn,qlqbnyn,EORTC QOL-BN20 completed,text,TRUE,NA,1,NA,YNFMT,3,QLQBNYN,1,,c
+qlqbn,qlqbnyncd,EORTC QOL-BN20 completed - Code,integer,TRUE,NA,1,NA,YNFMT,1,QLQBNYNCD,2,,i
+qlqbn,qlqbnnd,EORTC QOL-BN20 not performed,text,TRUE,NA,1,NA,NA,44,QLQBNND,0,,c
+qlqbn,qlqbndat,EORTC QOL-BN20 completion date,date,TRUE,NA,1,NA,NA,10,QLQBNDAT,0,,c
+qlqbn,qlqbnsc,EORTC QLQ-BN20 score,double,FALSE,0,1,NA,NA,2,QLQBNSC,0,,d
+qlqbn,qlq31,QLQ Question 31,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ31,1,,c
+qlqbn,qlq31cd,QLQ Question 31 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ31CD,2,,i
+qlqbn,qlq32,QLQ Question 32,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ32,1,,c
+qlqbn,qlq32cd,QLQ Question 32 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ32CD,2,,i
+qlqbn,qlq33,QLQ Question 33,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ33,1,,c
+qlqbn,qlq33cd,QLQ Question 33 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ33CD,2,,i
+qlqbn,qlq34,QLQ Question 34,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ34,1,,c
+qlqbn,qlq34cd,QLQ Question 34 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ34CD,2,,i
+qlqbn,qlq35,QLQ Question 35,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ35,1,,c
+qlqbn,qlq35cd,QLQ Question 35 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ35CD,2,,i
+qlqbn,qlq36,QLQ Question 36,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ36,1,,c
+qlqbn,qlq36cd,QLQ Question 36 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ36CD,2,,i
+qlqbn,qlq37,QLQ Question 37,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ37,1,,c
+qlqbn,qlq37cd,QLQ Question 37 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ37CD,2,,i
+qlqbn,qlq38,QLQ Question 38,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ38,1,,c
+qlqbn,qlq38cd,QLQ Question 38 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ38CD,2,,i
+qlqbn,qlq39,QLQ Question 39,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ39,1,,c
+qlqbn,qlq39cd,QLQ Question 39 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ39CD,2,,i
+qlqbn,qlq40,QLQ Question 40,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ40,1,,c
+qlqbn,qlq40cd,QLQ Question 40 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ40CD,2,,i
+qlqbn,qlq41,QLQ Question 41,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ41,1,,c
+qlqbn,qlq41cd,QLQ Question 41 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ41CD,2,,i
+qlqbn,qlq42,QLQ Question 42,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ42,1,,c
+qlqbn,qlq42cd,QLQ Question 42 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ42CD,2,,i
+qlqbn,qlq43,QLQ Question 43,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ43,1,,c
+qlqbn,qlq43cd,QLQ Question 43 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ43CD,2,,i
+qlqbn,qlq44,QLQ Question 44,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ44,1,,c
+qlqbn,qlq44cd,QLQ Question 44 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ44CD,2,,i
+qlqbn,qlq45,QLQ Question 45,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ45,1,,c
+qlqbn,qlq45cd,QLQ Question 45 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ45CD,2,,i
+qlqbn,qlq46,QLQ Question 46,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ46,1,,c
+qlqbn,qlq46cd,QLQ Question 46 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ46CD,2,,i
+qlqbn,qlq47,QLQ Question 47,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ47,1,,c
+qlqbn,qlq47cd,QLQ Question 47 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ47CD,2,,i
+qlqbn,qlq48,QLQ Question 48,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ48,1,,c
+qlqbn,qlq48cd,QLQ Question 48 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ48CD,2,,i
+qlqbn,qlq49,QLQ Question 49,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ49,1,,c
+qlqbn,qlq49cd,QLQ Question 49 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ49CD,2,,i
+qlqbn,qlq50,QLQ Question 50,text,FALSE,NA,1,NA,QLQ30FMT,20,QLQ50,1,,c
+qlqbn,qlq50cd,QLQ Question 50 - Code,integer,FALSE,NA,1,NA,QLQ30FMT,1,QLQ50CD,2,,i
+sq,sqprdat,Date of last visit,date,FALSE,NA,1,NA,NA,10,SQPRDAT,0,,c
+sq,sqaecoun,No. of AE's,double,FALSE,0,1,NA,NA,1,SQAECOUN,0,,d
+sq,sqcmreg,Any CM's?,double,FALSE,0,1,NA,NA,1,SQCMREG,0,,d
+sq,sqaeyn,Has there been any Adverse Events on or after the date above?,text,TRUE,NA,1,NA,YNFMT,3,SQAEYN,1,,c
+sq,sqaeyncd,Has there been any Adverse Events on or after the date above? - Code,integer,TRUE,NA,1,NA,YNFMT,1,SQAEYNCD,2,,i
+sq,sqaechk2,"The following Adverse Event(s) are currently registered as ongoing, check if any of them should be updated",text,FALSE,NA,1,NA,NA,4,SQAECHK2,0,,c
+sq,sqaeyes1,The Adverse Event(s) above have been checked and if applicable updated 1,text,TRUE,NA,1,NA,YESFMT,3,SQAEYES1,1,,c
+sq,sqaeyes1cd,The Adverse Event(s) above have been checked and if applicable updated 1 - Code,integer,TRUE,NA,1,NA,YESFMT,1,SQAEYES1CD,2,,i
+sq,sqcmyn,Were any Prior or Concomitant Medication(s) taken?,text,TRUE,NA,1,NA,YNFMT,3,SQCMYN,1,,c
+sq,sqcmyncd,Were any Prior or Concomitant Medication(s) taken? - Code,integer,TRUE,NA,1,NA,YNFMT,1,SQCMYNCD,2,,i
+sq,sqcmyn2,Has there been any changes in Concomitant Medication(s) on or after the date above?,text,TRUE,NA,1,NA,YNFMT,3,SQCMYN2,1,,c
+sq,sqcmyn2cd,Has there been any changes in Concomitant Medication(s) on or after the date above? - Code,integer,TRUE,NA,1,NA,YNFMT,1,SQCMYN2CD,2,,i
+sq,sqcmchk2,"The following Concomitant Medication(s) are currently registered as ongoing, check if any of them should be updated",text,FALSE,NA,1,NA,NA,49,SQCMCHK2,0,,c
+sq,sqcmyes1,The Concomitant Medication(s) above have been checked and if applicable updated 1,text,TRUE,NA,1,NA,YESFMT,3,SQCMYES1,1,,c
+sq,sqcmyes1cd,The Concomitant Medication(s) above have been checked and if applicable updated 1 - Code,integer,TRUE,NA,1,NA,YESFMT,1,SQCMYES1CD,2,,i
+sq,sqmhyn,Has the subject had any medical conditions or events (Medical History)?,text,TRUE,NA,1,NA,YNFMT,3,SQMHYN,1,,c
+sq,sqmhyncd,Has the subject had any medical conditions or events (Medical History)? - Code,integer,TRUE,NA,1,NA,YNFMT,1,SQMHYNCD,2,,i
+pre,pregtst,Has a pregnancy test been taken?,text,TRUE,NA,1,NA,VSYNFMT,35,PREGTST,1,,c
+pre,pregtstcd,Has a pregnancy test been taken? - Code,integer,TRUE,NA,1,NA,VSYNFMT,1,PREGTSTCD,2,,i
+pre,predat,Date of pregnancy test,date,TRUE,NA,1,NA,NA,10,PREDAT,0,,c
+pre,preres,Result,text,TRUE,NA,1,NA,LABFMT,8,PRERES,1,,c
+pre,prerescd,Result - Code,integer,TRUE,NA,1,NA,LABFMT,1,PRERESCD,2,,i
+elig,eligyn,Is the subject still eligible for randomization?,text,TRUE,NA,1,NA,YNFMT,3,ELIGYN,1,,c
+elig,eligyncd,Is the subject still eligible for randomization? - Code,integer,TRUE,NA,1,NA,YNFMT,1,ELIGYNCD,2,,i
+elig,eiranyn,Is the subject already randomized?,text,TRUE,NA,1,NA,YNFMT,3,EIRANYN,1,,c
+elig,eiranyncd,Is the subject already randomized? - Code,integer,TRUE,NA,1,NA,YNFMT,1,EIRANYNCD,2,,i
+elig,eiranno,Randomization no.,text,TRUE,NA,1,NA,EIRANFMT,4,EIRANNO,1,,c
+elig,eirannocd,Randomization no. - Code,integer,TRUE,NA,1,NA,EIRANFMT,4,EIRANNOCD,2,,i
+ran,randat,Randomization date,date,TRUE,NA,1,NA,NA,0,RANDAT,0,,c
+ran,randia,Diagnosis,text,FALSE,NA,1,NA,COHORFMT,0,RANDIA,1,,c
+ran,randiacd,Diagnosis - Code,string,FALSE,NA,1,NA,COHORFMT,0,RANDIACD,2,,c
+ran,ranno,Randomization number,double,TRUE,0,1,NA,NA,0,RANNO,0,,d
+ran,rantrt,Treatment group,text,TRUE,NA,1,NA,RTRTFMT,0,RANTRT,1,,c
+ran,rantrtcd,Treatment group - Code,string,TRUE,NA,1,NA,RTRTFMT,0,RANTRTCD,2,,c
+ran,randos,Dose,text,TRUE,NA,1,NA,LDOSFMT,0,RANDOS,1,,c
+ran,randoscd,Dose - Code,string,TRUE,NA,1,NA,LDOSFMT,0,RANDOSCD,2,,c
+ran,ranst,Start up time,text,TRUE,NA,1,NA,RANSTFMT,0,RANST,1,,c
+ran,ranstcd,Start up time - Code,string,TRUE,NA,1,NA,RANSTFMT,0,RANSTCD,2,,c
+ran,ranfudos,Follow-up dose,text,TRUE,NA,1,NA,DOSEFMT,0,RANFUDOS,1,,c
+ran,ranfudoscd,Follow-up dose - Code,string,TRUE,NA,1,NA,DOSEFMT,0,RANFUDOSCD,2,,c
+mri,mridat,Date of MRI exam,date,TRUE,NA,1,NA,NA,10,MRIDAT,0,,c
+mri,mrfuplyn,Result file from MRI is uploaded,text,TRUE,NA,1,NA,YNFMT,3,MRFUPLYN,1,,c
+mri,mrfuplyncd,Result file from MRI is uploaded - Code,integer,TRUE,NA,1,NA,YNFMT,1,MRFUPLYNCD,2,,i
+mri,mrt1cfyn,Mean relative cerebral blood flow performed?,text,FALSE,NA,1,NA,YNFMT,0,MRT1CFYN,1,,c
+mri,mrt1cfyncd,Mean relative cerebral blood flow performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRT1CFYNCD,2,,i
+mri,mrt1cfnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRT1CFND,0,,c
+mri,mrt1cf,Mean relative cerebral blood flow,double,FALSE,6,1,NA,NA,0,MRT1CF,0,,d
+mri,mrt1ssyn,Mean relative solid stress performed?,text,FALSE,NA,1,NA,YNFMT,0,MRT1SSYN,1,,c
+mri,mrt1ssyncd,Mean relative solid stress performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRT1SSYNCD,2,,i
+mri,mrt1ssnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRT1SSND,0,,c
+mri,mrt1ss,Mean relative solid stress,double,FALSE,6,1,NA,NA,0,MRT1SS,0,,d
+mri,mrt2cfyn,Mean relative cerebral blood flow performed?,text,FALSE,NA,1,NA,YNFMT,0,MRT2CFYN,1,,c
+mri,mrt2cfyncd,Mean relative cerebral blood flow performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRT2CFYNCD,2,,i
+mri,mrt2cfnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRT2CFND,0,,c
+mri,mrt2cf,Mean relative cerebral blood flow,double,FALSE,6,1,NA,NA,0,MRT2CF,0,,d
+mri,mrt2ssyn,Mean relative solid stress performed?,text,FALSE,NA,1,NA,YNFMT,0,MRT2SSYN,1,,c
+mri,mrt2ssyncd,Mean relative solid stress performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRT2SSYNCD,2,,i
+mri,mrt2ssnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRT2SSND,0,,c
+mri,mrt2ss,Mean relative solid stress,double,FALSE,6,1,NA,NA,0,MRT2SS,0,,d
+mri,mrt1cayn,Total volume of contrast agent enhancing lesion on T1-weighted MRI in cm3 performed?,text,FALSE,NA,1,NA,YNFMT,0,MRT1CAYN,1,,c
+mri,mrt1cayncd,Total volume of contrast agent enhancing lesion on T1-weighted MRI in cm3 performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRT1CAYNCD,2,,i
+mri,mrt1cand,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRT1CAND,0,,c
+mri,mrt1ca,Total volume of contrast agent enhancing lesion on T1-weighted MRI in cm3,double,FALSE,6,1,NA,NA,0,MRT1CA,0,,d
+mri,mrt2psyn,Total volume of pathologic signal on T2/FLAIR-weighted MRI in cm3 performed?,text,FALSE,NA,1,NA,YNFMT,0,MRT2PSYN,1,,c
+mri,mrt2psyncd,Total volume of pathologic signal on T2/FLAIR-weighted MRI in cm3 performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRT2PSYNCD,2,,i
+mri,mrt2psnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRT2PSND,0,,c
+mri,mrt2ps,Total volume of pathologic signal on T2/FLAIR-weighted MRI in cm3,double,FALSE,6,1,NA,NA,0,MRT2PS,0,,d
+mri,mrrnyn,Radio necrosis performed?,text,FALSE,NA,1,NA,YNFMT,0,MRRNYN,1,,c
+mri,mrrnyncd,Radio necrosis performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRRNYNCD,2,,i
+mri,mrrnnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRRNND,0,,c
+mri,mrrn,Radio necrosis,double,FALSE,6,1,NA,NA,0,MRRN,0,,d
+mri,mrpspyn,Pseudoprogression performed?,text,FALSE,NA,1,NA,YNFMT,0,MRPSPYN,1,,c
+mri,mrpspyncd,Pseudoprogression performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRPSPYNCD,2,,i
+mri,mrpspnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRPSPND,0,,c
+mri,mrpsp,Pseudoprogression,double,FALSE,6,1,NA,NA,0,MRPSP,0,,d
+mri,mrptayn,Mean relative cerebral blood performed?,text,FALSE,NA,1,NA,YNFMT,0,MRPTAYN,1,,c
+mri,mrptayncd,Mean relative cerebral blood performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRPTAYNCD,2,,i
+mri,mrptand,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRPTAND,0,,c
+mri,mrpta,Mean relative cerebral blood,double,FALSE,6,1,NA,NA,0,MRPTA,0,,d
+mri,mrrttyn,Mean relative transit time performed?,text,FALSE,NA,1,NA,YNFMT,0,MRRTTYN,1,,c
+mri,mrrttyncd,Mean relative transit time performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRRTTYNCD,2,,i
+mri,mrrttnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRRTTND,0,,c
+mri,mrrtt,Mean relative transit time,double,FALSE,6,1,NA,NA,0,MRRTT,0,,d
+mri,mrmefyn,Mean DSC K2 leakage performed?,text,FALSE,NA,1,NA,YNFMT,0,MRMEFYN,1,,c
+mri,mrmefyncd,Mean DSC K2 leakage performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRMEFYNCD,2,,i
+mri,mrmefnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRMEFND,0,,c
+mri,mrmef,Mean DSC K2 leakage,double,FALSE,6,1,NA,NA,0,MRMEF,0,,d
+mri,mrdscyn,Mean relative DSC extravasation performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDSCYN,1,,c
+mri,mrdscyncd,Mean relative DSC extravasation performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDSCYNCD,2,,i
+mri,mrdscnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDSCND,0,,c
+mri,mrdsc,Mean relative DSC extravasation,double,FALSE,6,1,NA,NA,0,MRDSC,0,,d
+mri,mrrvsiyn,Mean relative vessel size index performed?,text,FALSE,NA,1,NA,YNFMT,0,MRRVSIYN,1,,c
+mri,mrrvsiyncd,Mean relative vessel size index performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRRVSIYNCD,2,,i
+mri,mrrvsind,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRRVSIND,0,,c
+mri,mrrvsi,Mean relative vessel size index,double,FALSE,6,1,NA,NA,0,MRRVSI,0,,d
+mri,mrrvcyn,Mean relative vessel Caliber performed?,text,FALSE,NA,1,NA,YNFMT,0,MRRVCYN,1,,c
+mri,mrrvcyncd,Mean relative vessel Caliber performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRRVCYNCD,2,,i
+mri,mrrvcnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRRVCND,0,,c
+mri,mrrvc,Mean relative vessel caliber,double,FALSE,6,1,NA,NA,0,MRRVC,0,,d
+mri,mrrvayn,Mean relative vortex area performed?,text,FALSE,NA,1,NA,YNFMT,0,MRRVAYN,1,,c
+mri,mrrvayncd,Mean relative vortex area performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRRVAYNCD,2,,i
+mri,mrrvand,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRRVAND,0,,c
+mri,mrrva,Mean relative vortex area,double,FALSE,6,1,NA,NA,0,MRRVA,0,,d
+mri,mrrcvayn,Mean relative corrected vortex area performed?,text,FALSE,NA,1,NA,YNFMT,0,MRRCVAYN,1,,c
+mri,mrrcvayncd,Mean relative corrected vortex area performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRRCVAYNCD,2,,i
+mri,mrrcvand,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRRCVAND,0,,c
+mri,mrrcva,Mean relative corrected vortex area,double,FALSE,6,1,NA,NA,0,MRRCVA,0,,d
+mri,mrrdvyn,Mean relative direction value performed?,text,FALSE,NA,1,NA,YNFMT,0,MRRDVYN,1,,c
+mri,mrrdvyncd,Mean relative direction value performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRRDVYNCD,2,,i
+mri,mrrdvnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRRDVND,0,,c
+mri,mrrdv,Mean relative direction value,double,FALSE,6,1,NA,NA,0,MRRDV,0,,d
+mri,mrdptayn,Mean relative apparent diffusion coefficient performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDPTAYN,1,,c
+mri,mrdptayncd,Mean relative apparent diffusion coefficient performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDPTAYNCD,2,,i
+mri,mrdptand,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDPTAND,0,,c
+mri,mrdpta,Mean relative apparent diffusion coefficient,double,FALSE,6,1,NA,NA,0,MRDPTA,0,,d
+mri,mrdrfayn,Mean relative fractional anisotropy performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDRFAYN,1,,c
+mri,mrdrfayncd,Mean relative fractional anisotropy performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDRFAYNCD,2,,i
+mri,mrdrfand,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDRFAND,0,,c
+mri,mrdrfa,Mean relative fractional anisotropy,double,FALSE,6,1,NA,NA,0,MRDRFA,0,,d
+mri,mrdrsiyn,Mean relative restricted spectrum imaging performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDRSIYN,1,,c
+mri,mrdrsiyncd,Mean relative restricted spectrum imaging performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDRSIYNCD,2,,i
+mri,mrdrsind,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDRSIND,0,,c
+mri,mrdrsi,Mean relative restricted spectrum imaging,double,FALSE,6,1,NA,NA,0,MRDRSI,0,,d
+mri,mrdiimyn,Mean relative intravoxel incoherent motion performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDIIMYN,1,,c
+mri,mrdiimyncd,Mean relative intravoxel incoherent motion performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDIIMYNCD,2,,i
+mri,mrdiimnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDIIMND,0,,c
+mri,mrdiim,Mean relative intravoxel incoherent motion,double,FALSE,6,1,NA,NA,0,MRDIIM,0,,d
+mri,mrdtsyn,Mean tissue stiffness performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDTSYN,1,,c
+mri,mrdtsyncd,Mean tissue stiffness performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDTSYNCD,2,,i
+mri,mrdtsnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDTSND,0,,c
+mri,mrdts,Mean tissue stiffness,double,FALSE,6,1,NA,NA,0,MRDTS,0,,d
+mri,mrdtvyn,Mean tissue viscosity performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDTVYN,1,,c
+mri,mrdtvyncd,Mean tissue viscosity performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDTVYNCD,2,,i
+mri,mrdtvnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDTVND,0,,c
+mri,mrdtv,Mean tissue viscosity,double,FALSE,6,1,NA,NA,0,MRDTV,0,,d
+mri,mrdtpyn,Mean tumor pressure performed?,text,FALSE,NA,1,NA,YNFMT,0,MRDTPYN,1,,c
+mri,mrdtpyncd,Mean tumor pressure performed? - Code,integer,FALSE,NA,1,NA,YNFMT,0,MRDTPYNCD,2,,i
+mri,mrdtpnd,Reason not performed,text,FALSE,NA,1,NA,NA,0,MRDTPND,0,,c
+mri,mrdtp,Mean tumor pressure,double,FALSE,6,1,NA,NA,0,MRDTP,0,,d
+ul,ulspid,Uploaded file no,double,TRUE,0,1,NA,NA,1,ULSPID,0,,d
+ul,ulname,Name of the uploaded file,text,TRUE,NA,1,NA,NA,65,ULNAME,0,,c
+ul,ulfile,File upload,base64Binary,TRUE,NA,NA,NA,NA,66,ULFILE,0,,NA
+ul,ulfile_filepath,File upload (File path),text,TRUE,NA,NA,NA,NA,56,ULFILE_FilePath,0,,c
+ul,ulfile_filesize,File upload (File size),integer,TRUE,NA,NA,NA,NA,5,ULFILE_FileSize,0,,i
+ul,ulfile_filehash,File upload (MD5 hash),text,TRUE,NA,NA,NA,NA,32,ULFILE_FileHash,0,,c
+ul,ulcomm,Comment on the uploaded file,text,FALSE,NA,1,NA,NA,83,ULCOMM,0,,c
+cs,csmriyn,Steroids at time of MRI,text,TRUE,NA,1,NA,YNFMT,3,CSMRIYN,1,,c
+cs,csmriyncd,Steroids at time of MRI - Code,integer,TRUE,NA,1,NA,YNFMT,1,CSMRIYNCD,2,,i
+cs,csviyn,Steroids at time of visit,text,TRUE,NA,1,NA,YNFMT,3,CSVIYN,1,,c
+cs,csviyncd,Steroids at time of visit - Code,integer,TRUE,NA,1,NA,YNFMT,1,CSVIYNCD,2,,i
+cs,cschg,NA,text,TRUE,NA,1,NA,CSCHGFMT,8,CSCHG,1,,c
+cs,cschgcd,- Code,integer,TRUE,NA,1,NA,CSCHGFMT,1,CSCHGCD,2,,i
+cs,csname,Type of steroid treatment,text,TRUE,NA,1,NA,NA,34,CSNAME,0,,c
+cs,cstddos,Total daily dose,double,TRUE,6,1,NA,NA,3,CSTDDOS,0,,d
+vi,vichkyn,Are any  of the following procedures redundant?,text,TRUE,NA,1,NA,YNFMT,3,VICHKYN,1,,c
+vi,vichkyncd,Are any  of the following procedures redundant? - Code,integer,TRUE,NA,1,NA,YNFMT,1,VICHKYNCD,2,,i
+vi,vipeyn,Physical exam,text,TRUE,NA,1,NA,YNFMT,3,VIPEYN,1,,c
+vi,vipeyncd,Physical exam - Code,integer,TRUE,NA,1,NA,YNFMT,1,VIPEYNCD,2,,i
+vi,vinanoyn,NANO,text,TRUE,NA,1,NA,YNFMT,3,VINANOYN,1,,c
+vi,vinanoyncd,NANO - Code,integer,TRUE,NA,1,NA,YNFMT,1,VINANOYNCD,2,,i
+vi,viecogyn,ECOG,text,TRUE,NA,1,NA,YNFMT,3,VIECOGYN,1,,c
+vi,viecogyncd,ECOG - Code,integer,TRUE,NA,1,NA,YNFMT,1,VIECOGYNCD,2,,i
+vi,vikpsyn,Karnofsky Performance Scale,text,TRUE,NA,1,NA,YNFMT,3,VIKPSYN,1,,c
+vi,vikpsyncd,Karnofsky Performance Scale - Code,integer,TRUE,NA,1,NA,YNFMT,1,VIKPSYNCD,2,,i
+vi,vivsyn,Vital signs,text,TRUE,NA,1,NA,YNFMT,3,VIVSYN,1,,c
+vi,vivsyncd,Vital signs - Code,integer,TRUE,NA,1,NA,YNFMT,1,VIVSYNCD,2,,i
+vi,viecgyn,ECG,text,TRUE,NA,1,NA,YNFMT,3,VIECGYN,1,,c
+vi,viecgyncd,ECG - Code,integer,TRUE,NA,1,NA,YNFMT,1,VIECGYNCD,2,,i
+vi,viqolyn,QoL (QLQ-C30 + QLQ-BN20),text,TRUE,NA,1,NA,YNFMT,3,VIQOLYN,1,,c
+vi,viqolyncd,QoL (QLQ-C30 + QLQ-BN20) - Code,integer,TRUE,NA,1,NA,YNFMT,1,VIQOLYNCD,2,,i
+vi,viepreyn,Pregnancy testPlease choose NA for male patients,text,TRUE,NA,1,NA,YNNAFMT,3,VIEPREYN,1,,c
+vi,viepreyncd,Pregnancy testPlease choose NA for male patients - Code,integer,TRUE,NA,1,NA,YNNAFMT,2,VIEPREYNCD,2,,i
+lbe,lbelabyn,Was a sample for exploratory research collected?,text,TRUE,NA,1,NA,YNFMT,3,LBELABYN,1,,c
+lbe,lbelabyncd,Was a sample for exploratory research collected? - Code,integer,TRUE,NA,1,NA,YNFMT,1,LBELABYNCD,2,,i
+lbe,lbedat,Collection date,date,TRUE,NA,1,NA,NA,10,LBEDAT,0,,c
+lbe,lbend,Reason not taken,text,TRUE,NA,1,NA,NA,70,LBEND,0,,c
+lbe,lbeid,Sample ID (optional),text,FALSE,NA,1,NA,NA,11,LBEID,0,,c
+lbe,lbecom,Comment (optional),text,FALSE,NA,1,NA,NA,77,LBECOM,0,,c
+lbe,lbblabco,Was a laboratory sample collected?,text,TRUE,NA,1,NA,YNFMT,3,LBBLABCO,1,,c
+lbe,lbblabcocd,Was a laboratory sample collected? - Code,integer,TRUE,NA,1,NA,YNFMT,1,LBBLABCOCD,2,,i
+lbe,lbbdat,Collection date,date,TRUE,NA,1,NA,NA,10,LBBDAT,0,,c
+lbe,lbbnd,Reason not taken,text,TRUE,NA,1,NA,NA,70,LBBND,0,,c
+lbe,lbcrco,Creatinine collected?,text,TRUE,NA,1,NA,YNFMT,3,LBCRCO,1,,c
+lbe,lbcrcocd,Creatinine collected? - Code,integer,TRUE,NA,1,NA,YNFMT,1,LBCRCOCD,2,,i
+lbe,lbcrres,Creatinine result,double,TRUE,0,1,NA,NA,3,LBCRRES,0,,d
+lbe,lbcru,Creatinine unit,text,FALSE,NA,1,NA,NA,10,LBCRU,0,,c
+lbe,lbcrr,Creatinine range,text,TRUE,0,1,NA,NA,8,LBCRR,0,,c
+lbe,lbcrr_lower,Creatinine range (Lower limit),text,TRUE,NA,NA,NA,NA,2,LBCRR_Lower,0,,c
+lbe,lbcrr_comparator,Creatinine range (Comparator),text,TRUE,NA,NA,NA,NA,18,LBCRR_Comparator,0,,c
+lbe,lbcrr_upper,Creatinine range (Upper limit),text,TRUE,NA,NA,NA,NA,3,LBCRR_Upper,0,,c
+lbe,lbcrcrr,Creatinine CRR,text,FALSE,NA,1,NA,HINLOFMT,6,LBCRCRR,1,,c
+lbe,lbcrcrrcd,Creatinine CRR - Code,integer,FALSE,NA,1,NA,HINLOFMT,1,LBCRCRRCD,2,,i
+lbe,lbcrcs,Creatinine CS?,text,TRUE,NA,1,NA,YNFMT,3,LBCRCS,1,,c
+lbe,lbcrcscd,Creatinine CS? - Code,integer,TRUE,NA,1,NA,YNFMT,1,LBCRCSCD,2,,i
+lbe,lbkco,Potassium collected?,text,FALSE,NA,1,NA,YNFMT,0,LBKCO,1,,c
+lbe,lbkcocd,Potassium collected? - Code,integer,FALSE,NA,1,NA,YNFMT,0,LBKCOCD,2,,i
+lbe,lbkres,Potassium result,double,FALSE,1,1,NA,NA,0,LBKRES,0,,d
+lbe,lbku,Potassium unit,text,FALSE,NA,1,NA,NA,0,LBKU,0,,c
+lbe,lbkr,Potassium range,text,FALSE,1,1,NA,NA,0,LBKR,0,,c
+lbe,lbkr_lower,Potassium range (Lower limit),text,FALSE,NA,NA,NA,NA,0,LBKR_Lower,0,,c
+lbe,lbkr_comparator,Potassium range (Comparator),text,FALSE,NA,NA,NA,NA,0,LBKR_Comparator,0,,c
+lbe,lbkr_upper,Potassium range (Upper limit),text,FALSE,NA,NA,NA,NA,0,LBKR_Upper,0,,c
+lbe,lbkcrr,Potassium CRR,text,FALSE,NA,1,NA,HINLOFMT,0,LBKCRR,1,,c
+lbe,lbkcrrcd,Potassium CRR - Code,integer,FALSE,NA,1,NA,HINLOFMT,0,LBKCRRCD,2,,i
+lbe,lbkcs,Potassium CS,text,FALSE,NA,1,NA,YNFMT,0,LBKCS,1,,c
+lbe,lbkcscd,Potassium CS - Code,integer,FALSE,NA,1,NA,YNFMT,0,LBKCSCD,2,,i
+lbe,lbuco,Urea collected?,text,FALSE,NA,1,NA,YNFMT,0,LBUCO,1,,c
+lbe,lbucocd,Urea collected? - Code,integer,FALSE,NA,1,NA,YNFMT,0,LBUCOCD,2,,i
+lbe,lbures,Urea result,double,FALSE,0,1,NA,NA,0,LBURES,0,,d
+lbe,lbuu,Urea unit,text,FALSE,NA,1,NA,NA,0,LBUU,0,,c
+lbe,lbur,Urea range,text,FALSE,0,1,NA,NA,0,LBUR,0,,c
+lbe,lbur_lower,Urea range (Lower limit),text,FALSE,NA,NA,NA,NA,0,LBUR_Lower,0,,c
+lbe,lbur_comparator,Urea range (Comparator),text,FALSE,NA,NA,NA,NA,0,LBUR_Comparator,0,,c
+lbe,lbur_upper,Urea range (Upper limit),text,FALSE,NA,NA,NA,NA,0,LBUR_Upper,0,,c
+lbe,lbucrr,Ures CRR,text,FALSE,NA,1,NA,HINLOFMT,0,LBUCRR,1,,c
+lbe,lbucrrcd,Ures CRR - Code,integer,FALSE,NA,1,NA,HINLOFMT,0,LBUCRRCD,2,,i
+lbe,lbucs,Urea CS?,text,FALSE,NA,1,NA,YNFMT,0,LBUCS,1,,c
+lbe,lbucscd,Urea CS? - Code,integer,FALSE,NA,1,NA,YNFMT,0,LBUCSCD,2,,i
+lbe,scope_591,Laboratory range - OUS,text,FALSE,NA,NA,NA,CL_S591F,22,SCOPE_591,1,,c
+lbe,scope_591cd,Laboratory range - OUS - Code,integer,FALSE,NA,NA,NA,CL_S591F,4,SCOPE_591CD,2,,i
+ex,eximpdos,IMP administration in this cycle(and next cycle if not registered),text,TRUE,NA,1,NA,EXIMPFMT,0,EXIMPDOS,1,,c
+ex,eximpdoscd,IMP administration in this cycle(and next cycle if not registered) - Code,integer,TRUE,NA,1,NA,EXIMPFMT,0,EXIMPDOSCD,2,,i
+ex,eximpnd,Reason for no administration,text,TRUE,NA,1,NA,NA,0,EXIMPND,0,,c
+ex,exrandos,The subject is randomized to dose:(displayed from the randomization form),text,FALSE,NA,1,NA,DOSFMT,0,EXRANDOS,1,,c
+ex,exrandoscd,The subject is randomized to dose:(displayed from the randomization form) - Code,integer,FALSE,NA,1,NA,DOSFMT,0,EXRANDOSCD,2,,i
+ex,exranst,Start up time(displayed from the randomization form),text,FALSE,NA,1,NA,RANS2FMT,0,EXRANST,1,,c
+ex,exranstcd,Start up time(displayed from the randomization form) - Code,integer,FALSE,NA,1,NA,RANS2FMT,0,EXRANSTCD,2,,i
+ex,exfudos,Follow-up dose:(displayed from the randomization form),text,FALSE,NA,1,NA,FUDOSFMT,0,EXFUDOS,1,,c
+ex,exfudoscd,Follow-up dose:(displayed from the randomization form) - Code,integer,FALSE,NA,1,NA,FUDOSFMT,0,EXFUDOSCD,2,,i
+ex,exstdat,IMP start date,date,TRUE,NA,1,NA,NA,0,EXSTDAT,0,,c
+ex,exendat,IMP stop date,date,FALSE,NA,1,NA,NA,0,EXENDAT,0,,c
+ex,exmodyn,Has there been any modification of randomized dose,text,TRUE,NA,1,NA,YNFMT,0,EXMODYN,1,,c
+ex,exmodyncd,Has there been any modification of randomized dose - Code,integer,TRUE,NA,1,NA,YNFMT,0,EXMODYNCD,2,,i
+ex,exnddos,New daily dose,double,TRUE,1,1,NA,NA,0,EXNDDOS,0,,d
+ex,exmstdat,From date,date,TRUE,NA,1,NA,NA,0,EXMSTDAT,0,,c
+ex,exmodoth,Reason for modification,text,TRUE,NA,1,NA,NA,0,EXMODOTH,0,,c
+ex,exint,Has there been any interruption of dose,text,TRUE,NA,1,NA,YNFMT,0,EXINT,1,,c
+ex,exintcd,Has there been any interruption of dose - Code,integer,TRUE,NA,1,NA,YNFMT,0,EXINTCD,2,,i
+ex,exstpyn,Is the dose stopped,text,TRUE,NA,1,NA,YNFMT,0,EXSTPYN,1,,c
+ex,exstpyncd,Is the dose stopped - Code,integer,TRUE,NA,1,NA,YNFMT,0,EXSTPYNCD,2,,i
+ex,exstpdat,From date,date,TRUE,NA,1,NA,NA,0,EXSTPDAT,0,,c
+ex,exintoth,Reason for stop IMP,text,TRUE,NA,1,NA,NA,0,EXINTOTH,0,,c
+ex,exintdur,Duration of the interruption,double,TRUE,0,1,NA,NA,0,EXINTDUR,0,,d
+ex,ex3pmryn,Has IMP been taken 3 days prior to MRI?,text,TRUE,NA,1,NA,YNFMT,0,EX3PMRYN,1,,c
+ex,ex3pmryncd,Has IMP been taken 3 days prior to MRI? - Code,integer,TRUE,NA,1,NA,YNFMT,0,EX3PMRYNCD,2,,i
+ex,ex3pdes,Reason for the interuption,text,TRUE,NA,1,NA,NA,0,EX3PDES,0,,c
+ex,exbatch,Batch number,text,FALSE,NA,1,NA,NA,0,EXBATCH,0,,c
+ex,exexpdat,Expiry date,date,FALSE,NA,1,NA,NA,0,EXEXPDAT,0,,c
+ex,ex2batch,Batch number,text,FALSE,NA,1,NA,NA,0,EX2BATCH,0,,c
+ex,ex2exdat,Expiry date,date,FALSE,NA,1,NA,NA,0,EX2EXDAT,0,,c
+ex,excons,#tablets taken in this cycle(and next cycle if not registered),double,TRUE,0,1,NA,NA,0,EXCONS,0,,d
+ex,exdosstr,Dosage strength,text,TRUE,NA,1,NA,DSTRFMT,0,EXDOSSTR,1,,c
+ex,exdosstrcd,Dosage strength - Code,string,TRUE,NA,1,NA,DSTRFMT,0,EXDOSSTRCD,2,,c
+ex,exdisp,#tablets in this cycle (and next cycle if not registered) according to protocol,double,TRUE,0,1,NA,NA,0,EXDISP,0,,d
+ex,ex2cons,"#tablets (12,5mg) taken in this cycle(and next cycle if not registered)",double,TRUE,0,1,NA,NA,0,EX2CONS,0,,d
+ex,ex2disp,"#tablets (12,5mg) in this cycle (and next cycle if not registered) according to protocol",double,TRUE,0,1,NA,NA,0,EX2DISP,0,,d
+ch,chyn,Does the patient receive chemotherapy in this cycle,text,TRUE,NA,1,NA,YNFMT,3,CHYN,1,,c
+ch,chyncd,Does the patient receive chemotherapy in this cycle - Code,integer,TRUE,NA,1,NA,YNFMT,1,CHYNCD,2,,i
+ch,chregime,Chosen chemotherapy regimen,text,TRUE,NA,1,NA,CHREGFMT,40,CHREGIME,1,,c
+ch,chregimecd,Chosen chemotherapy regimen - Code,integer,TRUE,NA,1,NA,CHREGFMT,1,CHREGIMECD,2,,i
+ch,chcom,Comment(optional),text,FALSE,NA,1,NA,NA,79,CHCOM,0,,c
+ch,chtno,Temozolomide treatment number,double,FALSE,0,1,NA,NA,1,CHTNO,0,,d
+ch,chtstdat,First date of chemotherapy,date,TRUE,NA,1,NA,NA,10,CHTSTDAT,0,,c
+ch,chtendat,Last date of chemotherapy,date,FALSE,NA,1,NA,NA,10,CHTENDAT,0,,c
+ch,chttoxyn,Any dose modification or interruption due to toxicity within this cycle,text,TRUE,NA,1,NA,YNFMT,3,CHTTOXYN,1,,c
+ch,chttoxyncd,Any dose modification or interruption due to toxicity within this cycle - Code,integer,TRUE,NA,1,NA,YNFMT,1,CHTTOXYNCD,2,,i
+ch,chttxdes,Specification - Temozolomide,text,TRUE,NA,1,NA,NA,143,CHTTXDES,0,,c
+ch,chlno,Lomustine treatment number,double,FALSE,0,1,NA,NA,1,CHLNO,0,,d
+ch,chlstdat,First date of chemotherapy,date,TRUE,NA,1,NA,NA,10,CHLSTDAT,0,,c
+ch,chlendat,Last date of chemotherapy,date,FALSE,NA,1,NA,NA,10,CHLENDAT,0,,c
+ch,chltoxyn,Any dose modification or interruption due to toxicity within this cycle,text,TRUE,NA,1,NA,YNFMT,2,CHLTOXYN,1,,c
+ch,chltoxyncd,Any dose modification or interruption due to toxicity within this cycle - Code,integer,TRUE,NA,1,NA,YNFMT,1,CHLTOXYNCD,2,,i
+ch,chltxdes,Specification - Lomustine,text,TRUE,NA,1,NA,NA,0,CHLTXDES,0,,c
+tr,trrsyn,Radiographic status as assessed by the neuroradiologist,text,TRUE,NA,1,NA,YNFMT,3,TRRSYN,1,,c
+tr,trrsyncd,Radiographic status as assessed by the neuroradiologist - Code,integer,TRUE,NA,1,NA,YNFMT,1,TRRSYNCD,2,,i
+tr,trrsnd,Reason not done,text,TRUE,NA,1,NA,NA,0,TRRSND,0,,c
+tr,trtotvol,Size of tumor volume,double,TRUE,6,1,NA,NA,0,TRTOTVOL,0,,d
+tr,triedem,Size of intracranial edema,double,TRUE,6,1,NA,NA,0,TRIEDEM,0,,d
+tr,trrnecr,Occurrence of radionecrosis,text,TRUE,NA,1,NA,YNFMT,0,TRRNECR,1,,c
+tr,trrnecrcd,Occurrence of radionecrosis - Code,integer,TRUE,NA,1,NA,YNFMT,0,TRRNECRCD,2,,i
+tr,trrnecom,Comment(optional),text,FALSE,NA,1,NA,NA,0,TRRNECOM,0,,c
+tr,trpspro,Occurrence of pseudoprogression,text,TRUE,NA,1,NA,YNUNKFMT,9,TRPSPRO,1,,c
+tr,trpsprocd,Occurrence of pseudoprogression - Code,integer,TRUE,NA,1,NA,YNUNKFMT,2,TRPSPROCD,2,,i
+tr,trpscom,Comment(optional),text,FALSE,NA,1,NA,NA,21,TRPSCOM,0,,c
+tr,trsdisea,State of disease according to the RANO criteria,text,TRUE,NA,1,NA,OASSFMT,24,TRSDISEA,1,,c
+tr,trsdiseacd,State of disease according to the RANO criteria - Code,integer,TRUE,NA,1,NA,OASSFMT,1,TRSDISEACD,2,,i
+tr,trorresp,Best overall radiographic response,text,TRUE,NA,1,NA,OASSFMT,24,TRORRESP,1,,c
+tr,trorrespcd,Best overall radiographic response - Code,integer,TRUE,NA,1,NA,OASSFMT,1,TRORRESPCD,2,,i
+tr,trdrresp,Duration of radiographic response,text,TRUE,NA,1,NA,NA,0,TRDRRESP,0,,c
+sa,sastat,Patient status,text,TRUE,NA,1,NA,DSFMT,5,SASTAT,1,,c
+sa,sastatcd,Patient status - Code,integer,TRUE,NA,1,NA,DSFMT,1,SASTATCD,2,,i
+sa,saendat,Date of last contact,date,TRUE,NA,1,NA,NA,10,SAENDAT,0,,c
+sa,sareason,Reason for death,text,TRUE,NA,1,NA,NA,28,SAREASON,0,,c
+sa,sadtdat,Date of death,date,TRUE,NA,1,NA,NA,10,SADTDAT,0,,c
+sa,sacom,Comment,text,FALSE,NA,1,NA,NA,108,SACOM,0,,c
+sa,saothyn,Has the patient started with other anti-cancer treatment(s)?,text,TRUE,NA,1,NA,YNFMT,3,SAOTHYN,1,,c
+sa,saothyncd,Has the patient started with other anti-cancer treatment(s)? - Code,integer,TRUE,NA,1,NA,YNFMT,1,SAOTHYNCD,2,,i
+ch,chbregim,Chosen chemotherapy regimen,text,TRUE,NA,1,NA,CHBFMT,0,CHBREGIM,1,,c
+ch,chbregimcd,Chosen chemotherapy regimen - Code,integer,TRUE,NA,1,NA,CHBFMT,0,CHBREGIMCD,2,,i
+ch,chbrdes,Please specify,text,TRUE,NA,1,NA,NA,0,CHBRDES,0,,c
+ch,chcno,Carboplatin/Vinorelbine treatment number,double,FALSE,0,1,NA,NA,0,CHCNO,0,,d
+ch,chcstdat,First date of Carboplatin/Vinorelbine,date,TRUE,NA,1,NA,NA,0,CHCSTDAT,0,,c
+ch,chcendat,Last date of Carboplatin/Vinorelbine,date,FALSE,NA,1,NA,NA,0,CHCENDAT,0,,c
+ch,chcdose,Carboplatin/Vinorelbine dose within this cycle,double,TRUE,1,1,NA,NA,0,CHCDOSE,0,,d
+ch,chctoxyn,Carboplatin/Vinorelbine dose modification or interruption,text,TRUE,NA,1,NA,YNFMT,0,CHCTOXYN,1,,c
+ch,chctoxyncd,Carboplatin/Vinorelbine dose modification or interruption - Code,integer,TRUE,NA,1,NA,YNFMT,0,CHCTOXYNCD,2,,i
+ch,chctoxde,Specification - Carboplatin/Vinorelbine,text,TRUE,NA,1,NA,NA,0,CHCTOXDE,0,,c
+ch,chono,Other treatment number,double,FALSE,0,1,NA,NA,0,CHONO,0,,d
+ch,chostdat,First date of other chemotherapy regimen,date,TRUE,NA,1,NA,NA,0,CHOSTDAT,0,,c
+ch,choendat,Last date of other chemotherapy regimen,date,FALSE,NA,1,NA,NA,0,CHOENDAT,0,,c
+ch,chodose,Dose within this cycle other chemotherapy regimen,double,TRUE,1,1,NA,NA,0,CHODOSE,0,,d
+ch,chotoxyn,Dose modification or interruption other chemotherapy regimen,text,TRUE,NA,1,NA,YNFMT,0,CHOTOXYN,1,,c
+ch,chotoxyncd,Dose modification or interruption other chemotherapy regimen - Code,integer,TRUE,NA,1,NA,YNFMT,0,CHOTOXYNCD,2,,i
+ch,chotoxde,Specification - other chemotherapy regimen,text,TRUE,NA,1,NA,NA,0,CHOTOXDE,0,,c
+chb,chbyn,Does the patient receive chemotherapy in this cycle,text,TRUE,NA,1,NA,YNFMT,3,CHBYN,1,,c
+chb,chbyncd,Does the patient receive chemotherapy in this cycle - Code,integer,TRUE,NA,1,NA,YNFMT,1,CHBYNCD,2,,i
+chb,chbchemo1,Chemotherapy 1,text,TRUE,NA,1,NA,CHEMOFMT,11,CHBCHEMO1,1,,c
+chb,chbchemo1cd,Chemotherapy 1 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,1,CHBCHEMO1CD,2,,i
+chb,chbchemo2,Chemotherapy 2,text,TRUE,NA,1,NA,CHEMOFMT,10,CHBCHEMO2,1,,c
+chb,chbchemo2cd,Chemotherapy 2 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,1,CHBCHEMO2CD,2,,i
+chb,chbchemo3,Chemotherapy 3,text,TRUE,NA,1,NA,CHEMOFMT,10,CHBCHEMO3,1,,c
+chb,chbchemo3cd,Chemotherapy 3 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,1,CHBCHEMO3CD,2,,i
+chb,chbchemo4,Chemotherapy 4,text,TRUE,NA,1,NA,CHEMOFMT,0,CHBCHEMO4,1,,c
+chb,chbchemo4cd,Chemotherapy 4 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,CHBCHEMO4CD,2,,i
+chb,chbchemo5,Chemotherapy 5,text,TRUE,NA,1,NA,CHEMOFMT,0,CHBCHEMO5,1,,c
+chb,chbchemo5cd,Chemotherapy 5 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,CHBCHEMO5CD,2,,i
+chb,chbchemo99,Chemotherapy 99,text,TRUE,NA,1,NA,CHEMOFMT,0,CHBCHEMO99,1,,c
+chb,chbchemo99cd,Chemotherapy 99 - Code,integer,TRUE,NA,1,NA,CHEMOFMT,0,CHBCHEMO99CD,2,,i
+chb,chbcdes,Please describe,text,TRUE,NA,1,NA,NA,0,CHBCDES,0,,c
+chb,chbcno,Carboplatin/Vinorelbine treatment number,double,FALSE,0,1,NA,NA,1,CHBCNO,0,,d
+chb,chbcstdt,First date of Carboplatin/Vinorelbine,date,TRUE,NA,1,NA,NA,10,CHBCSTDT,0,,c
+chb,chbcendt,Last date of Carboplatin/Vinorelbine,date,FALSE,NA,1,NA,NA,10,CHBCENDT,0,,c
+chb,chbctxyn,Carboplatin/Vinorelbine dose modification or interruption,text,TRUE,NA,1,NA,YNFMT,2,CHBCTXYN,1,,c
+chb,chbctxyncd,Carboplatin/Vinorelbine dose modification or interruption - Code,integer,TRUE,NA,1,NA,YNFMT,1,CHBCTXYNCD,2,,i
+chb,chbctdes,Specification - Carboplatin/Vinorelbine,text,TRUE,NA,1,NA,NA,0,CHBCTDES,0,,c
+chb,chbpno,Other treatment number,double,FALSE,0,1,NA,NA,1,CHBPNO,0,,d
+chb,chbpstdt,First date of other chemotherapy regimen,date,TRUE,NA,1,NA,NA,10,CHBPSTDT,0,,c
+chb,chbpendt,Last date of other chemotherapy regimen,date,FALSE,NA,1,NA,NA,10,CHBPENDT,0,,c
+chb,chbpltxyn,Dose modification or interruption other chemotherapy regimen,text,TRUE,NA,1,NA,YNFMT,3,CHBPLTXYN,1,,c
+chb,chbpltxyncd,Dose modification or interruption other chemotherapy regimen - Code,integer,TRUE,NA,1,NA,YNFMT,1,CHBPLTXYNCD,2,,i
+chb,chbptdes,Specification - other chemotherapy regimen,text,TRUE,NA,1,NA,NA,8,CHBPTDES,0,,c
+chb,chbpcno,Other treatment number,double,FALSE,0,1,NA,NA,1,CHBPCNO,0,,d
+chb,chbpcsdt,First date of other chemotherapy regimen,date,TRUE,NA,1,NA,NA,10,CHBPCSDT,0,,c
+chb,chbpcedt,Last date of other chemotherapy regimen,date,FALSE,NA,1,NA,NA,10,CHBPCEDT,0,,c
+chb,chbpctyn,Dose modification or interruption other chemotherapy regimen,text,TRUE,NA,1,NA,YNFMT,2,CHBPCTYN,1,,c
+chb,chbpctyncd,Dose modification or interruption other chemotherapy regimen - Code,integer,TRUE,NA,1,NA,YNFMT,1,CHBPCTYNCD,2,,i
+chb,chbpcdes,Specification - other chemotherapy regimen,text,TRUE,NA,1,NA,NA,0,CHBPCDES,0,,c
+chb,chbvno,Other treatment number,double,FALSE,0,1,NA,NA,0,CHBVNO,0,,d
+chb,chbvsdat,First date of other chemotherapy regimen,date,TRUE,NA,1,NA,NA,0,CHBVSDAT,0,,c
+chb,chbvedat,Last date of other chemotherapy regimen,date,FALSE,NA,1,NA,NA,0,CHBVEDAT,0,,c
+chb,chbvtxyn,Dose modification or interruption other chemotherapy regimen,text,TRUE,NA,1,NA,YNFMT,0,CHBVTXYN,1,,c
+chb,chbvtxyncd,Dose modification or interruption other chemotherapy regimen - Code,integer,TRUE,NA,1,NA,YNFMT,0,CHBVTXYNCD,2,,i
+chb,chbvdes,Specification - other chemotherapy regimen,text,TRUE,NA,1,NA,NA,0,CHBVDES,0,,c
+chb,chbbno,Other treatment number,double,FALSE,0,1,NA,NA,0,CHBBNO,0,,d
+chb,chbbsdat,First date of other chemotherapy regimen,date,TRUE,NA,1,NA,NA,0,CHBBSDAT,0,,c
+chb,chbbedat,Last date of other chemotherapy regimen,date,FALSE,NA,1,NA,NA,0,CHBBEDAT,0,,c
+chb,chbbtxyn,Dose modification or interruption other chemotherapy regimen,text,TRUE,NA,1,NA,YNFMT,0,CHBBTXYN,1,,c
+chb,chbbtxyncd,Dose modification or interruption other chemotherapy regimen - Code,integer,TRUE,NA,1,NA,YNFMT,0,CHBBTXYNCD,2,,i
+chb,chbbtdes,Specification - other chemotherapy regimen,text,TRUE,NA,1,NA,NA,0,CHBBTDES,0,,c
+chb,chbono,Other treatment number,double,FALSE,0,1,NA,NA,0,CHBONO,0,,d
+chb,chbosdat,First date of other chemotherapy regimen,date,TRUE,NA,1,NA,NA,0,CHBOSDAT,0,,c
+chb,chboedat,Last date of other chemotherapy regimen,date,FALSE,NA,1,NA,NA,0,CHBOEDAT,0,,c
+chb,chbotxyn,Dose modification or interruption other chemotherapy regimen,text,TRUE,NA,1,NA,YNFMT,0,CHBOTXYN,1,,c
+chb,chbotxyncd,Dose modification or interruption other chemotherapy regimen - Code,integer,TRUE,NA,1,NA,YNFMT,0,CHBOTXYNCD,2,,i
+chb,chbotdes,Specification - other chemotherapy regimen,text,TRUE,NA,1,NA,NA,0,CHBOTDES,0,,c
+exbm,exbmpdl1,PD-L1-positive subject,text,TRUE,NA,1,NA,YNFMT,3,EXBMPDL1,1,,c
+exbm,exbmpdl1cd,PD-L1-positive subject - Code,integer,TRUE,NA,1,NA,YNFMT,1,EXBMPDL1CD,2,,i
+exbm,exbmyn,Immunotherapeutic agents administration performed in this cycle?,text,TRUE,NA,1,NA,EXIMMFMT,13,EXBMYN,1,,c
+exbm,exbmyncd,Immunotherapeutic agents administration performed in this cycle? - Code,integer,TRUE,NA,1,NA,EXIMMFMT,1,EXBMYNCD,2,,i
+exbm,exbmia,"Atezolizumab, please specify",text,TRUE,NA,1,NA,NA,0,EXBMIA,0,,c
+exbm,exbmnd,"No administration, please specify",text,TRUE,NA,1,NA,NA,0,EXBMND,0,,c
+exbm,exbmrdat,Reconstitution date(if applicable),date,FALSE,NA,1,NA,NA,10,EXBMRDAT,0,,c
+exbm,exbmrtim,Reconstitution time(if applicable),time,FALSE,NA,1,NA,NA,0,EXBMRTIM,0,,NA
+exbm,exbmdat,Administration date,date,TRUE,NA,1,NA,NA,10,EXBMDAT,0,,c
+exbm,exbsttim,Start time,time,TRUE,NA,1,NA,NA,5,EXBSTTIM,0,,NA
+exbm,exbentim,Stop time,time,TRUE,NA,1,NA,NA,5,EXBENTIM,0,,NA
+exbm,exbmdur,Duration (min),double,FALSE,0,1,NA,NA,3,EXBMDUR,0,,d
+exbm,exbmdos,Dose (mg/kg),double,TRUE,2,1,NA,NA,4,EXBMDOS,0,,d
+exbm,exbmtdos,Dose administered in this cycle,double,TRUE,2,1,NA,NA,3,EXBMTDOS,0,,d
+exbm,exbmint,Any dose reduction or postponed administration in this cycle?,text,TRUE,NA,1,NA,YNFMT,3,EXBMINT,1,,c
+exbm,exbmintcd,Any dose reduction or postponed administration in this cycle? - Code,integer,TRUE,NA,1,NA,YNFMT,1,EXBMINTCD,2,,i
+exbm,exbmdes,Please specify,text,TRUE,NA,1,NA,NA,22,EXBMDES,0,,c
+eot,eotyn,Did the subject complete the treatment phase?,text,TRUE,NA,1,NA,YNFMT,2,EOTYN,1,,c
+eot,eotyncd,Did the subject complete the treatment phase? - Code,integer,TRUE,NA,1,NA,YNFMT,1,EOTYNCD,2,,i
+eot,eotdat,Date completed treatment/discontinuedtreatment,date,TRUE,NA,1,NA,NA,10,EOTDAT,0,,c
+eot,eotrea,Reason for discontinuation treatment,text,TRUE,NA,1,NA,EOTRFMT,56,EOTREA,1,,c
+eot,eotreacd,Reason for discontinuation treatment - Code,integer,TRUE,NA,1,NA,EOTRFMT,1,EOTREACD,2,,i
+eot,eototh,"If other, please specify",text,TRUE,NA,1,NA,NA,0,EOTOTH,0,,c
+eos,eosyn,Did the participant complete the study according to protocol?,text,TRUE,NA,1,NA,YNFMT,3,EOSYN,1,,c
+eos,eosyncd,Did the participant complete the study according to protocol? - Code,integer,TRUE,NA,1,NA,YNFMT,1,EOSYNCD,2,,i
+eos,eosdat,Completion / discontinuation date,date,TRUE,NA,1,NA,NA,10,EOSDAT,0,,c
+eos,eosreas,Reason for discontinuation,text,TRUE,NA,NA,NA,EOSFMT,46,EOSREAS,1,,c
+eos,eosreascd,Reason for discontinuation - Code,integer,TRUE,NA,NA,NA,EOSFMT,2,EOSREASCD,2,,i
+eos,eosspe,"If other, please specify",text,TRUE,NA,1,NA,NA,0,EOSSPE,0,,c
+eos,eosdtdat,Date of death,date,TRUE,NA,1,NA,NA,10,EOSDTDAT,0,,c
+eos,eosdth,Cause of death,text,TRUE,NA,1,NA,EOSCDFMT,19,EOSDTH,1,,c
+eos,eosdthcd,Cause of death - Code,integer,TRUE,NA,1,NA,EOSCDFMT,2,EOSDTHCD,2,,i
+eos,eospddat,Date of progression,date,TRUE,NA,1,NA,NA,10,EOSPDDAT,0,,c
+eos,eosaechk,"The following Adverse Events are currently registered as ongoing, check if any of them should be updated",text,FALSE,NA,1,NA,NA,4,EOSAECHK,0,,c
+eos,eosaeyes1,The Adverse Events above have been checked and if applicable updated 1,text,TRUE,NA,1,NA,YESFMT,3,EOSAEYES1,1,,c
+eos,eosaeyes1cd,The Adverse Events above have been checked and if applicable updated 1 - Code,integer,TRUE,NA,1,NA,YESFMT,1,EOSAEYES1CD,2,,i
+eos,eoscmchk,"The following Concomitant Medications are currently registered as ongoing, check if any of them should be updated",text,FALSE,NA,1,NA,NA,29,EOSCMCHK,0,,c
+eos,eoscmyes1,The Concomitant Medications above have been checked and if applicable updated 1,text,TRUE,NA,1,NA,YESFMT,3,EOSCMYES1,1,,c
+eos,eoscmyes1cd,The Concomitant Medications above have been checked and if applicable updated 1 - Code,integer,TRUE,NA,1,NA,YESFMT,1,EOSCMYES1CD,2,,i
+ae,aespid,AE number,double,TRUE,0,1,NA,NA,1,AESPID,0,,d
+ae,aeterm,Adverse Event term,text,TRUE,NA,1,NA,NA,46,AETERM,0,,c
+ae,aestdat,AE Start Date,date,TRUE,NA,NA,NA,NA,10,AESTDAT,0,,c
+ae,aeongo,Is the Adverse Event ongoing?,text,TRUE,NA,1,NA,YNFMT,3,AEONGO,1,,c
+ae,aeongocd,Is the Adverse Event ongoing? - Code,integer,TRUE,NA,1,NA,YNFMT,1,AEONGOCD,2,,i
+ae,aeendat,AE End Date,date,TRUE,NA,NA,NA,NA,10,AEENDAT,0,,c
+ae,aetoxgri,What was the initial CTCAE grade of the Adverse Event?,text,TRUE,NA,1,NA,SEVCFMT,8,AETOXGRI,1,,c
+ae,aetoxgricd,What was the initial CTCAE grade of the Adverse Event? - Code,integer,TRUE,NA,1,NA,SEVCFMT,1,AETOXGRICD,2,,i
+ae,aesev,What is the initial severity of the AE when CTCAE term not found,text,FALSE,NA,1,NA,SEVFMT,0,AESEV,1,,c
+ae,aesevcd,What is the initial severity of the AE when CTCAE term not found - Code,integer,FALSE,NA,1,NA,SEVFMT,0,AESEVCD,2,,i
+ae,aetoxgre,What was the most extreme CTCAE grade of the Adverse Event?,text,TRUE,NA,1,NA,SEVCTFMT,16,AETOXGRE,1,,c
+ae,aetoxgrecd,What was the most extreme CTCAE grade of the Adverse Event? - Code,integer,TRUE,NA,1,NA,SEVCTFMT,1,AETOXGRECD,2,,i
+ae,aeseve,What is the most severe severity of the AE when CTCA term not found,text,FALSE,NA,1,NA,SEVFMT,0,AESEVE,1,,c
+ae,aesevecd,What is the most severe severity of the AE when CTCA term not found - Code,integer,FALSE,NA,1,NA,SEVFMT,0,AESEVECD,2,,i
+ae,aesdth,Results in death,text,TRUE,NA,1,NA,YNFMT,3,AESDTH,1,,c
+ae,aesdthcd,Results in death - Code,integer,TRUE,NA,1,NA,YNFMT,1,AESDTHCD,2,,i
+ae,aeslife,Is immediately life-threatening,text,TRUE,NA,1,NA,YNFMT,2,AESLIFE,1,,c
+ae,aeslifecd,Is immediately life-threatening - Code,integer,TRUE,NA,1,NA,YNFMT,1,AESLIFECD,2,,i
+ae,aeshosp,Requires in-patient hospitalization or prolongation of existing hospitalization,text,TRUE,NA,1,NA,YNFMT,3,AESHOSP,1,,c
+ae,aeshospcd,Requires in-patient hospitalization or prolongation of existing hospitalization - Code,integer,TRUE,NA,1,NA,YNFMT,1,AESHOSPCD,2,,i
+ae,aesdisab,Results in persistent or significant disability or incapacity,text,TRUE,NA,1,NA,YNFMT,2,AESDISAB,1,,c
+ae,aesdisabcd,Results in persistent or significant disability or incapacity - Code,integer,TRUE,NA,1,NA,YNFMT,1,AESDISABCD,2,,i
+ae,aescong,Is a congenital abnormality or birth defect,text,TRUE,NA,1,NA,YNFMT,2,AESCONG,1,,c
+ae,aescongcd,Is a congenital abnormality or birth defect - Code,integer,TRUE,NA,1,NA,YNFMT,1,AESCONGCD,2,,i
+ae,aesmie,Is an important medical event that may jeopardize the participant or may require medical intervention to prevent one of the outcomes listed above,text,TRUE,NA,1,NA,YNFMT,3,AESMIE,1,,c
+ae,aesmiecd,Is an important medical event that may jeopardize the participant or may require medical intervention to prevent one of the outcomes listed above - Code,integer,TRUE,NA,1,NA,YNFMT,1,AESMIECD,2,,i
+ae,aeser,Was the Adverse Event serious (SAE)?,text,TRUE,NA,1,NA,YNFMT,3,AESER,1,,c
+ae,aesercd,Was the Adverse Event serious (SAE)? - Code,integer,TRUE,NA,1,NA,YNFMT,1,AESERCD,2,,i
+ae,saestdat,What is the date the Adverse Event became serious?,date,TRUE,NA,1,NA,NA,10,SAESTDAT,0,,c
+ae,dthdat,Death Date,date,TRUE,NA,1,NA,NA,10,DTHDAT,0,,c
+ae,aerel,Was this Adverse Event related to study treatment?,text,TRUE,NA,1,NA,AERELFMT,16,AEREL,1,,c
+ae,aerelcd,Was this Adverse Event related to study treatment? - Code,integer,TRUE,NA,1,NA,AERELFMT,2,AERELCD,2,,i
+ae,aeacn,What action was taken with study treatment?,text,TRUE,NA,1,NA,ACTFMT,16,AEACN,1,,c
+ae,aeacncd,What action was taken with study treatment? - Code,integer,TRUE,NA,1,NA,ACTFMT,2,AEACNCD,2,,i
+ae,aeacnoth,What other action was taken?,text,FALSE,NA,1,NA,NA,92,AEACNOTH,0,,c
+ae,aedis,Did the Adverse Event cause the participant to be discontinued from the study?,text,TRUE,NA,1,NA,YNFMT,3,AEDIS,1,,c
+ae,aediscd,Did the Adverse Event cause the participant to be discontinued from the study? - Code,integer,TRUE,NA,1,NA,YNFMT,1,AEDISCD,2,,i
+ae,aecontrt1,Was a concomitant or additional treatment given due to this Adverse Event? 1,text,TRUE,NA,1,NA,TRTFMT,9,AECONTRT1,1,,c
+ae,aecontrt1cd,Was a concomitant or additional treatment given due to this Adverse Event? 1 - Code,integer,TRUE,NA,1,NA,TRTFMT,1,AECONTRT1CD,2,,i
+ae,aecontrt2,Was a concomitant or additional treatment given due to this Adverse Event? 2,text,TRUE,NA,1,NA,TRTFMT,10,AECONTRT2,1,,c
+ae,aecontrt2cd,Was a concomitant or additional treatment given due to this Adverse Event? 2 - Code,integer,TRUE,NA,1,NA,TRTFMT,1,AECONTRT2CD,2,,i
+ae,aecontrt0,Was a concomitant or additional treatment given due to this Adverse Event? 0,text,TRUE,NA,1,NA,TRTFMT,4,AECONTRT0,1,,c
+ae,aecontrt0cd,Was a concomitant or additional treatment given due to this Adverse Event? 0 - Code,integer,TRUE,NA,1,NA,TRTFMT,1,AECONTRT0CD,2,,i
+ae,aeout,What was the outcome of this Adverse Event?,text,TRUE,NA,1,NA,AEOUTFMT,32,AEOUT,1,,c
+ae,aeoutcd,What was the outcome of this Adverse Event? - Code,integer,TRUE,NA,1,NA,AEOUTFMT,1,AEOUTCD,2,,i
+ae,saecom,Narratives,text,FALSE,NA,1,NA,NA,638,SAECOM,0,,c
+ae,saeconf1,1,text,TRUE,NA,1,NA,AESAEFMT,90,SAECONF1,1,,c
+ae,saeconf1cd,1 - Code,integer,TRUE,NA,1,NA,AESAEFMT,1,SAECONF1CD,2,,i
+ae,saerdat,Date of reportDate received information of SAE,date,TRUE,NA,1,NA,NA,10,SAERDAT,0,,c
+ae,saename,Name of reporter,text,TRUE,NA,1,NA,NA,25,SAENAME,0,,c
+ae,saerel,Was this Adverse Event related to study treatment? (MM),text,TRUE,NA,1,NA,AERE2FMT,16,SAEREL,1,,c
+ae,saerelcd,Was this Adverse Event related to study treatment? (MM) - Code,integer,TRUE,NA,1,NA,AERE2FMT,1,SAERELCD,2,,i
+ae,saeexp,Was the SAE expected or unexpected? (MM),text,TRUE,NA,1,NA,AEEXPFMT,10,SAEEXP,1,,c
+ae,saeexpcd,Was the SAE expected or unexpected? (MM) - Code,integer,TRUE,NA,1,NA,AEEXPFMT,1,SAEEXPCD,2,,i
+mh,mhspid,MH number,double,TRUE,0,1,NA,NA,1,MHSPID,0,,d
+mh,mhterm,"Medical condition or event term In English, one diagnosis per form",text,TRUE,NA,1,NA,NA,43,MHTERM,0,,c
+mh,mhstdat,"Medical condition or event start dateIf full date is unknown, please estimate a year or year/month",date,TRUE,NA,1,NA,NA,10,MHSTDAT,0,,c
+mh,mhstyruk1,Medical condition or event start year unknown 1,text,TRUE,NA,1,NA,YES2FMT,1,MHSTYRUK1,1,,c
+mh,mhstyruk1cd,Medical condition or event start year unknown 1 - Code,integer,TRUE,NA,1,NA,YES2FMT,1,MHSTYRUK1CD,2,,i
+mh,mhongo,Is the medical condition or event ongoing?,text,TRUE,NA,1,NA,YNFMT,3,MHONGO,1,,c
+mh,mhongocd,Is the medical condition or event ongoing? - Code,integer,TRUE,NA,1,NA,YNFMT,1,MHONGOCD,2,,i
+mh,mhendat,Medical condition or event end date,date,TRUE,NA,1,NA,NA,10,MHENDAT,0,,c
+mh,mhenyruk1,Medical condition or event end year unknown 1,text,TRUE,NA,1,NA,YES2FMT,1,MHENYRUK1,1,,c
+mh,mhenyruk1cd,Medical condition or event end year unknown 1 - Code,integer,TRUE,NA,1,NA,YES2FMT,1,MHENYRUK1CD,2,,i
+cm,cmspid,CM number,double,TRUE,0,1,NA,NA,2,CMSPID,0,,d
+cm,cmtrt,Medication name,text,TRUE,NA,1,NA,NA,31,CMTRT,0,,c
+cm,cmindc,Indication,text,TRUE,NA,1,NA,NA,65,CMINDC,0,,c
+cm,cmae,Was the medication taken due to an Adverse Event?,text,TRUE,NA,1,NA,YNFMT,3,CMAE,1,,c
+cm,cmaecd,Was the medication taken due to an Adverse Event? - Code,integer,TRUE,NA,1,NA,YNFMT,1,CMAECD,2,,i
+cm,cmaeno,AE ID,text,TRUE,NA,1,NA,NA,2,CMAENO,0,,c
+cm,cmmh,Was the medication taken due to a Medical History condition or event?,text,TRUE,NA,1,NA,YNFMT,3,CMMH,1,,c
+cm,cmmhcd,Was the medication taken due to a Medical History condition or event? - Code,integer,TRUE,NA,1,NA,YNFMT,1,CMMHCD,2,,i
+cm,cmmhno,Specify MH Identifier,text,TRUE,NA,1,NA,NA,1,CMMHNO,0,,c
+cm,cmdose,Individual dose of medication,text,TRUE,NA,1,NA,NA,11,CMDOSE,0,,c
+cm,cmdosu,Dose unit,text,TRUE,NA,1,NA,CMDOSFMT,15,CMDOSU,1,,c
+cm,cmdosucd,Dose unit - Code,integer,TRUE,NA,1,NA,CMDOSFMT,2,CMDOSUCD,2,,i
+cm,cmdosuo,Other dose unit,text,TRUE,NA,1,NA,NA,19,CMDOSUO,0,,c
+cm,cmdosfrq,Frequency,text,TRUE,NA,1,NA,CMFRQFMT,23,CMDOSFRQ,1,,c
+cm,cmdosfrqcd,Frequency - Code,integer,TRUE,NA,1,NA,CMFRQFMT,2,CMDOSFRQCD,2,,i
+cm,cmdosfro,Other frequency,text,TRUE,NA,1,NA,NA,51,CMDOSFRO,0,,c
+cm,cmroute,Route of administration,text,TRUE,NA,1,NA,CMRTFMT,12,CMROUTE,1,,c
+cm,cmroutecd,Route of administration - Code,integer,TRUE,NA,1,NA,CMRTFMT,2,CMROUTECD,2,,i
+cm,cmrouteo,Other route of administration,text,TRUE,NA,1,NA,NA,13,CMROUTEO,0,,c
+cm,cmstdat,CM start date,date,TRUE,NA,1,NA,NA,10,CMSTDAT,0,,c
+cm,cmstyruk1,Medication start year unknown 1,text,TRUE,NA,1,NA,YES2FMT,1,CMSTYRUK1,1,,c
+cm,cmstyruk1cd,Medication start year unknown 1 - Code,integer,TRUE,NA,1,NA,YES2FMT,1,CMSTYRUK1CD,2,,i
+cm,cmongo,CM ongoing?,text,TRUE,NA,1,NA,YNFMT,3,CMONGO,1,,c
+cm,cmongocd,CM ongoing? - Code,integer,TRUE,NA,1,NA,YNFMT,1,CMONGOCD,2,,i
+cm,cmendat,CM end date,date,TRUE,NA,1,NA,NA,10,CMENDAT,0,,c
+ct,ctspid,Treatment Identifier,double,TRUE,0,1,NA,NA,1,CTSPID,0,,d
+ct,cttrttim,Time of treatment,text,TRUE,NA,1,NA,TIMTFMT,22,CTTRTTIM,1,,c
+ct,cttrttimcd,Time of treatment - Code,integer,TRUE,NA,1,NA,TIMTFMT,1,CTTRTTIMCD,2,,i
+ct,cttype,Type of treatment,text,TRUE,NA,1,NA,CTRTFMT,20,CTTYPE,1,,c
+ct,cttypecd,Type of treatment - Code,integer,TRUE,NA,1,NA,CTRTFMT,2,CTTYPECD,2,,i
+ct,cttypdes,Description of treatment,text,TRUE,NA,1,NA,NA,45,CTTYPDES,0,,c
+ct,ctlesno,Please specify the id. number(s) of lesion(s) if relevant,text,FALSE,NA,1,NA,NA,34,CTLESNO,0,,c
+ct,ctcomm,Comment(optional),text,FALSE,NA,1,NA,NA,48,CTCOMM,0,,c
+ct,ctstdat,Start date,date,TRUE,NA,1,NA,NA,10,CTSTDAT,0,,c
+ct,ctongo,Ongoing at end of study,text,TRUE,NA,1,NA,YNFMT,3,CTONGO,1,,c
+ct,ctongocd,Ongoing at end of study - Code,integer,TRUE,NA,1,NA,YNFMT,1,CTONGOCD,2,,i
+ct,ctendat,Stop date,date,TRUE,NA,1,NA,NA,10,CTENDAT,0,,c
+ct,ctcycle,No. of cycles,double,FALSE,0,1,NA,NA,2,CTCYCLE,0,,d
+dp,dpdat,Disease progression date,date,TRUE,NA,1,NA,NA,10,DPDAT,0,,c
+dp,dpdistat,Disease status,text,TRUE,NA,1,NA,DPROGFMT,36,DPDISTAT,1,,c
+dp,dpdistatcd,Disease status - Code,integer,TRUE,NA,1,NA,DPROGFMT,1,DPDISTATCD,2,,i
+dp,dpcomm,Comment(optional),text,FALSE,NA,1,NA,NA,21,DPCOMM,0,,c
+dv,dvspid,PD no.,double,TRUE,0,1,NA,NA,2,DVSPID,0,,d
+dv,dvrepby,Reported by,text,TRUE,NA,1,NA,PDREPFMT,12,DVREPBY,1,,c
+dv,dvrepbycd,Reported by - Code,integer,TRUE,NA,1,NA,PDREPFMT,1,DVREPBYCD,2,,i
+dv,dvterm,Description of deviation,text,FALSE,NA,1,NA,NA,270,DVTERM,0,,c
+dv,dvdat,Date of Protocol Deviation,date,FALSE,NA,1,NA,NA,10,DVDAT,0,,c
+dv,dvcat,Protocol Deviation category,text,FALSE,NA,1,NA,PDCATFMT,33,DVCAT,1,,c
+dv,dvcatcd,Protocol Deviation category - Code,integer,FALSE,NA,1,NA,PDCATFMT,2,DVCATCD,2,,i
+dv,dvcatoth,Please specify,text,FALSE,NA,1,NA,NA,0,DVCATOTH,0,,c
+dv,dvnamrep,Name of reporter,text,TRUE,NA,1,NA,NA,16,DVNAMREP,0,,c
+dv,dvrepdat,Date of report,date,FALSE,NA,1,NA,NA,10,DVREPDAT,0,,c
+dv,dvalpi1,1,text,TRUE,NA,1,NA,DVALFMT,56,DVALPI1,1,,c
+dv,dvalpi1cd,1 - Code,integer,TRUE,NA,1,NA,DVALFMT,1,DVALPI1CD,2,,i
+dv,dvnampi,Name of Principal Investigator,text,TRUE,NA,1,NA,NA,24,DVNAMPI,0,,c
+dv,dvpidat,Date of Principal Investigator's approval,date,TRUE,NA,1,NA,NA,10,DVPIDAT,0,,c
+dv,dvalpl1,1,text,TRUE,NA,1,NA,DVAL2FMT,83,DVALPL1,1,,c
+dv,dvalpl1cd,1 - Code,integer,TRUE,NA,1,NA,DVAL2FMT,1,DVALPL1CD,2,,i
+dv,dvplack,Deviation acknowledged?,text,TRUE,NA,1,NA,YNFMT,3,DVPLACK,1,,c
+dv,dvplackcd,Deviation acknowledged? - Code,integer,TRUE,NA,1,NA,YNFMT,1,DVPLACKCD,2,,i
+dv,dvplocc,Previous occurrence?,text,TRUE,NA,1,NA,YNFMT,3,DVPLOCC,1,,c
+dv,dvplocccd,Previous occurrence? - Code,integer,TRUE,NA,1,NA,YNFMT,1,DVPLOCCCD,2,,i
+dv,dvplclas,Deviation classification,text,TRUE,NA,1,NA,PDCAPFMT,13,DVPLCLAS,1,,c
+dv,dvplclascd,Deviation classification - Code,integer,TRUE,NA,1,NA,PDCAPFMT,1,DVPLCLASCD,2,,i
+dv,dvpliec,Reported to ethics committee (REC)?,text,TRUE,NA,1,NA,YNFMT,0,DVPLIEC,1,,c
+dv,dvplieccd,Reported to ethics committee (REC)? - Code,integer,TRUE,NA,1,NA,YNFMT,0,DVPLIECCD,2,,i
+dv,dvplaut,Reported to regulatory authority (NoMA)?,text,TRUE,NA,1,NA,YNFMT,0,DVPLAUT,1,,c
+dv,dvplautcd,Reported to regulatory authority (NoMA)? - Code,integer,TRUE,NA,1,NA,YNFMT,0,DVPLAUTCD,2,,i
+dv,dvplass,Root cause and Impact Assessment,text,TRUE,NA,1,NA,NA,0,DVPLASS,0,,c
+dv,dvplact,Corrective Action,text,TRUE,NA,1,NA,NA,0,DVPLACT,0,,c
+dv,dvplpact,Preventive Action,text,TRUE,NA,1,NA,NA,0,DVPLPACT,0,,c
+dv,dvpleff,Verification of Effectiveness of Corrective Action,text,TRUE,NA,1,NA,NA,0,DVPLEFF,0,,c
+dv,dvpldat,Date CAPA closed,date,TRUE,NA,1,NA,NA,0,DVPLDAT,0,,c
+co,cospid,Comment number,double,TRUE,0,1,NA,NA,1,COSPID,0,,d
+co,covisid,Visit,text,TRUE,NA,1,NA,COVIDFMT,30,COVISID,1,,c
+co,covisidcd,Visit - Code,integer,TRUE,NA,1,NA,COVIDFMT,1,COVISIDCD,2,,i
+co,coformid,Form,text,TRUE,NA,1,NA,COFIDFMT,17,COFORMID,1,,c
+co,coformidcd,Form - Code,integer,TRUE,NA,1,NA,COFIDFMT,2,COFORMIDCD,2,,i
+co,comment,Comment,text,TRUE,NA,1,NA,NA,318,COMMENT,NA,,c
+mri,mrrvtyn,Mean relative vortex area performed?,text,TRUE,NA,1,NA,YN2FMT,2,MRRVTYN,1,,c
+mri,mrrvtyncd,Mean relative vortex area performed? - Code,integer,TRUE,NA,1,NA,YN2FMT,1,MRRVTYNCD,2,,i
+mri,mrrvtnd,Reason not performed,text,TRUE,NA,1,NA,NA,29,MRRVTND,0,,c
+mri,mrrvt,Mean relative vortex area,double,TRUE,6,1,NA,NA,0,MRRVT,0,,d
+mri,mrdtrvyn,Mean tissue relative viscosity performed?,text,TRUE,NA,1,NA,YN2FMT,3,MRDTRVYN,1,,c
+mri,mrdtrvyncd,Mean tissue relative viscosity performed? - Code,integer,TRUE,NA,1,NA,YN2FMT,1,MRDTRVYNCD,2,,i
+mri,mrdtrvnd,Reason not performed,text,TRUE,NA,1,NA,NA,0,MRDTRVND,0,,c
+mri,mrdtrv,Mean tissue relative viscosity,double,TRUE,6,1,NA,NA,5,MRDTRV,0,,d
+mri,mrdteyn,Mean tissue elasticity performed?,text,TRUE,NA,1,NA,YN2FMT,3,MRDTEYN,1,,c
+mri,mrdteyncd,Mean tissue elasticity performed? - Code,integer,TRUE,NA,1,NA,YN2FMT,1,MRDTEYNCD,2,,i
+mri,mrdtend,Reason not performed,text,TRUE,NA,1,NA,NA,0,MRDTEND,0,,c
+mri,mrdte,Mean tissue elasticity,double,TRUE,6,1,NA,NA,5,MRDTE,0,,d
+mri,mrvis,MRI Visit Identifier,text,TRUE,NA,1,NA,NA,30,MRVIS,0,,c
