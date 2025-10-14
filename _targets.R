@@ -51,7 +51,7 @@ tar_option_set(
 
 # Run the R scripts in the R/ folder with your custom functions:
 tar_source("R/external/functions.R")
-tar_source("R/make_ad/make_adsl.R")
+#tar_source("R/make_ad/make_adsl.R")
 tar_source("R/make_raw/make_shamrand.R")
 tar_source("R/make_raw/make_raw.R")
 #tar_source("R/make_ad/make_adeff.R")
