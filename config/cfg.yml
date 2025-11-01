@@ -10,7 +10,7 @@ shammseed: 42424            # seed for shan randomisation
 mode: "sham"         # options: sham | true
 export: "_20250729_133232" # Export folder with timestamp. Exported from Viedoc
 
-cfg_adam: "config/adam.yml"     # ADaM config file
+#cfg_adam: "config/adam.yml"     # ADaM config file
 
 paths:
   raw: "data/raw"
@@ -18,6 +18,65 @@ paths:
   reports: "reports"
   outputs: "outputs"
   metadata: "metadata"
+
+reporting:
+  baseline_order:
+    # Demographics
+    - age
+    - sex
+    - cohort
+    - country
+    - dmcbp
+    # Disease history
+    - diagnosis
+    - surg_rand
+    - idh
+    - mgmt
+    - pregres
+    # Neurologic status
+    - ecog
+    - ecogcd
+    - kps
+    - kpscd
+    - nano_tot
+    # Quality of life
+    - qlq_c30
+    - qlq_bn20
+    # Vital signs
+    - sbp
+    - dbp
+    - pulse
+    - weight
+    - bmi
+    - height
+    # Prior treatment
+    - pt_chemo
+    - pt_immuno
+    - pt_radiation
+    - pt_cnsurgery
+    - cs_steroids_mri
+    # Imaging
+    - mrt1cf
+    - mrt2cf
+    - mrt1ss
+    - mrt2ss
+    - mrdpta
+    - mrdrfa
+    - mrdrsi
+    - mrmef
+    - mrpta
+    - mrrtt
+    - mrt1ca
+    - mrt2ps
+    - mrdte
+    - mrdtrv
+    - mrdts
+    - mrdtv
+    - mrdsc
+    - mrrdv
+    - mrrvc
+    - mrrvsi
+    - mrrvt
 
 
 visits:
@@ -163,4 +222,3 @@ visits:
   defaults:
     avisit_fallback_from_eventname: false
     avisitn_unmapped: 999
-

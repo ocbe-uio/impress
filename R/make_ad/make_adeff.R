@@ -1,6 +1,5 @@
 
-library(tidyverse)
-library(admiral)
+
 
 
 visits_from_yaml <- function(ln) {
@@ -36,14 +35,13 @@ lookup_avisitn <- function(eventname, MAP, unmapped = 999L) {
 }
 
 
-cfg <- yaml::read_yaml("config/cfg.yml")
-visits <- visits_from_yaml(cfg)
-
 
 # ============================================================
 # 5) adeff builder (BDS-style)
 # ============================================================
-#make_adeff <- function(raw, adsl, visits_map) {
+make_adeff <- function(raw, adsl, cfg) {
+
+  visits <- visits_from_yaml(cfg)
   mri <- raw %>% get_raw("mri")
   mri_vars <- c(
     "mrt1cf", "mrt2cf", "mrt1ss", "mrt2ss", "mrt1ca", "mrt2ps", "mrpta",
@@ -82,35 +80,46 @@ visits <- visits_from_yaml(cfg)
     adeff_base %>%
     tidyr::pivot_longer(
       cols = all_of(mri_vars),
-      names_to = "param",
+      names_to = "paramcd",
       values_to = "aval"
     ) %>%
     mutate(
-      paramcd = unname(paramcd_map[param])
+      param = unname(paramcd_map[paramcd])
     ) %>%
     rename_with(tolower, any_of(c("USUBJID", "RANDDT", "ADT", "AVISIT", "AVISITN")))
 
   adeff <-
     derive_vars_dy(
-      dataset = adeff_long |> rename_all(toupper),
+      dataset = adeff_long |> rename_with(toupper),
       reference_date = RANDDT,
       source_vars = exprs(ADT)
     ) %>%
     arrange(USUBJID, ADT, PARAM) %>%
-    rename_all(tolower) |>
-    mutate(base = if_else(ablfl == "Y", aval, NA_real_)) %>%
+    rename_with(tolower) |>
+    mutate(base_raw = if_else(ablfl == "Y", aval, NA_real_)) %>%
     group_by(usubjid, param) %>%
     mutate(
-      base = max(base, na.rm = TRUE),
-      base = if_else(is.finite(base), base, NA_real_),
+      base = if (any(!is.na(base_raw))) max(base_raw, na.rm = TRUE) else NA_real_,
       chg  = if_else(!is.na(aval) & !is.na(base), aval - base, NA_real_),
       pchg = if_else(!is.na(aval) & !is.na(base) & base != 0, 100 * (aval - base) / base, NA_real_)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    select(-base_raw)
   
   
 
 
  adeff <- adeff %>%
-    select(usubjid, eventname, avisit, avisitn, adt, ady, param, paramcd, aval, ablfl, randdt, everything())
-#}
+   select(usubjid, eventname, avisit, avisitn, adt, ady, param, paramcd, aval, ablfl, randdt, everything()) |> 
+   mutate(
+     studyid = cfg$studyid,
+     domain  = "ADEFF"
+   ) %>%
+     select(studyid, domain, everything())
+   
+ 
+ 
+
+
+  return(adeff)
+}

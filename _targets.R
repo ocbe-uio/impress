@@ -5,15 +5,17 @@
 
 # Load packages required to define the pipeline:
 library(targets)
-library(tarchetypes) 
+library(tarchetypes)
+library(quarto)
 # library(tarchetypes) # Load other packages as needed.
+
 
 # Set target options:
 tar_option_set(
   packages = c(
     "tibble", "labelled", "dplyr", "purrr", "readxl", "glue",
     "haven", "readr", "stringr", "tidyr", "yaml", "fs", "here",
-    "rlang"
+    "rlang", "admiral", "lubridate", "quarto", "tern", "rtables.officer"
   ) # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
@@ -51,11 +53,12 @@ tar_option_set(
 
 # Run the R scripts in the R/ folder with your custom functions:
 tar_source("R/external/functions.R")
-#tar_source("R/make_ad/make_adsl.R")
+tar_source("R/make_ad/make_adsl.R")
 tar_source("R/make_raw/make_shamrand.R")
 tar_source("R/make_raw/make_raw.R")
-#tar_source("R/make_ad/make_adeff.R")
-
+tar_source("R/make_ad/make_adeff.R")
+tar_source("R/make_ad/make_adbl.R")
+tar_source("R/make_rd/make_rdbl.R")
 
 # Replace the target list below with your own:
 list(
@@ -84,5 +87,29 @@ list(
   tar_target(
     shamraw,
     make_shamrand(raw, cfg)
+  ),
+  tar_target(
+    adsl,
+    make_adsl(shamraw, cfg)
+  ),
+  tar_target(
+    adeff,
+    make_adeff(shamraw, adsl, cfg)
+  ),
+  tar_target(
+    adbl,
+    make_adbl(shamraw, cfg, adsl, adeff)
+  ),
+  tar_target(
+    tbl_baseline,
+    make_rdbl(adbl, cfg),
+    format = "rds"
+  ),
+  tarchetypes::tar_render(
+    report_docx,
+    path = "reports/impress_statistical_analysis.Rmd",
+    output_format = "word_document",
+    output_file = "impress_statistical_analysis.docx",
+    output_dir = "reports"
   )
 )
