@@ -165,7 +165,7 @@ make_raw <- function(cfg){
   
   items <- items %>%
     left_join(cl, by = "formatname") %>%
-    rename_all(tolower) %>% 
+    rename_all(tolower) %>%
     mutate(cols_abb = case_when(
       datatype == "date" ~ "c",
       datatype == "datetime" ~ "c",
@@ -173,8 +173,15 @@ make_raw <- function(cfg){
       datatype == "integer" ~ "i",
       datatype == "string" ~ "c",
       datatype == "text" ~ "c"
-    ))
-  
+    )) |>
+    mutate(
+      label = if_else(id == "mrt1cf", "Mean relative cerebral blood flow (PTA-ROI)", label), # fix label for mrt1cf
+      label = if_else(id == "mrt2cf", "Mean relative cerebral blood flow (ROI2)", label),
+      label = if_else(id == "mrt1ss", "Mean relative solid stress (PTA-ROI)", label), # fix label for mrt1ss
+      label = if_else(id == "mrt2ss", "Mean relative solid stress (ROI2)", label),
+      label = if_else(id == "preres", "Pregnancy test result", label) # fix label for mrt2ss
+      
+    )
   # Read all datasets
 
   raw <- tibble(files = list.files(path_export())) %>%
@@ -224,8 +231,6 @@ make_raw <- function(cfg){
     select(siteseq:mrfuplyncd) %>% 
     left_join(mridata, by = c("subjectid", "eventid"))
   
-  
-  
   raw <- raw %>% 
     mutate(txt = if_else(id == "mri", list(mri), data),
            data = if_else(id == "mri", list(mri), data),
@@ -272,8 +277,8 @@ make_raw <- function(cfg){
              
 
   write_rds(raw, path_raw("raw.rds"))
-  write_csv(items, path_meta("items.csv"))
-  write_csv(cl %>% unnest(value_labels), path_meta("codelists.csv"))
+  write_csv2(items, path_meta("items.csv"))
+  write_csv2(cl %>% unnest(value_labels), path_meta("codelists.csv"))
   
   
   return(raw)

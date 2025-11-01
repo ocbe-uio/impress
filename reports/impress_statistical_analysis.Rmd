@@ -1,0 +1,59 @@
+---
+title: "ImPRESS Statistical Analysis Report"
+subtitle: "Baseline Review for the Newly Diagnosed Glioblastoma Cohort"
+author: "ImPRESS Statistical Team"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+  word_document:
+    toc: true
+    toc_depth: 2
+---
+
+# Introduction
+
+The ImPRESS study is a prospective investigation of losartan as an adjunctive therapy for patients with glioblastoma. According to Protocol Version 7.0 (17-Dec-2024), the trial collects comprehensive demographic, clinical, imaging, and quality-of-life information prior to treatment initiation. The statistical objectives for the interim analyses focus on characterising baseline status, neurological function, and tumour burden before randomisation to evaluate comparability across planned treatment arms.
+
+This report summarises the currently available baseline data with emphasis on clinical status, imaging assessments, and prior treatments that may influence subsequent outcomes. The material is intended to provide early insight into data quality and cohort composition ahead of formal efficacy or safety analyses.
+
+# Randomisation Status
+
+The present dataset is built on *sham randomisation* generated from the most recent export (see `_targets.R` workflow). No true treatment assignments have been unlocked. All findings in this document should therefore be interpreted as preliminary and descriptive only. Final efficacy comparisons will not be conducted until the database is locked and genuine randomisation codes are released.
+
+# Cohort Scope
+
+The results herein are restricted to participants enrolled in the **newly diagnosed glioblastoma (AN) cohort**. Subjects with recurrent disease are excluded from all summaries, figures, and tables in this draft. A combined-cohort analysis will be delivered once recruitment and cleaning are complete for both strata.
+
+Future revisions of this report will:
+
+- incorporate the validated randomisation list once database lock is confirmed,
+- integrate data from the recurrent glioblastoma cohort,
+- extend the analyses to longitudinal efficacy and safety endpoints.
+
+# Baseline Characteristics
+
+This section summarises baseline characteristics for the newly diagnosed glioblastoma cohort using the `adbl` ADaM dataset.
+
+```{r setup, message=FALSE, warning=FALSE, echo = FALSE, include = FALSE}
+library(targets)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(rlang)
+library(flextable)
+knitr::opts_chunk$set(echo = FALSE)
+options(tidyverse.quiet = TRUE)
+
+```
+
+```{r load-data, message=FALSE, warning=FALSE}
+tar_load(cfg)
+tar_load(tbl_baseline)
+tbl_baseline |> 
+  tt_to_flextable() %>%
+  autofit()
+
+
+```
