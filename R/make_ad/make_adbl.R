@@ -265,7 +265,7 @@ make_adbl <- function(raw, cfg, adsl, adeff) {
         adt,
         parcat1 = "Neurologic Status",
         param = safe_label(kps, "kpss", "Karnofsky Performance Scale"),
-        paramcd = "kps",
+        paramcd = "kpss",
         aval = as.numeric(kpsscd),
         avalc = paste0("KPS ", as.character(kpsscd)),
         avalu = NA_character_

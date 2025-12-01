@@ -4,6 +4,14 @@ make_adsl <- function(raw, cfg) {
   dm <- raw |> get_raw("dm")
   ran <- raw |> get_raw("ran")
 
+  add_observed_levels <- function(values, base_levels = NULL) {
+    base_levels <- if (is.null(base_levels)) character() else base_levels
+    base_levels <- unique(as.character(base_levels))
+    observed <- unique(as.character(values[!is.na(values)]))
+    extra <- setdiff(observed, base_levels)
+    unique(c(base_levels, extra))
+  }
+
   adsl <- dm |> 
     transmute(
       studyid = cfg$studyid,
@@ -41,10 +49,49 @@ make_adsl <- function(raw, cfg) {
                         paste0(armcd_src, "_", dose02p),
                         armcd_src %||% NA_character_)
     )
+
+  step_levels <- adsl %>%
+    distinct(step) %>%
+    mutate(step_num = suppressWarnings(as.numeric(step))) %>%
+    arrange(step_num, step) %>%
+    pull(step) %>%
+    purrr::discard(is.na)
+
+  trt01p_levels <- adsl %>%
+    distinct(step, trt01p) %>%
+    arrange(as.numeric(step), trt01p) %>%
+    pull(trt01p) %>%
+    purrr::discard(is.na)
+
+  trt02p_levels <- adsl %>%
+    distinct(dose02p, trt02p) %>%
+    arrange(dose02p, trt02p) %>%
+    pull(trt02p) %>%
+    purrr::discard(is.na)
+
+  arm_levels <- adsl %>%
+    distinct(dose01p, dose02p, arm) %>%
+    arrange(dose01p, dose02p, arm) %>%
+    pull(arm) %>%
+    purrr::discard(is.na)
+  
+  armcd_levels <- adsl %>%
+    distinct(armcd) %>%
+    arrange(armcd) %>%
+    pull(armcd) %>%
+    purrr::discard(is.na)
+
   adsl <- adsl %>%
     select(studyid, usubjid, subjid, cohort, cohortcd, country, age, sex,
           randdt, step, dose01p, dose01pu, trt01p,
-          dose02p, dose02pu, trt02p, arm, armcd)
+          dose02p, dose02pu, trt02p, arm, armcd) %>%
+    mutate(
+      step   = factor(step,   levels = add_observed_levels(step,   step_levels)),
+      trt01p = factor(trt01p, levels = add_observed_levels(trt01p, trt01p_levels)),
+      trt02p = factor(trt02p, levels = add_observed_levels(trt02p, trt02p_levels)),
+      arm    = factor(arm,    levels = add_observed_levels(arm,    arm_levels)),
+      armcd  = factor(armcd,  levels = add_observed_levels(armcd,  armcd_levels))
+    )
 
   return(adsl)
 }

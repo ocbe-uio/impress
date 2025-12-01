@@ -50,6 +50,23 @@ make_adeff <- function(raw, adsl, cfg) {
     "mrdtp", "mrrvt", "mrdtrv", "mrdte"
   )
 
+  visit_levels_df <- visits$map %>%
+    arrange(avisitn, avisit) %>%
+    distinct(avisit, avisitn)
+  avisit_levels <- visit_levels_df$avisit[!is.na(visit_levels_df$avisit)]
+  avisitn_levels <- visit_levels_df$avisitn[!is.na(visit_levels_df$avisitn)]
+  eventname_levels <- visits$map %>%
+    arrange(avisitn, avisit, eventname) %>%
+    distinct(eventname) %>%
+    dplyr::pull(eventname)
+
+  add_observed_levels <- function(values, base_levels) {
+    base_levels <- unique(as.character(base_levels))
+    observed <- unique(as.character(values[!is.na(values)]))
+    extra <- setdiff(observed, base_levels)
+    unique(c(base_levels, extra))
+  }
+
   adeff_base <-
     adsl %>%
     left_join(
@@ -75,6 +92,8 @@ make_adeff <- function(raw, adsl, cfg) {
   }
 
   paramcd_map <- purrr::set_names(purrr::map_chr(mri_vars, label_for), mri_vars)
+  paramcd_levels <- mri_vars
+  param_levels <- unname(paramcd_map[paramcd_levels])
 
   adeff_long <-
     adeff_base %>%
@@ -112,6 +131,12 @@ make_adeff <- function(raw, adsl, cfg) {
  adeff <- adeff %>%
    select(usubjid, eventname, avisit, avisitn, adt, ady, param, paramcd, aval, ablfl, randdt, everything()) |> 
    mutate(
+     eventname = factor(eventname, levels = add_observed_levels(eventname, eventname_levels)),
+     avisit  = factor(avisit,  levels = add_observed_levels(avisit,  avisit_levels)),
+     avisitn = factor(avisitn, levels = add_observed_levels(avisitn, avisitn_levels)),
+     paramcd = factor(paramcd, levels = add_observed_levels(paramcd, paramcd_levels)),
+     param   = factor(param,   levels = add_observed_levels(param,   param_levels)),
+     ablfl   = factor(ablfl,   levels = add_observed_levels(ablfl,   c("N", "Y"))),
      studyid = cfg$studyid,
      domain  = "ADEFF"
    ) %>%
