@@ -14,7 +14,6 @@ cfg|stem|dad4273cf932d3fe|18aad761e62f3c93|74cfb0366bb86800|1339945205||t20390.6
 raw|stem|e720bc6acfe43da8|93990d6b4f441507|4ca9f68fd95f5a32|727646308||t20390.6375757357s|s1031336b|1031336|rds|local|vector|||20.772||
 shamraw|stem|e2b7ca3cb215dfa9|686f2027d9267b9c|dbadd2ed050bc352|791270680||t20390.6375805964s|s1036867b|1036867|rds|local|vector|||0.088||
 report_docx|stem|41f0d3d336004c6b|49f4fb6080d4ab45|1cc93d049c5722d6|-1465342639|reports/impress_statistical_analysis.docx*reports/impress_statistical_analysis.Rmd|t20390.6560715611s|s25980b|25980|file|local|vector|||1.335||
-adsl|stem|13c54ec568a6e17c|b8e63e0711ea94af|3dc2c472b7393202|2106936910||t20421.6771645325s|s2603b|2603|rds|local|vector|||0.094|There was 1 warning in `arrange()`. ℹ In argument: `..1 = as.numeric(step)`. Caused by warning: ! NAs introduced by coercion|
 cfg_path|function|a63526cc440d1245
 get_raw|function|bc2902eca289e89f
 lookup_avisit|function|c038fb4b61f8bd83
@@ -44,13 +43,14 @@ path_raw|function|c819961adc847fe6
 path_outputs|function|4b8e2859de017861
 path_meta|function|a401af64b00b114b
 path_adam|function|6486be04ca320746
-make_adsl|function|2675ac7faf5c57bc
+make_adsl|function|561e49d14cce7e65
 make_shamrand|function|b998384fe96b71d6
-make_adeff|function|1de79d84bbfdcff1
+make_adeff|function|5cd29a74c4cb1ab8
 make_adbl|function|3b9680ebd8a3863a
 path_export|function|e5b365ed152b1c1d
 path_rawfile|function|ec809a5f86908802
 make_raw|function|7d7ebbb2e2c74c2b
-adeff|stem|ecf34fbbcbd7b5d1|e363e9b9688615bd|8eef991fa710f1e9|2044678021||t20421.6787158694s|s104572b|104572|rds|local|vector|||0.333||
-adbl|stem|eda2b0fee8eeb92c|1ced48f40cda56d8|7f60924ed8a31251|-602618161||t20421.6787223375s|s18588b|18588|rds|local|vector|||0.432||
-tbl_baseline|stem|57abeaef0ec20f24|3beb58957e96eb68|f99fb0ce98201b50|-1741336211||t20390.6553719478s||21493|rds|local|vector|||0.051||Can't select columns that don't exist. ✖ Columns `kps` and `kpscd` don't exist.
+adsl|stem|7db1190749af6355|b8e63e0711ea94af|ddc43bf1f5b9f311|2106936910||t20425.6624434606s|s2800b|2800|rds|local|vector|||0.111|There was 1 warning in `arrange()`. ℹ In argument: `..1 = as.numeric(step)`. Caused by warning: ! NAs introduced by coercion|
+adeff|stem|5ebc22dd887d97d5|e363e9b9688615bd|d7308ebd94bb9431|2044678021||t20425.6624506895s|s104294b|104294|rds|local|vector|||0.492||
+adbl|stem|eda2b0fee8eeb92c|1ced48f40cda56d8|8d6fe74e4993ae42|-602618161||t20425.6624570561s|s18588b|18588|rds|local|vector|||0.412||
+tbl_baseline|stem|57abeaef0ec20f24|3beb58957e96eb68|f99fb0ce98201b50|-1741336211||t20390.6553719478s||21493|rds|local|vector|||0.052||Can't select columns that don't exist. ✖ Columns `kps` and `kpscd` don't exist.

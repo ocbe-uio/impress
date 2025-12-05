@@ -1,8 +1,19 @@
 # ADSL dataset creation
+
 make_adsl <- function(raw, cfg) {
 
   dm <- raw |> get_raw("dm")
   ran <- raw |> get_raw("ran")
+
+  refdate <- raw %>%
+    get_raw("event_dates") |>
+    group_by(subjectid) |>
+    filter(eventid %in% c("AR01", "AN01", "BM01")) |>
+    filter(eventstatus == "Initiated") |>
+    mutate(
+      rfstdt = as_date(eventinitiateddate)
+    ) %>%
+    select(subjid = subjectid, rfstdt)
 
   add_observed_levels <- function(values, base_levels = NULL) {
     base_levels <- if (is.null(base_levels)) character() else base_levels
@@ -12,7 +23,7 @@ make_adsl <- function(raw, cfg) {
     unique(c(base_levels, extra))
   }
 
-  adsl <- dm |> 
+  adsl <- dm |>
     transmute(
       studyid = cfg$studyid,
       domain = "ADSL",
@@ -22,21 +33,25 @@ make_adsl <- function(raw, cfg) {
       cohortcd = cohortcd,
       country = cfg$country_code,
       age = dmage,
-      ageu = "years", 
+      ageu = "years",
       sex = sex
-    ) %>% 
-  left_join(
-    ran %>%
-      transmute(
-        subjid   = subjectid,
-        randdt   = as_date(randat),
-        step     = as.character(ranst),
-        dose01p  = str_remove(randos, 'mg') %>% as.numeric(),
-        dose02p  = str_remove(ranfudos, 'mg') %>% as.numeric(),
-        armcd_src = as.character(rantrt)
-      ),
-    by = "subjid"
-  ) %>%
+    ) %>%
+    left_join(
+      ran %>%
+        transmute(
+          subjid = subjectid,
+          randdt = as_date(randat),
+          step = as.character(ranst),
+          dose01p = str_remove(randos, "mg") %>% as.numeric(),
+          dose02p = str_remove(ranfudos, "mg") %>% as.numeric(),
+          armcd_src = as.character(rantrt)
+        ),
+      by = "subjid"
+    ) %>%
+    left_join(
+      refdate,
+      by = "subjid"
+    ) %>%
     mutate(
       dose01pu = "mg",
       dose02pu = "mg",
@@ -83,7 +98,7 @@ make_adsl <- function(raw, cfg) {
 
   adsl <- adsl %>%
     select(studyid, usubjid, subjid, cohort, cohortcd, country, age, sex,
-          randdt, step, dose01p, dose01pu, trt01p,
+          randdt, rfstdt, step, dose01p, dose01pu, trt01p,
           dose02p, dose02pu, trt02p, arm, armcd) %>%
     mutate(
       step   = factor(step,   levels = add_observed_levels(step,   step_levels)),
