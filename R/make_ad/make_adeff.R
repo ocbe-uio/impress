@@ -1,7 +1,5 @@
 
 
-
-
 visits_from_yaml <- function(ln) {
   v <- ln$visits
   if (is.null(v) || is.null(v$map)) stop("No 'visits: map:' section in cfg.yml")
@@ -55,6 +53,10 @@ make_adeff <- function(raw, adsl, cfg) {
     distinct(avisit, avisitn)
   avisit_levels <- visit_levels_df$avisit[!is.na(visit_levels_df$avisit)]
   avisitn_levels <- visit_levels_df$avisitn[!is.na(visit_levels_df$avisitn)]
+  visit_schedule <- visit_levels_df %>%
+    filter(!is.na(avisitn), !is.na(avisit)) %>%
+    arrange(avisitn) %>%
+    distinct(avisitn, .keep_all = TRUE)
   eventname_levels <- visits$map %>%
     arrange(avisitn, avisit, eventname) %>%
     distinct(eventname) %>%
@@ -65,6 +67,23 @@ make_adeff <- function(raw, adsl, cfg) {
     observed <- unique(as.character(values[!is.na(values)]))
     extra <- setdiff(observed, base_levels)
     unique(c(base_levels, extra))
+  }
+
+  nearest_visit_from_ady <- function(days) {
+    if (!nrow(visit_schedule)) {
+      return(list(
+        avisitn = rep(NA_integer_, length(days)),
+        avisit  = rep(NA_character_, length(days))
+      ))
+    }
+    idx <- vapply(days, function(d) {
+      if (is.na(d)) return(NA_integer_)
+      which.min(abs(d - visit_schedule$avisitn))
+    }, integer(1))
+    list(
+      avisitn = ifelse(is.na(idx), NA_integer_, visit_schedule$avisitn[idx]),
+      avisit  = ifelse(is.na(idx), NA_character_, visit_schedule$avisit[idx])
+    )
   }
 
   adeff_base <-
@@ -110,7 +129,7 @@ make_adeff <- function(raw, adsl, cfg) {
   adeff <-
     derive_vars_dy(
       dataset = adeff_long |> rename_with(toupper),
-      reference_date = RANDDT,
+      reference_date = RFSTDT,
       source_vars = exprs(ADT)
     ) %>%
     arrange(USUBJID, ADT, PARAM) %>%
@@ -124,6 +143,16 @@ make_adeff <- function(raw, adsl, cfg) {
     ) %>%
     ungroup() %>%
     select(-base_raw)
+
+  # Map previously unmapped visits to the closest scheduled visit using ADY
+  remap_needed <- (is.na(adeff$avisitn) | adeff$avisitn == visits$defaults$avisitn_unmapped) &
+    !is.na(adeff$ady)
+  closest_visits <- nearest_visit_from_ady(adeff$ady)
+  adeff <- adeff %>%
+    mutate(
+      avisitn = if_else(remap_needed, closest_visits$avisitn, avisitn),
+      avisit  = if_else(remap_needed, closest_visits$avisit, avisit)
+    )
   
   
 
@@ -133,7 +162,7 @@ make_adeff <- function(raw, adsl, cfg) {
    mutate(
      eventname = factor(eventname, levels = add_observed_levels(eventname, eventname_levels)),
      avisit  = factor(avisit,  levels = add_observed_levels(avisit,  avisit_levels)),
-     avisitn = factor(avisitn, levels = add_observed_levels(avisitn, avisitn_levels)),
+#     avisitn = factor(avisitn, levels = add_observed_levels(avisitn, avisitn_levels)),
      paramcd = factor(paramcd, levels = add_observed_levels(paramcd, paramcd_levels)),
      param   = factor(param,   levels = add_observed_levels(param,   param_levels)),
      ablfl   = factor(ablfl,   levels = add_observed_levels(ablfl,   c("N", "Y"))),

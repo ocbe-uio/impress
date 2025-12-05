@@ -1,5 +1,4 @@
 
-
 make_rdbl <- function(adbl, cfg) {
   #' Make analysis dataset for baseline demographics and disease characteristics
   #'
@@ -12,7 +11,6 @@ make_rdbl <- function(adbl, cfg) {
   #' @importFrom labelled set_variable_labels get_variable_labels
   #' @importFrom rtables basic_table analyze_vars build_table
   #' @export
-
 
 
   adbl_base <- adbl |>
