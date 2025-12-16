@@ -1,113 +1,126 @@
 
-library(targets)
-library(tidyverse)
-library(lme4)
-library(nlme)
-library(broom)
-library(mmrm)
-library(marginaleffects)
-
-tar_load(adeff)
+# library(dplyr)
+# library(lme4)
+# library(ggplot2)
+# library(purrr)
 
 
 
+#' Build a linear spline basis from analysis days and knot locations.
+#'
+#' @param ady Numeric vector of analysis days.
+#' @param knots Numeric vector of knot locations; will be sorted and deduplicated.
+#'
+#' @return Tibble with one column per spline segment (s1, s2, ...).
+#' @examples
+#' make_splines(c(0, 10, 20), c(0, 15, 30))
+#'
+# Linear spline helper that adapts to knots supplied in cfg$linsp$knots
+make_splines <- function(ady, knots) {
+  k <- sort(unique(as.numeric(knots)))
+  if (length(k) < 2) stop("At least two knots are required.")
 
-tmp <- adeff |>
-    filter(paramcd == "mrt1cf" & cohortcd == 2) |>
-    filter(avisitn <= 43) |>
-    mutate(trt = case_when(
-        avisitn == 15 & str_starts(step, "Cycle 1") ~ paste0(dose01p, " ", dose01pu),
-        avisitn == 29 & str_starts(step, "Cycle 1") ~ paste0(dose01p, " ", dose01pu),
-        avisitn == 43 & str_starts(step, "Cycle 1") ~ paste0(dose01p, " ", dose01pu),
-        avisitn == 29 & str_starts(step, "Cycle 2") ~ paste0(dose01p, " ", dose01pu),
-        avisitn == 43 & str_starts(step, "Cycle 2") ~ paste0(dose01p, " ", dose01pu),
-        avisitn == 43 & str_starts(step, "Cycle 3") ~ paste0(dose01p, " ", dose01pu),
-        TRUE ~ "0mg"
-    )) |>
-    mutate(
-        trt = factor(trt, levels = c("0mg", "25 mg", "50 mg", "100 mg")),
-        subjid = factor(subjid),
-        avisitn = factor(avisitn, levels = c(-7, 15, 29, 43)
-        )
-    )
-   
-m <- mmrm(aval ~ trt + avisitn + us(avisitn | subjid),
-    data = tmp
-)
+  t0 <- pmax(0, ady) # no post-baseline effect before day 0
 
-
-
-m2 <- mmrm(aval ~ trt + avisitn + ar1(avisitn | subjid),
-    data = tmp
-)
-
-
-m3 <- mmrm(aval ~ trt + avisitn + cs(avisitn | subjid),
-    data = tmp
-)
-
-m4 <- lme4::lmer(aval ~ trt + avisitn + (1 | subjid),
-    data = tmp
-)
-
-summary(m4)
-
-coef(m)
-vcov(m)
-summary(m)
-residuals(m)
- 
-
-tmp2 <- adeff |>
-    filter(paramcd == "mrt1cf" & cohortcd == 2) |>
-    filter(avisit %in% c("Randomization And Baseline MRI", "Cycle 2", "Cycle 3", "Cycle 4", "Cycle 11", "Cycle 17"))
-
-
-m21 <- mmrm(aval ~ avisit + us(avisit | subjid),
-    data = tmp2
-)
-
-m22 <- mmrm(aval ~ avisit + ar1(avisit | subjid),
-    data = tmp2
-)
-
-m23 <- mmrm(aval ~ avisit + cs(avisit | subjid),
-    data = tmp2
-)
-
-summary(m21)
-summary(m22)
-summary(m23)
-
-tmp2 |>
-    group_by(avisit) |>
-    summarise(n = n())
-
-
-
-m2 %>%
-    avg_predictions(variables = list(armcd = c("AN2_4_50", "AN_4_25"), avisit = c("Cycle 2", "Cycle 3", "Cycle 4", "Cycle 7")))
-
-
-library(dplyr)
-library(splines2) # or splines
-
-knots <- c(-7, 15, 29, 43)
-bnds  <- range(tmp$ady, na.rm = TRUE)
-
-tmp2 <- tmp %>%
-  mutate(
-    # degree = 1 -> linear; use degree = 3 for cubic splines
-    bs1 = bSpline(ady, knots = knots, degree = 1, Boundary.knots = bnds)[, 1],
-    bs2 = bSpline(ady, knots = knots, degree = 1, Boundary.knots = bnds)[, 2],
-    bs3 = bSpline(ady, knots = knots, degree = 1, Boundary.knots = bnds)[, 3],
-    bs4 = bSpline(ady, knots = knots, degree = 1, Boundary.knots = bnds)[, 4]
+  segs <- purrr::map2(
+    head(k, -1),
+    tail(k, -1),
+    ~ pmax(0, pmin(t0 - .x, .y - .x))
   )
+  tail_seg <- pmax(0, t0 - max(k))
+
+  out <- dplyr::bind_cols(segs)
+  names(out) <- paste0("s", seq_along(segs))
+  out[[paste0("s", length(segs) + 1)]] <- tail_seg
+  tibble::as_tibble(out)
+}
 
 
-m_spline <- mmrm(
-  aval ~ trt + bs1 + bs2 + bs3 + bs4,
-  data = tmp2,
-  covariance = cs(ady | subjid),  # or cs(avisitn | subjid) if you prefer
-  reml = FALSE
+#' Fit linear spline mixed model and return predictions and diagnostics.
+#'
+#' @param dat Data frame already filtered to the desired cohort/parameter, with
+#'   columns `aval` (response), `ady` (analysis day), `arm` (treatment factor),
+#'   and `subjid` (subject id).
+#' @param knots Numeric vector of knot locations for the linear splines.
+#'
+#' @return List with elements: `fit` (lmer model), `knots` (sorted knots),
+#'   `preds` (grid with predictions), `plot` (mean trajectories),
+#'   `res_plot` (fitted vs Pearson residuals), `qq_plot` (QQ plot).
+#'
+# Main entry point for targets
+# dat: already filtered dataset (e.g., for cohort/paramcd)
+# cfg: list from cfg.yml; expects cfg$linsp$knots
+make_linsp <- function(dat, knots) {
+  if (is.null(knots)) stop("Knots must be provided")
+  knots <- sort(unique(as.numeric(knots)))
+
+  # Build spline basis
+  basis <- make_splines(dat$ady, knots)
+  basis_names <- names(basis)
+
+  dat_spl <- dat %>%
+    mutate(
+      arm = factor(arm),
+      subjid = factor(subjid)
+    ) %>%
+    bind_cols(basis)
+
+  rhs <- paste(
+    c(
+      paste(basis_names, collapse = " + "),
+      sprintf("arm:(%s)", paste(basis_names, collapse = " + "))
+    ),
+    collapse = " + "
+  )
+  form <- as.formula(sprintf("aval ~ %s + (1 | subjid)", rhs))
+
+  fit <- lmer(form, data = dat_spl)
+
+  newdat <- tidyr::expand_grid(
+    ady = seq(min(knots), max(knots), by = 1),
+    arm = levels(dat_spl$arm)
+  ) %>%
+    mutate(arm = factor(arm, levels = levels(dat_spl$arm))) %>%
+    bind_cols(make_splines(.$ady, knots))
+
+  newdat <- newdat %>%
+    mutate(pred = predict(fit, newdata = ., re.form = NA))
+
+  plt <- ggplot(newdat, aes(x = ady, y = pred, colour = arm)) +
+    geom_line() +
+    labs(x = "Day", y = "Predicted mean", colour = "ARM") +
+    theme_minimal() +
+    theme(legend.position = "bottom")
+  
+
+diag_df <- tibble(
+  fitted  = fitted(fit),
+  pearson = residuals(fit, type = "pearson")
 )
+
+res_plot <- ggplot(diag_df, aes(x = fitted, y = pearson)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue") +
+  labs(x = "Fitted values", y = "Pearson residuals") +
+  theme_minimal()
+
+
+
+qq_plot <- ggplot(diag_df, aes(sample = pearson)) +
+  stat_qq(alpha = 0.5) +
+  stat_qq_line(color = "red") +
+  labs(x = "Theoretical quantiles", y = "Sample quantiles") +
+  theme_minimal()
+
+  list(
+    fit = fit,
+    knots = knots,
+    preds = newdat,
+    plot = plt, 
+    res_plot = res_plot,
+    qq_plot = qq_plot
+  )
+}
+
+

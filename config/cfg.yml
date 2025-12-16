@@ -78,6 +78,11 @@ reporting:
     - mrrvsi
     - mrrvt
 
+linsp: 
+  knots: 
+    AR: [0, 15, 29, 45, 168]
+    AN: [0, 15, 29, 45, 146, 233]
+    BM: [0, 91, 181, 271]
 
 visits:
   map:
