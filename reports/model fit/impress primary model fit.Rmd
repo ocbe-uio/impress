@@ -1,0 +1,77 @@
+---
+title: "ImPRESS Model selection"
+author: "Inge Christoffer Olsen"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+library(targets)
+library(tidyverse)
+library(lme4)
+library(nlme)
+library(broom)
+library(mmrm)
+library(marginaleffects)
+
+```
+
+# Introduction
+
+In this document we want to assess the model fit for different covariance structures in the primary statistical model used in ImPRESS. We use the Akaike Information Criterion (AIC) as the model selection criteria. The four models we want to compare are: unstructured, autoregressive and compound symmetry. Note that these analyses are based on sham randomisation, we deliberately ignore the true treatment allocation to avoid any information bias. 
+
+
+# Analyses
+```{r }
+
+adeff <- tar_read(adeff, store = "_targets")
+tmp <- adeff |>
+    filter(paramcd == "mrt1cf" & cohortcd == 2) |>
+    filter(avisitn <= 43) |>
+    mutate(trt = case_when(
+        avisitn == 15 & str_starts(step, "Cycle 1") ~ paste0(dose01p, " ", dose01pu),
+        avisitn == 29 & str_starts(step, "Cycle 1") ~ paste0(dose01p, " ", dose01pu),
+        avisitn == 43 & str_starts(step, "Cycle 1") ~ paste0(dose01p, " ", dose01pu),
+        avisitn == 29 & str_starts(step, "Cycle 2") ~ paste0(dose01p, " ", dose01pu),
+        avisitn == 43 & str_starts(step, "Cycle 2") ~ paste0(dose01p, " ", dose01pu),
+        avisitn == 43 & str_starts(step, "Cycle 3") ~ paste0(dose01p, " ", dose01pu),
+        TRUE ~ "0mg"
+    )) |>
+    mutate(
+        trt = factor(trt, levels = c("0mg", "25 mg", "50 mg", "100 mg")),
+        subjid = factor(subjid),
+        avisitn = factor(avisitn, levels = c(-7, 15, 29, 43)
+        )
+    )
+   
+m <- mmrm(aval ~ trt + avisitn + us(avisitn | subjid),
+    data = tmp
+)
+
+
+
+m2 <- mmrm(aval ~ trt + avisitn + ar1(avisitn | subjid),
+    data = tmp
+)
+
+
+m3 <- mmrm(aval ~ trt + avisitn + cs(avisitn | subjid),
+    data = tmp
+)
+summary(m)
+summary(m2)
+summary(m3)
+
+aic_table <- tibble(
+    Model = c("Unstructured", "Autoregressive", "Compound Symmetry"),
+    AIC = c(AIC(m), AIC(m2), AIC(m3))
+)
+
+aic_table 
+```
+
+# Conclusion
+
+We see that the compound symmetry model gives the optimal fit according to AIC and will therefore be used in the primary analysis of ImPRESS. Note that we will use the corresponding restricted maximum likelihood estimates for the final model, and use mixed model with a random intercept for the modelling, but this is completely equivalent to the marginal model with compound symmetry covariance structure.

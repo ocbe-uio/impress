@@ -59,6 +59,7 @@ tar_source("R/make_raw/make_raw.R")
 tar_source("R/make_ad/make_adeff.R")
 tar_source("R/make_ad/make_adbl.R")
 tar_source("R/make_rd/make_rdbl.R")
+tar_source("R/make_rd/make_rdeff.R")
 
 # Replace the target list below with your own:
 list(
