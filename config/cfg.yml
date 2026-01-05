@@ -12,6 +12,13 @@ export: "_20250729_133232" # Export folder with timestamp. Exported from Viedoc
 
 #cfg_adam: "config/adam.yml"     # ADaM config file
 
+doses: [0, 25, 50, 100] # Dose levels in mg
+cmodels: 
+  emax: 30
+  sigEmax: [40, 5]
+  linInt: [1, 1, 1]
+
+
 paths:
   raw: "data/raw"
   adam: "data/adam"

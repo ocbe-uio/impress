@@ -33,7 +33,7 @@ make_rdbl <- function(adbl, cfg) {
   # --- 5) Merge (keep only cols that exist)
   wide <- num_wide %>%
     left_join(cat_wide, by = c("usubjid", "arm"), suffix = c("cd", "")) |>
-    select(usubjid, arm, cfg$reporting$baseline_order)
+    select(usubjid, arm, tidyselect::any_of(cfg$reporting$baseline_order))
 
   # --- 6) Attach variable labels from PARAM (to both num and cat columns)
   get_labels <- function(df_long) {

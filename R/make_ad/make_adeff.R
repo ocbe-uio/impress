@@ -155,10 +155,90 @@ make_adeff <- function(raw, adsl, cfg) {
     )
   
   
+  # Add treatment variable according to the randomisation and the dose levels.
+  ar_trt <- function(day, start_day, dose, post_cycle4_dose) {
+    case_when(
+      is.na(day) ~ NA_real_,
+      day <= start_day ~ 0,
+      day > start_day & day <= 43 ~ dose,
+      day > 43 & day <= 169 ~ post_cycle4_dose,
+      day > 169 ~ 0
+    )
+  }
+
+   an_trt <- function(day, start_day, dose, post_cycle4_dose) {
+    case_when(
+      is.na(day) ~ NA_real_,
+      day <= start_day ~ 0,
+      day > start_day & day <= 43 ~ dose,
+      day > 43 & day <= 239 ~ post_cycle4_dose,
+      day > 239 ~ 0
+    )
+  }
+
+  bm_trt <- function(day, start_day, dose) {
+    case_when(
+      is.na(day) ~ NA_real_,
+      day < start_day ~ 0,
+      day >= start_day & day <= 1270 ~ dose,
+      day > 270 ~ 0
+    )
+  }
+
+  adeff <- adeff %>%
+    mutate(
+      visit_day = avisitn,
+      armcd_trt = armcd,
+      trt = case_when(
+        armcd_trt == "AR1_1_0" ~ ar_trt(visit_day, 1, 25, 0),
+        armcd_trt == "AR1_1_25" ~ ar_trt(visit_day, 1, 25, 25),
+        armcd_trt == "AR1_2_0" ~ ar_trt(visit_day, 15, 25, 0),
+        armcd_trt == "AR1_2_25" ~ ar_trt(visit_day, 15, 25, 25),
+        armcd_trt == "AR1_3_0" ~ ar_trt(visit_day, 29, 25, 0),
+        armcd_trt == "AR1_3_25" ~ ar_trt(visit_day, 29, 25, 25),
+        armcd_trt == "AR2_4_0" ~ ar_trt(visit_day, 1, 50, 0),
+        armcd_trt == "AR2_4_50" ~ ar_trt(visit_day, 1, 50, 50),
+        armcd_trt == "AR2_5_0" ~ ar_trt(visit_day, 15, 50, 0),
+        armcd_trt == "AR2_5_50" ~ ar_trt(visit_day, 15, 50, 50),
+        armcd_trt == "AR2_6_0" ~ ar_trt(visit_day, 29, 50, 0),
+        armcd_trt == "AR2_6_50" ~ ar_trt(visit_day, 29, 50, 50),
+        armcd_trt == "AR3_1_100" ~ ar_trt(visit_day, 1, 100, 100),
+        armcd_trt == "AR3_2_100" ~ ar_trt(visit_day, 15, 100, 100),
+        armcd_trt == "AR3_3_100" ~ ar_trt(visit_day, 29, 100, 100),
+        armcd_trt == "AN1_1_0" ~ an_trt(visit_day, 1, 25, 0),
+        armcd_trt == "AN1_1_25" ~ an_trt(visit_day, 1, 25, 25),
+        armcd_trt == "AN1_2_0" ~ an_trt(visit_day, 15, 25, 0),
+        armcd_trt == "AN1_2_25" ~ an_trt(visit_day, 15, 25, 25),
+        armcd_trt == "AN1_3_0" ~ an_trt(visit_day, 29, 25, 0),
+        armcd_trt == "AN1_3_25" ~ an_trt(visit_day, 29, 25, 25),
+        armcd_trt == "AN2_4_0" ~ an_trt(visit_day, 1, 50, 0),
+        armcd_trt == "AN2_4_50" ~ an_trt(visit_day, 1, 50, 50),
+        armcd_trt == "AN2_5_0" ~ an_trt(visit_day, 15, 50, 0),
+        armcd_trt == "AN2_5_50" ~ an_trt(visit_day, 15, 50, 50),
+        armcd_trt == "AN2_6_0" ~ an_trt(visit_day, 29, 50, 0),
+        armcd_trt == "AN2_6_50" ~ an_trt(visit_day, 29, 50, 50),
+        armcd_trt == "AN3_1_100" ~ an_trt(visit_day, 1, 100, 100),
+        armcd_trt == "AN3_2_100" ~ an_trt(visit_day, 15, 100, 100),
+        armcd_trt == "AN3_3_100" ~ an_trt(visit_day, 29, 100, 100),
+        armcd_trt == "BM1" ~ bm_trt(visit_day, 1, 50),
+        armcd_trt == "BM2" ~ bm_trt(visit_day, 1091, 50),
+        armcd_trt == "BM3" ~ bm_trt(visit_day, 1181, 50),
+        TRUE ~ NA_real_
+      )
+    ) %>%
+    select(-visit_day, -armcd_trt) |>
+    mutate(
+      trtcd = trt,
+      trtcd = factor(trtcd, levels = c(0, 25, 50, 100)),
+      trt = paste0(trt, " mg"),
+      trt = factor(trt, levels = c("0 mg", "25 mg", "50 mg", "100 mg"))
+    )
+    
+
 
 
  adeff <- adeff %>%
-   select(usubjid, eventname, avisit, avisitn, adt, ady, param, paramcd, aval, ablfl, randdt, everything()) |> 
+   select(usubjid, eventname, avisit, avisitn, adt, ady, trt, trtcd, param, paramcd, aval, ablfl, randdt, everything()) |> 
    mutate(
      eventname = factor(eventname, levels = add_observed_levels(eventname, eventname_levels)),
      avisit  = factor(avisit,  levels = add_observed_levels(avisit,  avisit_levels)),
