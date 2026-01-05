@@ -1,15 +1,18 @@
 ---
 title: "ImPRESS Statistical Analysis Report"
-subtitle: "Baseline Review for the Newly Diagnosed Glioblastoma Cohort"
 author: "ImPRESS Statistical Team"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
-  html_document:
+  pdf_document:
     toc: true
-    toc_depth: 2
+    toc_depth: '2'
   word_document:
     toc: true
     toc_depth: 2
+  html_document:
+    toc: true
+    toc_depth: 2
+subtitle: Baseline Review for the Newly Diagnosed Glioblastoma Cohort
 ---
 
 # Introduction
@@ -43,17 +46,92 @@ library(tidyr)
 library(purrr)
 library(rlang)
 library(flextable)
+library(rtables.officer)
+library(rtables)
+library(ggplot2)
 knitr::opts_chunk$set(echo = FALSE)
 options(tidyverse.quiet = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+
 
 ```
 
 ```{r load-data, message=FALSE, warning=FALSE}
 tar_load(cfg)
 tar_load(tbl_baseline)
+tar_load(primary_mri_sections)
+tar_load(primary_mri_labels)
+tar_load(other_mri_summaries)
 tbl_baseline |> 
   tt_to_flextable() %>%
   autofit()
 
+```
 
+# Primary Efficacy Analyses (MRI)
+
+The primary variable is analysed with the MCP-Mod methodology as described in the protocol and SAP. We pre-specify four candidate dose-response models (linear, Emax, sigmoid Emax, logistic) and derive optimal contrasts using the estimated variance-covariance from the mixed model. The MCP step tests for a dose-response signal across candidate models with multiplicity control; if significant, the Mod step selects the best-fitting model (by AIC) and reports ED values. Results below are grouped by MRI endpoint (primary, key secondary, sensitivity).
+
+## Candidate dose-response models
+
+```{r mri-models, message=FALSE, warning=FALSE}
+print(primary_mri_sections[[1]]$plots$candidate_models)
+```
+
+Below we summarise the MCP-Mod analyses for the four pre-specified MRI endpoints, followed by summary contrasts for the remaining MRI endpoints.
+
+```{r mri-primary, message=FALSE, warning=FALSE, results='asis'}
+
+
+for (nm in names(primary_mri_sections)) {
+  sec <- primary_mri_sections[[nm]]
+  lbl <- primary_mri_labels[[nm]] %||% nm
+
+  cat("## ", lbl, "\n\n", sep = "")
+
+
+
+  cat("### Optimal contrasts\n\n")
+  print(sec$tables$contmat)
+  cat("\n\n")
+
+  cat("### MCP-Mod tests\n\n")
+  print(sec$tables$mct)
+  cat("\n\n")
+
+  cat("### Fitted model parameters (AIC/ED)\n\n")
+  print(sec$tables$fit)
+  cat("\n\n")
+
+  cat("### Estimated means by dose\n\n")
+  print(sec$tables$estimates)
+  cat("\n\n")
+
+  cat("### Fitted dose-response curves\n\n")
+  purrr::walk(sec$plots$fit_models, print)
+  cat("\n\n")
+
+
+
+}
+```
+
+# Other MRI Endpoints
+
+For remaining MRI endpoints, we present estimated means by dose, contrasts vs 0 mg, and a plot with confidence intervals.
+
+```{r mri-other, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(other_mri_summaries)) {
+  obj <- other_mri_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("## ", nm, "\n\n", sep = "")
+  cat("### Means by dose\n\n")
+  print(obj$means)
+  cat("\n\n### Differences vs 0 mg\n\n")
+  print(obj$diffs)
+  cat("\n\n### Plot\n\n")
+  print(obj$plot)
+  cat("\n\n\\newpage\n\n")
+}
 ```

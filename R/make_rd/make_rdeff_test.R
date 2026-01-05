@@ -12,7 +12,7 @@ adeff <- tar_read(adeff, store = "_targets")
 
 
 
-tmp <- adeff |>
+p_df <- adeff |>
     filter(paramcd == "mrt1cf" & cohortcd == 2) |>
     filter(avisitn <= 43) |>
     mutate(trt = case_when(
@@ -302,3 +302,100 @@ ggplot(diag_df, aes(sample = pearson)) +
   stat_qq_line(color = "red") +
   labs(x = "Theoretical quantiles", y = "Sample quantiles") +
   theme_minimal()
+
+
+cfg <- yaml::read_yaml("config/cfg.yml")
+
+test_cmod <- make_cmodels(doses = cfg$doses, cmodels = cfg$cmodels) 
+test_cmod$fmodels
+
+
+tar_make()
+
+adeff <- tar_read(adeff, store = "_targets")
+data <- adeff
+var <- "mrt1cf"
+cohort <- "Newly diagnosed glioblastoma"
+
+
+dt <- data %>%
+  filter(cohort == cohort)
+
+m <- lme4::lmer(aval ~ trt + avisit + (1 | usubjid), data = dt)
+
+summary(m)
+
+
+est <- emmeans::emmeans(m, specs = "trt")
+est
+S = vcov(est)
+
+tidy(est, conf.int = TRUE)
+
+est <- tidy(est, conf.int = TRUE) %>%
+  mutate(mean_txt = paste0(
+    round(estimate, digits = 2),
+    " (",
+    round(conf.low, digits = 2),
+    " to ",
+    round(conf.high, digits = 2),
+    ")"
+  ))
+
+  contMat <- optContr(cmod$fmodels, S=est$S)
+  table <-contMat$contMat %>%
+    as_tibble(rownames=NA) %>%
+    rownames_to_column(var="Treatment") %>%
+    mutate(Treatment = paste0(Treatment, " mg")) %>%
+    knitr::kable(digits=3)
+
+
+
+
+ MCTtest <- MCTtest(cfg$doses,est$estimates$estimate,
+                     S=est$S,
+                     models=cmod$fmodels,
+                     type="general",
+                     contMat = contmat$contmat,
+                     pVal = TRUE, alternative="one.sided",
+                     alpha=0.025,
+                     critV=TRUE)
+  p_table <- MCTtest$tStat %>%
+    as_tibble(rownames=NA) %>%
+    rownames_to_column(var="cm") %>%
+    mutate(pval_ = attr(value,"pVal")) %>%
+    mutate(pval = if_else(pval_<0.001, "<0.001",
+                  if_else(pval_ <0.1, as.character(round(pval_,digits=3), digits=3),
+                         as.character(round(pval_,digits=2),digits=2)))) %>%
+    arrange(pval_) %>%
+    select(-pval_) %>%
+    knitr::kable(digits=2, align=c("lrr"),col.names = c("Candidate model", "t-statistic", "Adjusted p-value"))
+
+
+
+model_name <- "linInt"
+model_name <- "emax"
+model_name <- "sigEmax"
+model_name <- "linear"
+
+
+adeff <- tar_read(adeff, store = "_targets")
+data <- adeff |>
+  filter(cohort == "Newly diagnosed glioblastoma")
+var <- "mrt1cf"
+
+cfg <- yaml::read_yaml("config/cfg.yml")
+
+
+
+
+cmod <- make_cmodels(doses = cfg$doses, cmodels = cfg$cmodels) 
+est <- make_contest(data = dt, var = var)
+contmat <- f_contmat(est, fmodels = cmod$fmodels)
+mcttest <- f_mcttest(cfg, est, cmod$fmodels, contmat$contmat)
+fitmod <- f_fitmod(est, cfg$doses, cmod$fmodels)
+
+
+make_rdeff_section(data = data, var = var, cfg = cfg)
+
+summarise_mri_endpoint(data, var = var)

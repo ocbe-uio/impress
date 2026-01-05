@@ -220,7 +220,7 @@ make_adbl <- function(raw, cfg, adsl, adeff) {
 
   ecog <- raw |> get_raw("ecog")
   ecog_records <- if (!is.null(ecog)) {
-    ecog %>%
+    ecog_base <- ecog %>%
       mutate(
         subjid = subjectid,
         adt = as.Date(eventdate),
@@ -230,25 +230,41 @@ make_adbl <- function(raw, cfg, adsl, adeff) {
       arrange(subjid, adt) %>%
       group_by(subjid) %>%
       slice(1) %>%
-      ungroup() %>%
-      transmute(
-        subjid,
-        avisit,
-        adt,
-        parcat1 = "Neurologic Status",
-        param = safe_label(ecog, "ecogs", "ECOG Score"),
-        paramcd = "ecog",
-        aval = as.numeric(ecogscd),
-        avalc = paste0("ECOG Score", as.character(ecogscd)),
-        avalu = NA_character_
-      )
+      ungroup()
+
+    bind_rows(
+      ecog_base %>%
+        transmute(
+          subjid,
+          avisit,
+          adt,
+          parcat1 = "Neurologic Status",
+          param = safe_label(ecog, "ecogs", "ECOG Score"),
+          paramcd = "ecog",
+          aval = as.numeric(ecogscd),
+          avalc = NA_character_,
+          avalu = NA_character_
+        ),
+      ecog_base %>%
+        transmute(
+          subjid,
+          avisit,
+          adt,
+          parcat1 = "Neurologic Status",
+          param = paste0(safe_label(ecog, "ecogs", "ECOG Score"), " (categorical)"),
+          paramcd = "ecogcd",
+          aval = NA_real_,
+          avalc = paste0("ECOG ", as.character(ecogscd)),
+          avalu = NA_character_
+        )
+    )
   } else {
     empty_adbl
   }
 
   kps <- raw |> get_raw("kps")
   kps_records <- if (!is.null(kps)) {
-    kps %>%
+    kps_base <- kps %>%
       mutate(
         subjid = subjectid,
         adt = as.Date(eventdate),
@@ -258,18 +274,34 @@ make_adbl <- function(raw, cfg, adsl, adeff) {
       arrange(subjid, adt) %>%
       group_by(subjid) %>%
       slice(1) %>%
-      ungroup() %>%
-      transmute(
-        subjid,
-        avisit,
-        adt,
-        parcat1 = "Neurologic Status",
-        param = safe_label(kps, "kpss", "Karnofsky Performance Scale"),
-        paramcd = "kpss",
-        aval = as.numeric(kpsscd),
-        avalc = paste0("KPS ", as.character(kpsscd)),
-        avalu = NA_character_
-      )
+      ungroup()
+
+    bind_rows(
+      kps_base %>%
+        transmute(
+          subjid,
+          avisit,
+          adt,
+          parcat1 = "Neurologic Status",
+          param = safe_label(kps, "kpss", "Karnofsky Performance Scale"),
+          paramcd = "kps",
+          aval = as.numeric(kpsscd),
+          avalc = NA_character_,
+          avalu = NA_character_
+        ),
+      kps_base %>%
+        transmute(
+          subjid,
+          avisit,
+          adt,
+          parcat1 = "Neurologic Status",
+          param = paste0(safe_label(kps, "kpss", "Karnofsky Performance Scale"), " (categorical)"),
+          paramcd = "kpscd",
+          aval = NA_real_,
+          avalc = paste0("KPS ", as.character(kpsscd)),
+          avalu = NA_character_
+        )
+    )
   } else {
     empty_adbl
   }

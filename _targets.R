@@ -15,7 +15,8 @@ tar_option_set(
   packages = c(
     "tibble", "labelled", "dplyr", "purrr", "readxl", "glue",
     "haven", "readr", "stringr", "tidyr", "yaml", "fs", "here",
-    "rlang", "admiral", "lubridate", "quarto", "tern", "rtables.officer"
+    "rlang", "admiral", "lubridate", "quarto", "tern", "rtables.officer",
+    "ggplot2", "lme4", "emmeans", "broom", "DoseFinding"
   ) # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
@@ -102,6 +103,32 @@ list(
     make_adbl(shamraw, cfg, adsl, adeff)
   ),
   tar_target(
+    primary_mri_vars,
+    rlang::set_names(c("mrt1cf", "mrt2cf", "mrt1ss", "mrt2ss"))
+  ),
+  tar_target(
+    primary_mri_labels,
+    c(
+      mrt1cf = "Mean relative cerebral blood flow (PTA-ROI)",
+      mrt2cf = "Mean relative cerebral blood flow (ROI2)",
+      mrt1ss = "Mean relative solid stress (PTA-ROI)",
+      mrt2ss = "Mean relative solid stress (ROI2)"
+    )
+  ),
+  tar_target(
+    primary_mri_sections,
+    make_rdeff_batch(adeff, primary_mri_vars, cfg)
+  ),
+  tar_target(
+    other_mri_vars,
+    setdiff(unique(as.character(adeff$paramcd)), primary_mri_vars)
+  ),
+  tar_target(
+    other_mri_summaries,
+    purrr::set_names(other_mri_vars) |>
+      purrr::map(~ summarize_mri_endpoint(adeff, .x))
+  ),
+  tar_target(
     tbl_baseline,
     make_rdbl(adbl, cfg),
     format = "rds"
@@ -109,8 +136,8 @@ list(
   tarchetypes::tar_render(
     report_docx,
     path = "reports/impress_statistical_analysis.Rmd",
-    output_format = "word_document",
-    output_file = "impress_statistical_analysis.docx",
+    output_format = "pdf_document",
+    output_file = "impress_statistical_analysis.pdf",
     output_dir = "reports"
   )
 )
