@@ -5,23 +5,17 @@ lookup_avisitn_yaml|function|e0b45f67d296117a
 "%||%"|function|cbd551ae0ec020a9
 lookup_avisit_yaml|function|c038fb4b61f8bd83
 as_raw_domains|function|cce910bbcb3c55d8
-cfg_adam_file|stem|ea205a229415b02a|1efdd77af1e49c08|2c530c1562a7fbd1|1512137267|config/adam.yml|t20370.8384939502s|s9961b|9961|file|local|vector|||0||
-cfg_adam|stem|ea1f0002743641c3|ed4b1d57366042a9|411806e1d2fb7408|-2080421085||t20381.5091516729s|s1981b|1981|rds|local|vector|||0.001||
 report_file|stem|f8807fc321d6316e|900bc310907d60fe|2c530c1562a7fbd1|97616872|reports/impress_statistical_analysis.qmd|t20385.6090585729s|s5187b|5187|file|local|vector|||0.301||
 report|stem|d27e033c2e130ef0|cb1101cbb26faa65|2c530c1562a7fbd1|787668912|reports/impress_statistical_analysis.html*reports/impress_statistical_analysis.pdf|t20385.587516288s||81591|file|local|vector|||2.175||! Error running quarto CLI from R. Caused by error: ✖ Error returned by quarto CLI. ℹ Rerun with `quiet = FALSE` to see the full error message. Caused by error: ! System command 'quarto' failed
-cfg_file|stem|c2ddee82e8357908|51c9fe44fb68ab11|2c530c1562a7fbd1|-2098879298|config/cfg.yml|t20438.528127679s|s5038b|5038|file|local|vector|||2.867||
-cfg|stem|c37a60f5c636ed20|18aad761e62f3c93|fc3f48b388c8676e|1339945205||t20440.5001152913s|s1327b|1327|rds|local|vector|||0.001||
-raw|stem|7e44ee8f8528826f|93990d6b4f441507|d8871b2d8f5ae30b|727646308||t20440.5003528738s|s1031336b|1031336|rds|local|vector|||20.285||
-shamraw|stem|476bdc5967c96853|686f2027d9267b9c|846ee6a52d57a5cd|791270680||t20440.500357717s|s1036879b|1036879|rds|local|vector|||0.09||
-adsl|stem|8889f5b1281a9535|b8e63e0711ea94af|4699be10e9e00fcf|2106936910||t20440.500360046s|s2787b|2787|rds|local|vector|||0.096|There was 1 warning in `arrange()`. ℹ In argument: `..1 = as.numeric(step)`. Caused by warning: ! NAs introduced by coercion|
-adeff|stem|415b60fa370127b5|e363e9b9688615bd|4029b3627a58fa55|2044678021||t20441.5088465217s|s105716b|105716|rds|local|vector|||0.456||
-primary_mri_vars|stem|12157d656d34f8f4|c78affe6f51991ab|2c530c1562a7fbd1|2117268287||t20441.6166419565s|s91b|91|rds|local|vector|||1.977||
-primary_mri_labels|stem|9bcbea89a255387d|def52ff90d4b7b5a|2c530c1562a7fbd1|1176111387||t20441.6166422234s|s168b|168|rds|local|vector|||0.001||
-other_mri_vars|stem|8b1f6461f22597f3|44f176d66998afd7|14a4d4802874076d|487417072||t20441.6166426861s|s142b|142|rds|local|vector|||0.001||
-other_mri_summaries|stem|1f84ed3390685a3a|c160fc704e3f18c9|10380563ee356868|1202295808||t20441.6289732926s|s6741370b|6741370|rds|local|vector|||1.464||
-adbl|stem|0a19bae7a4b38667|1ced48f40cda56d8|c9704c7b08bced44|-602618161||t20441.6403880761s|s18997b|18997|rds|local|vector|||0.332||
-tbl_baseline|stem|6cef2909c1545e8a|3beb58957e96eb68|cc5dde60b44ccfd7|-1741336211||t20441.6403942576s|s22394b|22394|rds|local|vector|||0.5||
-primary_mri_sections|stem|8b76a64f66f9b6da|981a16a021f34b53|96c2f71f85d5bb9c|-283662289||t20441.6747413s|s1461259b|1461259|rds|local|vector|||0.79|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
+primary_mri_vars|stem|09d11d7034f1f556|c78affe6f51991ab|2c530c1562a7fbd1|2117268287||t20458.5756949166s|s91b|91|rds|local|vector|||2.55||
+primary_mri_labels|stem|e845def8af926d59|def52ff90d4b7b5a|2c530c1562a7fbd1|1176111387||t20458.575696124s|s168b|168|rds|local|vector|||0.02||
+cfg_file|stem|5ea642952d9191bf|51c9fe44fb68ab11|2c530c1562a7fbd1|-2098879298|config/cfg.yml|t20458.523083196s|s5274b|5274|file|local|vector|||0||
+cfg_adam_file|stem|c3d80fe82ac98162|1efdd77af1e49c08|2c530c1562a7fbd1|1512137267|config/adam.yml|t20375.6190157655s|s10335b|10335|file|local|vector|||0||
+cfg|stem|11af9a565917dbde|18aad761e62f3c93|79af225e563962b1|1339945205||t20458.5756982849s|s1327b|1327|rds|local|vector|||0.02||
+cfg_adam|stem|ea0d0d4f0ea5b59c|ed4b1d57366042a9|01b3de4a2b5c43d9|-2080421085||t20458.5756992877s|s1980b|1980|rds|local|vector|||0.01||
+raw|stem|cd974c45dfd54a89|93990d6b4f441507|a22357ce60319e4f|727646308||t20458.6085717745s|s1018150b|1018150|rds|local|vector|||436.88||
+shamraw|stem|a4b5d5bdb1adae25|686f2027d9267b9c|33b06e3c4883ad6e|791270680||t20458.6085824472s|s1022826b|1022826|rds|local|vector|||0.17||
+adsl|stem|3c7aee804ebc7452|b8e63e0711ea94af|f4590dc696cb47ec|2106936910||t20458.6085876683s|s2802b|2802|rds|local|vector|||0.17|There was 1 warning in `arrange()`. ℹ In argument: `..1 = as.numeric(step)`. Caused by warning: ! NAs introduced by coercion|
 n_pct|function|6fa695711dd45718
 get_raw|function|bc2902eca289e89f
 lookup_avisit|function|c038fb4b61f8bd83
@@ -64,9 +58,15 @@ path_outputs|function|4b8e2859de017861
 make_linsp|function|0c33bf165dd844b0
 make_rdeff_section|function|b0420f9b8eb65a4d
 make_shamrand|function|b998384fe96b71d6
-make_adeff|function|f5ea53a505f972b2
+make_adeff|function|738b734c5b832b7c
 path_export|function|e5b365ed152b1c1d
 make_rdeff_batch|function|a57805fad8f07e52
 path_rawfile|function|ec809a5f86908802
 make_raw|function|7d7ebbb2e2c74c2b
-report_docx|stem|54a85f5440fd4579|59a3ee0e1308d9a0|5e35bcf9858ff1da|-1465342639|reports/impress_statistical_analysis.pdf*reports/impress_statistical_analysis.Rmd|t20441.6791295809s|s517207b|517207|file|local|vector|||7.445||
+adeff|stem|a367ea7c71a057d1|e363e9b9688615bd|6f6dfc880e25da60|2044678021||t20458.6145972828s|s94122b|94122|rds|local|vector|||1.18||
+other_mri_vars|stem|fc1dd4e616773e96|44f176d66998afd7|e7b61da4dbe19720|487417072||t20458.614599011s|s140b|140|rds|local|vector|||0||
+adbl|stem|26f92833777d6702|1ced48f40cda56d8|5bd0b873dc90d02e|-602618161||t20458.6146125635s|s18090b|18090|rds|local|vector|||0.89||
+primary_mri_sections|stem|124ababb4593491d|981a16a021f34b53|a7883e452cafe18a|-283662289||t20458.6146413782s|s1429849b|1429849|rds|local|vector|||1.72|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
+other_mri_summaries|stem|518f9728b86fbff6|c160fc704e3f18c9|a338aa20cb34df68|1202295808||t20458.6147298946s|s6522236b|6522236|rds|local|vector|||3.26||
+tbl_baseline|stem|14e337139d32cfde|3beb58957e96eb68|3c7ea3ca716c3893|-1741336211||t20458.6147462461s|s22633b|22633|rds|local|vector|||1||
+report_docx|stem|59465364552fe3d7|59a3ee0e1308d9a0|a315ef6166d95822|-1465342639|reports/impress_statistical_analysis.pdf*reports/impress_statistical_analysis.Rmd|t20458.615701919s|s520141b|520141|file|local|vector|||80.66||
