@@ -43,7 +43,7 @@ make_adeff <- function(raw, adsl, cfg) {
   mri <- raw %>% get_raw("mri")
   mri_vars <- c(
     "mrt1cf", "mrt2cf", "mrt1ss", "mrt2ss", "mrt1ca", "mrt2ps", "mrpta",
-    "mrrtt", "mrmef", "mrdsc", "mrrvsi", "mrrvc", "mrrva", "mrrcva",
+    "mrrtt", "mrmef", "mrdsc", "mrrvsi", "mrrvc",  "mrrcva",
     "mrrdv", "mrdpta", "mrdrfa", "mrdrsi", "mrdiim", "mrdts", "mrdtv",
     "mrdtp", "mrrvt", "mrdtrv", "mrdte"
   )
