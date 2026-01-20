@@ -54,12 +54,17 @@ tar_option_set(
 
 # Run the R scripts in the R/ folder with your custom functions:
 tar_source("R/external/functions.R")
+tar_source("R/make_ad/helpers_ad.R")
 tar_source("R/make_ad/make_adsl.R")
 tar_source("R/make_raw/make_shamrand.R")
 tar_source("R/make_raw/make_raw.R")
+tar_source("R/make_ad/make_admri.R")
 tar_source("R/make_ad/make_adeff.R")
 tar_source("R/make_ad/make_adbl.R")
+tar_source("R/make_ad/make_adtte.R")
 tar_source("R/make_rd/make_rdbl.R")
+tar_source("R/make_rd/helpers_rd.R")
+tar_source("R/make_rd/make_rdmri.R")
 tar_source("R/make_rd/make_rdeff.R")
 
 # Replace the target list below with your own:
@@ -95,12 +100,20 @@ list(
     make_adsl(shamraw, cfg)
   ),
   tar_target(
+    admri,
+    make_admri(shamraw, adsl, cfg)
+  ),
+  tar_target(
     adeff,
     make_adeff(shamraw, adsl, cfg)
   ),
   tar_target(
     adbl,
-    make_adbl(shamraw, cfg, adsl, adeff)
+    make_adbl(shamraw, cfg, adsl, admri)
+  ),
+  tar_target(
+    adtte,
+    make_adtte(shamraw, adsl, cfg)
   ),
   tar_target(
     primary_mri_vars,
@@ -117,16 +130,56 @@ list(
   ),
   tar_target(
     primary_mri_sections,
-    make_rdeff_batch(adeff, primary_mri_vars, cfg)
+    make_rdmri_batch(admri, primary_mri_vars, cfg)
   ),
   tar_target(
     other_mri_vars,
-    setdiff(unique(as.character(adeff$paramcd)), primary_mri_vars)
+    setdiff(unique(as.character(admri$paramcd)), primary_mri_vars)
   ),
   tar_target(
     other_mri_summaries,
     purrr::set_names(other_mri_vars) |>
-      purrr::map(~ summarize_mri_endpoint(adeff, .x))
+      purrr::map(~ summarize_mri_endpoint(admri, .x, cfg))
+  ),
+  tar_target(
+    neuro_vars,
+    rlang::set_names(c("kps", "ecog", "nano_tot"))
+  ),
+  tar_target(
+    neuro_summaries,
+    purrr::set_names(neuro_vars) |>
+      purrr::map(~ make_cont_section(adeff, .x, cfg))
+  ),
+  tar_target(
+    qol_vars,
+    rlang::set_names(c("qlq_c30", "qlq_bn20"))
+  ),
+  tar_target(
+    qol_summaries,
+    purrr::set_names(qol_vars) |>
+      purrr::map(~ make_cont_section(adeff, .x, cfg))
+  ),
+  tar_target(
+    steroid_summaries,
+    make_steroid_section(adeff, cfg)
+  ),
+  tar_target(
+    rano_vars,
+    rlang::set_names(c("trsdisea", "trorresp"))
+  ),
+  tar_target(
+    rano_summaries,
+    purrr::set_names(rano_vars) |>
+      purrr::map(~ summarise_rano_polr(adeff, .x, cfg))
+  ),
+  tar_target(
+    cycle11_mri_vars,
+    rlang::set_names(unique(as.character(admri$paramcd)))
+  ),
+  tar_target(
+    cycle11_mri_summaries,
+    purrr::set_names(cycle11_mri_vars) |>
+      purrr::map(~ summarize_mri_cycle11(admri, .x, cfg))
   ),
   tar_target(
     tbl_baseline,

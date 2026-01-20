@@ -18,6 +18,176 @@ cmodels:
   sigEmax: [40, 5]
   linInt: [1, 1, 1]
 
+analysis:
+  cohortcd: 2
+
+trt_map:
+  - armcd: "AR1_1_0"
+    diagnosis: "AR"
+    start_day: 1
+    dose: 25
+    post_cycle4_dose: 0
+  - armcd: "AR1_1_25"
+    diagnosis: "AR"
+    start_day: 1
+    dose: 25
+    post_cycle4_dose: 25
+  - armcd: "AR1_2_0"
+    diagnosis: "AR"
+    start_day: 15
+    dose: 25
+    post_cycle4_dose: 0
+  - armcd: "AR1_2_25"
+    diagnosis: "AR"
+    start_day: 15
+    dose: 25
+    post_cycle4_dose: 25
+  - armcd: "AR1_3_0"
+    diagnosis: "AR"
+    start_day: 29
+    dose: 25
+    post_cycle4_dose: 0
+  - armcd: "AR1_3_25"
+    diagnosis: "AR"
+    start_day: 29
+    dose: 25
+    post_cycle4_dose: 25
+  - armcd: "AR2_4_0"
+    diagnosis: "AR"
+    start_day: 1
+    dose: 50
+    post_cycle4_dose: 0
+  - armcd: "AR2_4_50"
+    diagnosis: "AR"
+    start_day: 1
+    dose: 50
+    post_cycle4_dose: 50
+  - armcd: "AR2_5_0"
+    diagnosis: "AR"
+    start_day: 15
+    dose: 50
+    post_cycle4_dose: 0
+  - armcd: "AR2_5_50"
+    diagnosis: "AR"
+    start_day: 15
+    dose: 50
+    post_cycle4_dose: 50
+  - armcd: "AR2_6_0"
+    diagnosis: "AR"
+    start_day: 29
+    dose: 50
+    post_cycle4_dose: 0
+  - armcd: "AR2_6_50"
+    diagnosis: "AR"
+    start_day: 29
+    dose: 50
+    post_cycle4_dose: 50
+  - armcd: "AR3_1_100"
+    diagnosis: "AR"
+    start_day: 1
+    dose: 100
+    post_cycle4_dose: 100
+  - armcd: "AR3_2_100"
+    diagnosis: "AR"
+    start_day: 15
+    dose: 100
+    post_cycle4_dose: 100
+  - armcd: "AR3_3_100"
+    diagnosis: "AR"
+    start_day: 29
+    dose: 100
+    post_cycle4_dose: 100
+  - armcd: "AN1_1_0"
+    diagnosis: "AN"
+    start_day: 1
+    dose: 25
+    post_cycle4_dose: 0
+  - armcd: "AN1_1_25"
+    diagnosis: "AN"
+    start_day: 1
+    dose: 25
+    post_cycle4_dose: 25
+  - armcd: "AN1_2_0"
+    diagnosis: "AN"
+    start_day: 15
+    dose: 25
+    post_cycle4_dose: 0
+  - armcd: "AN1_2_25"
+    diagnosis: "AN"
+    start_day: 15
+    dose: 25
+    post_cycle4_dose: 25
+  - armcd: "AN1_3_0"
+    diagnosis: "AN"
+    start_day: 29
+    dose: 25
+    post_cycle4_dose: 0
+  - armcd: "AN1_3_25"
+    diagnosis: "AN"
+    start_day: 29
+    dose: 25
+    post_cycle4_dose: 25
+  - armcd: "AN2_4_0"
+    diagnosis: "AN"
+    start_day: 1
+    dose: 50
+    post_cycle4_dose: 0
+  - armcd: "AN2_4_50"
+    diagnosis: "AN"
+    start_day: 1
+    dose: 50
+    post_cycle4_dose: 50
+  - armcd: "AN2_5_0"
+    diagnosis: "AN"
+    start_day: 15
+    dose: 50
+    post_cycle4_dose: 0
+  - armcd: "AN2_5_50"
+    diagnosis: "AN"
+    start_day: 15
+    dose: 50
+    post_cycle4_dose: 50
+  - armcd: "AN2_6_0"
+    diagnosis: "AN"
+    start_day: 29
+    dose: 50
+    post_cycle4_dose: 0
+  - armcd: "AN2_6_50"
+    diagnosis: "AN"
+    start_day: 29
+    dose: 50
+    post_cycle4_dose: 50
+  - armcd: "AN3_1_100"
+    diagnosis: "AN"
+    start_day: 1
+    dose: 100
+    post_cycle4_dose: 100
+  - armcd: "AN3_2_100"
+    diagnosis: "AN"
+    start_day: 15
+    dose: 100
+    post_cycle4_dose: 100
+  - armcd: "AN3_3_100"
+    diagnosis: "AN"
+    start_day: 29
+    dose: 100
+    post_cycle4_dose: 100
+  - armcd: "BM1"
+    diagnosis: "BM"
+    start_day: 1
+    dose: 50
+    post_cycle4_dose: null
+  - armcd: "BM2"
+    diagnosis: "BM"
+    start_day: 1091
+    dose: 50
+    post_cycle4_dose: null
+  - armcd: "BM3"
+    diagnosis: "BM"
+    start_day: 1181
+    dose: 50
+    post_cycle4_dose: null
+
 
 paths:
   raw: "data/raw"
@@ -38,6 +208,7 @@ reporting:
     - diagnosis
     - surg_rand
     - idh
+
     - mgmt
     - pregres
     # Neurologic status
@@ -84,6 +255,9 @@ reporting:
     - mrrvc
     - mrrvsi
     - mrrvt
+
+plot:
+  dodge_width: 0.1
 
 linsp: 
   knots: 

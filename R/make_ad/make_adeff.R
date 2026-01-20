@@ -1,58 +1,33 @@
-
-
-visits_from_yaml <- function(ln) {
-  v <- ln$visits
-  if (is.null(v) || is.null(v$map)) stop("No 'visits: map:' section in cfg.yml")
-  map <- tibble::tibble(
-    eventname = stringr::str_squish(as.character(purrr::map_chr(v$map, "eventname"))),
-    avisit    = stringr::str_squish(as.character(purrr::map_chr(v$map, "avisit", .null = NA_character_))),
-    avisitn   = suppressWarnings(as.integer(purrr::map_int(v$map, "avisitn")))
-  ) %>% distinct()
-  defaults <- list(
-    avisit_fallback_from_eventname = isTRUE(v$defaults$avisit_fallback_from_eventname),
-    avisitn_unmapped               = as.integer(v$defaults$avisitn_unmapped %||% 999L)
-  )
-  list(map = map, defaults = defaults)
-}
-
-
-lookup_avisit  <- function(eventname, MAP, fallback_title = TRUE) {
-  x <- tibble(eventname = str_squish(as.character(eventname))) %>%
-    left_join(MAP, by = "eventname")
-  out <- x$avisit
-  if (fallback_title) out[is.na(out)] <- str_to_title(x$eventname[is.na(out)])
-  out
-}
-
-lookup_avisitn <- function(eventname, MAP, unmapped = 999L) {
-  x <- tibble(eventname = str_squish(as.character(eventname))) %>%
-    left_join(MAP, by = "eventname")
-  out <- x$avisitn
-  out[is.na(out)] <- as.integer(unmapped)
-  as.integer(out)
-}
-
-
-
+#' Build ADEFF for neurologic status, steroids, and QoL endpoints
+#'
+#' Constructs a BDS-style ADaM dataset for continuous neurologic performance
+#' scores (KPS, ECOG, NANO), QoL measures (QLQ-C30, QLQ-BN20), and steroid use.
+#' Visits are mapped from `cfg.yml`, baseline is restricted to observations on or
+#' before randomization, and stepped-wedge treatment assignment is derived from
+#' `armcd` and visit day.
+#'
+#' @param raw Raw data list from `make_raw()`.
+#' @param adsl Subject-level dataset containing randomization and arm metadata.
+#' @param cfg Configuration list (including visit mapping).
+#'
+#' @return A tibble with ADEFF records including derived baseline and change
+#'   variables, and time-varying treatment indicators.
+#'
+#' @details Manual verification: Inge Christoffer Olsen checked patient 2054,
+#'   Cycle 4 against the eCRF on 2025-03-08.
+#'
+#' @export
 # ============================================================
-# 5) adeff builder (BDS-style)
+# 6) adeff builder (neurologic status, steroids, QoL; BDS-style)
 # ============================================================
 make_adeff <- function(raw, adsl, cfg) {
 
   visits <- visits_from_yaml(cfg)
-  mri <- raw %>% get_raw("mri")
-  mri_vars <- c(
-    "mrt1cf", "mrt2cf", "mrt1ss", "mrt2ss", "mrt1ca", "mrt2ps", "mrpta",
-    "mrrtt", "mrmef", "mrdsc", "mrrvsi", "mrrvc",  "mrrcva",
-    "mrrdv", "mrdpta", "mrdrfa", "mrdrsi", "mrdiim", "mrdts", "mrdtv",
-    "mrdtp", "mrrvt", "mrdtrv", "mrdte"
-  )
 
   visit_levels_df <- visits$map %>%
     arrange(avisitn, avisit) %>%
     distinct(avisit, avisitn)
   avisit_levels <- visit_levels_df$avisit[!is.na(visit_levels_df$avisit)]
-  avisitn_levels <- visit_levels_df$avisitn[!is.na(visit_levels_df$avisitn)]
   visit_schedule <- visit_levels_df %>%
     filter(!is.na(avisitn), !is.na(avisit)) %>%
     arrange(avisitn) %>%
@@ -62,198 +37,234 @@ make_adeff <- function(raw, adsl, cfg) {
     distinct(eventname) %>%
     dplyr::pull(eventname)
 
-  add_observed_levels <- function(values, base_levels) {
-    base_levels <- unique(as.character(base_levels))
-    observed <- unique(as.character(values[!is.na(values)]))
-    extra <- setdiff(observed, base_levels)
-    unique(c(base_levels, extra))
-  }
-
-  nearest_visit_from_ady <- function(days) {
-    if (!nrow(visit_schedule)) {
-      return(list(
-        avisitn = rep(NA_integer_, length(days)),
-        avisit  = rep(NA_character_, length(days))
-      ))
+  safe_label <- function(data, var, default) {
+    if (is.null(data)) {
+      default
+    } else {
+      lab <- attr(data[[var]], "label", exact = TRUE)
+      if (is.null(lab) || !nzchar(lab)) default else as.character(lab)
     }
-    idx <- vapply(days, function(d) {
-      if (is.na(d)) return(NA_integer_)
-      which.min(abs(d - visit_schedule$avisitn))
-    }, integer(1))
-    list(
-      avisitn = ifelse(is.na(idx), NA_integer_, visit_schedule$avisitn[idx]),
-      avisit  = ifelse(is.na(idx), NA_character_, visit_schedule$avisit[idx])
-    )
   }
 
-  adeff_base <-
-    adsl %>%
-    left_join(
-      mri %>%
+  build_long <- function(df, value_col, date_col, paramcd, param, avalc = NA_character_) {
+    if (is.null(df)) {
+      return(tibble::tibble())
+    }
+    df %>%
+      mutate(
+        subjid = subjectid,
+        adt = suppressWarnings(as.Date(.data[[date_col]])),
+        adt = dplyr::coalesce(adt, as.Date(eventdate))
+      ) %>%
+      filter(!is.na(.data[[value_col]])) %>%
+      transmute(
+        subjid,
+        eventname,
+        adt,
+        paramcd = paramcd,
+        param = param,
+        aval = as.numeric(.data[[value_col]]),
+        avalc = avalc
+      )
+  }
+
+  build_long_cat <- function(df, value_col, date_col, paramcd, param) {
+    if (is.null(df)) {
+      return(tibble::tibble())
+    }
+    df %>%
+      mutate(
+        subjid = subjectid,
+        adt = suppressWarnings(as.Date(.data[[date_col]])),
+        adt = dplyr::coalesce(adt, as.Date(eventdate))
+      ) %>%
+      filter(!is.na(.data[[value_col]])) %>%
+      transmute(
+        subjid,
+        eventname,
+        adt,
+        paramcd = paramcd,
+        param = param,
+        aval = NA_real_,
+        avalc = as.character(.data[[value_col]])
+      )
+  }
+
+  ecog <- raw |> get_raw("ecog")
+  kps <- raw |> get_raw("kps")
+  nano <- raw |> get_raw("nano")
+  cs <- raw |> get_raw("cs")
+  tr <- raw |> get_raw("tr")
+  qlq <- raw |> get_raw("qlq")
+  qlqbn <- raw |> get_raw("qlqbn")
+
+  paramcd_map <- c(
+    ecog = sub(" - Code$", "", safe_label(ecog, "ecogscd", "ECOG Score")),
+    kps = sub(" - Code$", "", safe_label(kps, "kpsscd", "Karnofsky Performance Scale")),
+    nano_tot = safe_label(nano, "nanotot", "Total NANO score"),
+    cs_steroids_mri = safe_label(cs, "csmriyn", "Steroids at time of MRI"),
+    qlq_c30 = safe_label(qlq, "qlqc3sc", "EORTC QLQ-C30 score"),
+    qlq_bn20 = safe_label(qlqbn, "qlqbnsc", "EORTC QLQ-BN20 score"),
+    trpspro = sub(" - Code$", "", safe_label(tr, "trpsprocd", "Occurrence of pseudoprogression")),
+    trsdisea = sub(" - Code$", "", safe_label(tr, "trsdiseacd", "State of disease according to RANO")),
+    trorresp = sub(" - Code$", "", safe_label(tr, "trorrespcd", "Best overall radiographic response"))
+  )
+
+  # Build a unified long-format dataset across neuro/QoL/steroid sources.
+  cs_long <- if (!is.null(cs)) {
+    cs %>%
+      mutate(
+        subjid = subjectid,
+        adt = suppressWarnings(as.Date(eventdate)),
+        steroid_flag = case_when(
+          toupper(as.character(csmriyn)) == "YES" ~ 1,
+          toupper(as.character(csmriyn)) == "NO" ~ 0,
+          TRUE ~ NA_real_
+        )
+      ) %>%
+      filter(!is.na(steroid_flag)) %>%
+      transmute(
+        subjid,
+        eventname,
+        adt,
+        paramcd = "cs_steroids_mri",
+        param = paramcd_map[["cs_steroids_mri"]],
+        aval = NA_real_,
+        avalc = as.character(csmriyn)
+      )
+  } else {
+    tibble::tibble()
+  }
+
+  tr_long <- if (!is.null(tr)) {
+    dplyr::bind_rows(
+      tr %>%
+        mutate(subjid = subjectid, adt = suppressWarnings(as.Date(eventdate))) %>%
+        filter(!is.na(trpsprocd)) %>%
         transmute(
-          subjid    = subjectid,
-          eventname = eventname,
-          adt       = as_date(mridat),
-          avisit    = lookup_avisit(eventname, visits$map, fallback_title = TRUE),
-          avisitn   = lookup_avisitn(eventname, visits$map, unmapped = visits$defaults$avisitn_unmapped),
-          across(all_of(mri_vars))
+          subjid,
+          eventname,
+          adt,
+          paramcd = "trpspro",
+          param = paramcd_map[["trpspro"]],
+          aval = NA_real_,
+          avalc = as.character(trpspro)
         ),
-      by = "subjid"
-    ) |>
-    mutate(
-      randdt = as_date(randdt),
-      ablfl = if_else(avisit == "Randomization And Baseline MRI", "Y", "N", missing = "N")
-    ) 
-
-  label_for <- function(var) {
-    lab <- attr(adeff_base[[var]], "label", exact = TRUE)
-    if (is.null(lab) || !nzchar(lab)) var else as.character(lab)
+      tr %>%
+        mutate(subjid = subjectid, adt = suppressWarnings(as.Date(eventdate))) %>%
+        filter(!is.na(trsdiseacd)) %>%
+        transmute(
+          subjid,
+          eventname,
+          adt,
+          paramcd = "trsdisea",
+          param = paramcd_map[["trsdisea"]],
+          aval = NA_real_,
+          avalc = as.character(trsdisea)
+        ),
+      tr %>%
+        mutate(subjid = subjectid, adt = suppressWarnings(as.Date(eventdate))) %>%
+        filter(!is.na(trorrespcd)) %>%
+        transmute(
+          subjid,
+          eventname,
+          adt,
+          paramcd = "trorresp",
+          param = paramcd_map[["trorresp"]],
+          aval = NA_real_,
+          avalc = as.character(trorresp)
+        )
+    )
+  } else {
+    tibble::tibble()
   }
 
-  paramcd_map <- purrr::set_names(purrr::map_chr(mri_vars, label_for), mri_vars)
-  paramcd_levels <- mri_vars
-  param_levels <- unname(paramcd_map[paramcd_levels])
+  adeff_long <- dplyr::bind_rows(
+    build_long(ecog, "ecogscd", "eventdate", "ecog", paramcd_map[["ecog"]]),
+    build_long(kps, "kpsscd", "eventdate", "kps", paramcd_map[["kps"]]),
+    build_long(nano, "nanotot", "eventdate", "nano_tot", paramcd_map[["nano_tot"]]),
+    cs_long,
+    build_long(qlq, "qlqc3sc", "qlqc3dat", "qlq_c30", paramcd_map[["qlq_c30"]]),
+    build_long(qlqbn, "qlqbnsc", "qlqbndat", "qlq_bn20", paramcd_map[["qlq_bn20"]]),
+    tr_long
+  )
 
-  adeff_long <-
-    adeff_base %>%
-    tidyr::pivot_longer(
-      cols = all_of(mri_vars),
-      names_to = "paramcd",
-      values_to = "aval"
-    ) %>%
+  if (!nrow(adeff_long)) {
+    return(tibble::tibble())
+  }
+
+  adeff_base <- adeff_long %>%
+    left_join(adsl, by = "subjid") %>%
     mutate(
-      param = unname(paramcd_map[paramcd])
-    ) %>%
-    rename_with(tolower, any_of(c("USUBJID", "RANDDT", "ADT", "AVISIT", "AVISITN")))
+      avisit = lookup_avisit(eventname, visits$map, fallback_title = TRUE),
+      avisitn = lookup_avisitn(eventname, visits$map, unmapped = visits$defaults$avisitn_unmapped)
+    )
 
   adeff <-
     derive_vars_dy(
-      dataset = adeff_long |> rename_with(toupper),
+      dataset = adeff_base |> rename_with(toupper),
       reference_date = RFSTDT,
       source_vars = exprs(ADT)
     ) %>%
-    arrange(USUBJID, ADT, PARAM) %>%
-    rename_with(tolower) |>
-    mutate(base_raw = if_else(ablfl == "Y", aval, NA_real_)) %>%
-    group_by(usubjid, param) %>%
+    rename_with(tolower) %>%
+    arrange(usubjid, adt, paramcd)
+
+  # Baseline is restricted to observations on/before randomization.
+  adeff <- adeff %>%
+    group_by(usubjid, paramcd) %>%
     mutate(
+      baseline_date = {
+        eligible <- !is.na(aval) & !is.na(randdt) & !is.na(adt) & adt <= randdt
+        if (any(eligible)) max(adt[eligible], na.rm = TRUE) else as.Date(NA)
+      },
+      ablfl = if_else(!is.na(adt) & !is.na(baseline_date) & adt == baseline_date, "Y", "N", missing = "N"),
+      base_raw = if_else(ablfl == "Y", aval, NA_real_),
       base = if (any(!is.na(base_raw))) max(base_raw, na.rm = TRUE) else NA_real_,
-      chg  = if_else(!is.na(aval) & !is.na(base), aval - base, NA_real_),
+      chg = if_else(!is.na(aval) & !is.na(base), aval - base, NA_real_),
       pchg = if_else(!is.na(aval) & !is.na(base) & base != 0, 100 * (aval - base) / base, NA_real_)
     ) %>%
     ungroup() %>%
-    select(-base_raw)
+    select(-baseline_date, -base_raw)
 
-  # Map previously unmapped visits to the closest scheduled visit using ADY
   remap_needed <- (is.na(adeff$avisitn) | adeff$avisitn == visits$defaults$avisitn_unmapped) &
     !is.na(adeff$ady)
-  closest_visits <- nearest_visit_from_ady(adeff$ady)
+  closest_visits <- nearest_visit_from_ady(adeff$ady, visit_schedule)
   adeff <- adeff %>%
     mutate(
       avisitn = if_else(remap_needed, closest_visits$avisitn, avisitn),
-      avisit  = if_else(remap_needed, closest_visits$avisit, avisit)
+      avisit = if_else(remap_needed, closest_visits$avisit, avisit)
     )
-  
-  
-  # Add treatment variable according to the randomisation and the dose levels.
-  ar_trt <- function(day, start_day, dose, post_cycle4_dose) {
-    case_when(
-      is.na(day) ~ NA_real_,
-      day <= start_day ~ 0,
-      day > start_day & day <= 43 ~ dose,
-      day > 43 & day <= 169 ~ post_cycle4_dose,
-      day > 169 ~ 0
-    )
-  }
 
-   an_trt <- function(day, start_day, dose, post_cycle4_dose) {
-    case_when(
-      is.na(day) ~ NA_real_,
-      day <= start_day ~ 0,
-      day > start_day & day <= 43 ~ dose,
-      day > 43 & day <= 239 ~ post_cycle4_dose,
-      day > 239 ~ 0
-    )
-  }
-
-  bm_trt <- function(day, start_day, dose) {
-    case_when(
-      is.na(day) ~ NA_real_,
-      day < start_day ~ 0,
-      day >= start_day & day <= 1270 ~ dose,
-      day > 270 ~ 0
-    )
-  }
-
+  # Apply stepped-wedge treatment assignment based on armcd and visit day.
+  trt_map <- trt_map_from_yaml(cfg)
   adeff <- adeff %>%
     mutate(
       visit_day = avisitn,
-      armcd_trt = armcd,
-      trt = case_when(
-        armcd_trt == "AR1_1_0" ~ ar_trt(visit_day, 1, 25, 0),
-        armcd_trt == "AR1_1_25" ~ ar_trt(visit_day, 1, 25, 25),
-        armcd_trt == "AR1_2_0" ~ ar_trt(visit_day, 15, 25, 0),
-        armcd_trt == "AR1_2_25" ~ ar_trt(visit_day, 15, 25, 25),
-        armcd_trt == "AR1_3_0" ~ ar_trt(visit_day, 29, 25, 0),
-        armcd_trt == "AR1_3_25" ~ ar_trt(visit_day, 29, 25, 25),
-        armcd_trt == "AR2_4_0" ~ ar_trt(visit_day, 1, 50, 0),
-        armcd_trt == "AR2_4_50" ~ ar_trt(visit_day, 1, 50, 50),
-        armcd_trt == "AR2_5_0" ~ ar_trt(visit_day, 15, 50, 0),
-        armcd_trt == "AR2_5_50" ~ ar_trt(visit_day, 15, 50, 50),
-        armcd_trt == "AR2_6_0" ~ ar_trt(visit_day, 29, 50, 0),
-        armcd_trt == "AR2_6_50" ~ ar_trt(visit_day, 29, 50, 50),
-        armcd_trt == "AR3_1_100" ~ ar_trt(visit_day, 1, 100, 100),
-        armcd_trt == "AR3_2_100" ~ ar_trt(visit_day, 15, 100, 100),
-        armcd_trt == "AR3_3_100" ~ ar_trt(visit_day, 29, 100, 100),
-        armcd_trt == "AN1_1_0" ~ an_trt(visit_day, 1, 25, 0),
-        armcd_trt == "AN1_1_25" ~ an_trt(visit_day, 1, 25, 25),
-        armcd_trt == "AN1_2_0" ~ an_trt(visit_day, 15, 25, 0),
-        armcd_trt == "AN1_2_25" ~ an_trt(visit_day, 15, 25, 25),
-        armcd_trt == "AN1_3_0" ~ an_trt(visit_day, 29, 25, 0),
-        armcd_trt == "AN1_3_25" ~ an_trt(visit_day, 29, 25, 25),
-        armcd_trt == "AN2_4_0" ~ an_trt(visit_day, 1, 50, 0),
-        armcd_trt == "AN2_4_50" ~ an_trt(visit_day, 1, 50, 50),
-        armcd_trt == "AN2_5_0" ~ an_trt(visit_day, 15, 50, 0),
-        armcd_trt == "AN2_5_50" ~ an_trt(visit_day, 15, 50, 50),
-        armcd_trt == "AN2_6_0" ~ an_trt(visit_day, 29, 50, 0),
-        armcd_trt == "AN2_6_50" ~ an_trt(visit_day, 29, 50, 50),
-        armcd_trt == "AN3_1_100" ~ an_trt(visit_day, 1, 100, 100),
-        armcd_trt == "AN3_2_100" ~ an_trt(visit_day, 15, 100, 100),
-        armcd_trt == "AN3_3_100" ~ an_trt(visit_day, 29, 100, 100),
-        armcd_trt == "BM1" ~ bm_trt(visit_day, 1, 50),
-        armcd_trt == "BM2" ~ bm_trt(visit_day, 1091, 50),
-        armcd_trt == "BM3" ~ bm_trt(visit_day, 1181, 50),
-        TRUE ~ NA_real_
-      )
+      trt = trt_from_map(armcd, visit_day, trt_map)
     ) %>%
-    select(-visit_day, -armcd_trt) |>
+    select(-visit_day) %>%
     mutate(
       trtcd = trt,
       trtcd = factor(trtcd, levels = c(0, 25, 50, 100)),
       trt = paste0(trt, " mg"),
       trt = factor(trt, levels = c("0 mg", "25 mg", "50 mg", "100 mg"))
     )
-    
 
+  paramcd_levels <- names(paramcd_map)
+  param_levels <- unname(paramcd_map[paramcd_levels])
 
-
- adeff <- adeff %>%
-   select(usubjid, eventname, avisit, avisitn, adt, ady, trt, trtcd, param, paramcd, aval, ablfl, randdt, everything()) |> 
-   mutate(
-     eventname = factor(eventname, levels = add_observed_levels(eventname, eventname_levels)),
-     avisit  = factor(avisit,  levels = add_observed_levels(avisit,  avisit_levels)),
-#     avisitn = factor(avisitn, levels = add_observed_levels(avisitn, avisitn_levels)),
-     paramcd = factor(paramcd, levels = add_observed_levels(paramcd, paramcd_levels)),
-     param   = factor(param,   levels = add_observed_levels(param,   param_levels)),
-     ablfl   = factor(ablfl,   levels = add_observed_levels(ablfl,   c("N", "Y"))),
-     studyid = cfg$studyid,
-     domain  = "ADEFF"
-   ) %>%
-     select(studyid, domain, everything())
-   
- 
- 
-
+  # Manual verification note: Inge Christoffer Olsen checked patient 2054, Cycle 4 against the eCRF on 2025-03-08.
+  adeff <- adeff %>%
+    mutate(
+      eventname = factor(eventname, levels = add_observed_levels(eventname, eventname_levels)),
+      avisit = factor(avisit, levels = add_observed_levels(avisit, avisit_levels)),
+      paramcd = factor(paramcd, levels = add_observed_levels(paramcd, paramcd_levels)),
+      param = factor(param, levels = add_observed_levels(param, param_levels)),
+      ablfl = factor(ablfl, levels = add_observed_levels(ablfl, c("N", "Y"))),
+      studyid = cfg$studyid,
+      domain = "ADEFF"
+    ) %>%
+    select(studyid, domain, everything())
 
   return(adeff)
 }

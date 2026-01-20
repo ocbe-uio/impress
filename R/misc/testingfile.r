@@ -18,9 +18,11 @@
   
 library(tidyverse)
 source("R/external/functions.R")
+source("R/make_ad/helpers_ad.R")
 source("R/make_ad/make_adsl.R")
 source("R/make_raw/make_shamrand.R")
 source("R/make_raw/make_raw.R")
+source("R/make_rd/helpers_rd.R")
 cfg <- yaml::read_yaml("config/cfg.yml")
 cfg_adam <- yaml::read_yaml("config/adam.yml")
 #raw <- make_raw(cfg)

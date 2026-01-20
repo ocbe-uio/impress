@@ -471,10 +471,10 @@ mri;mrrvcyn;Mean relative vessel Caliber performed?;text;FALSE;NA;1;NA;YNFMT;0;M
 mri;mrrvcyncd;Mean relative vessel Caliber performed? - Code;integer;FALSE;NA;1;NA;YNFMT;0;MRRVCYNCD;2;;i
 mri;mrrvcnd;Reason not performed;text;FALSE;NA;1;NA;NA;0;MRRVCND;0;;c
 mri;mrrvc;Mean relative vessel caliber;double;FALSE;6;1;NA;NA;0;MRRVC;0;;d
-identifier;mrrvayn;Mean relative vortex area performed?;text;FALSE;NA;1;NA;YNFMT;0;MRRVAYN;1;;c
-identifier;mrrvayncd;Mean relative vortex area performed? - Code;integer;FALSE;NA;1;NA;YNFMT;0;MRRVAYNCD;2;;i
-identifier;mrrvand;Reason not performed;text;FALSE;NA;1;NA;NA;0;MRRVAND;0;;c
-identifier;mrrva;Mean relative vortex area;double;FALSE;6;1;NA;NA;0;MRRVA;0;;d
+mri;mrrvayn;Mean relative vortex area performed?;text;FALSE;NA;1;NA;YNFMT;0;MRRVAYN;1;;c
+mri;mrrvayncd;Mean relative vortex area performed? - Code;integer;FALSE;NA;1;NA;YNFMT;0;MRRVAYNCD;2;;i
+mri;mrrvand;Reason not performed;text;FALSE;NA;1;NA;NA;0;MRRVAND;0;;c
+mri;mrrva;Mean relative vortex area;double;FALSE;6;1;NA;NA;0;MRRVA;0;;d
 mri;mrrcvayn;Mean relative corrected vortex area performed?;text;FALSE;NA;1;NA;YNFMT;0;MRRCVAYN;1;;c
 mri;mrrcvayncd;Mean relative corrected vortex area performed? - Code;integer;FALSE;NA;1;NA;YNFMT;0;MRRCVAYNCD;2;;i
 mri;mrrcvand;Reason not performed;text;FALSE;NA;1;NA;NA;0;MRRCVAND;0;;c
