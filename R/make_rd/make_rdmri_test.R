@@ -7,12 +7,12 @@ library(broom)
 library(mmrm)
 library(marginaleffects)
 
-adeff <- tar_read(adeff, store = "_targets")
+admri <- tar_read(admri, store = "_targets")
 
 
 
 
-p_df <- adeff |>
+p_df <- admri |>
     filter(paramcd == "mrt1cf" & cohortcd == 2) |>
     filter(avisitn <= 43) |>
     mutate(trt = case_when(
@@ -44,7 +44,7 @@ vcov(m)
 summary(m)
 residuals(m)
  
-adeff |>
+admri |>
     group_by(avisit) |>
     summarise(mean = mean(ady, na.rm = TRUE), n= n())
 
@@ -52,7 +52,7 @@ adeff |>
 
 
 
-tmp2 <- adeff |>
+tmp2 <- admri |>
     filter(paramcd == "mrt1cf" & cohortcd == 2) |>
     filter(avisit %in% c("Randomization And Baseline MRI", "Cycle 2", "Cycle 3", "Cycle 4", "Cycle 11", "Cycle 17"))
 
@@ -70,9 +70,9 @@ library(dplyr)
 library(splines2) # or splines
 
 knots <- c(0, 15, 29, 45, 146, 238)
-bnds  <- range(adeff$ady, na.rm = TRUE)
+bnds  <- range(admri$ady, na.rm = TRUE)
 
-tmp2 <- adeff %>%
+tmp2 <- admri %>%
   filter( cohortcd == 2) |>
   mutate(
     # degree = 1 -> linear; use degree = 3 for cubic splines
@@ -247,7 +247,7 @@ make_splines <- function(ady) {
 }
 
 
-dat_spl <- adeff %>%
+dat_spl <- admri %>%
   filter(paramcd == "mrt1cf" & cohortcd == 2) |>
   mutate(armcd = factor(armcd)) %>%
   bind_cols(make_splines(.$ady))
@@ -312,8 +312,8 @@ test_cmod$fmodels
 
 tar_make()
 
-adeff <- tar_read(adeff, store = "_targets")
-data <- adeff
+admri <- tar_read(admri, store = "_targets")
+data <- admri
 var <- "mrt1cf"
 cohort <- "Newly diagnosed glioblastoma"
 
@@ -379,8 +379,8 @@ model_name <- "sigEmax"
 model_name <- "linear"
 
 
-adeff <- tar_read(adeff, store = "_targets")
-data <- adeff |>
+admri <- tar_read(admri, store = "_targets")
+data <- admri |>
   filter(cohort == "Newly diagnosed glioblastoma")
 var <- "mrt1cf"
 
@@ -396,6 +396,6 @@ mcttest <- f_mcttest(cfg, est, cmod$fmodels, contmat$contmat)
 fitmod <- f_fitmod(est, cfg$doses, cmod$fmodels)
 
 
-make_rdeff_section(data = data, var = var, cfg = cfg)
+make_rdmri_section(data = data, var = var, cfg = cfg)
 
 summarise_mri_endpoint(data, var = var)

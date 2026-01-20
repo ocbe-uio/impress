@@ -4,5 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"r.helpPanel.enableHoverLinks": false,
+		"r.helpPanel.enableSyntaxHighlighting": false,
+		"r.lsp.debug": true
+	}
 }

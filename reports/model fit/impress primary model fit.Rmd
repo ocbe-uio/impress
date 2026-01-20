@@ -22,12 +22,14 @@ library(marginaleffects)
 
 In this document we want to assess the model fit for different covariance structures in the primary statistical model used in ImPRESS. We use the Akaike Information Criterion (AIC) as the model selection criteria. The four models we want to compare are: unstructured, autoregressive and compound symmetry. Note that these analyses are based on sham randomisation, we deliberately ignore the true treatment allocation to avoid any information bias. 
 
+In addition we want to assess other diagnostic plots prior to unblining and final analyses to choose the correct models.
 
-# Analyses
+
+# Analyses for primary model fit
 ```{r }
 
-adeff <- tar_read(adeff, store = "_targets")
-tmp <- adeff |>
+admri <- tar_read(admri, store = "_targets")
+tmp <- admri |>
     filter(paramcd == "mrt1cf" & cohortcd == 2) |>
     filter(avisitn <= 43) |>
     mutate(trt = case_when(
@@ -72,6 +74,153 @@ aic_table <- tibble(
 aic_table 
 ```
 
-# Conclusion
+## Conclusion on the primary model fit
 
 We see that the compound symmetry model gives the optimal fit according to AIC and will therefore be used in the primary analysis of ImPRESS. Note that we will use the corresponding restricted maximum likelihood estimates for the final model, and use mixed model with a random intercept for the modelling, but this is completely equivalent to the marginal model with compound symmetry covariance structure.
+
+
+# Diagnostic plots for the neurological performance model
+
+```{r }
+adeff <- tar_read(adeff, store = "_targets")
+
+# Make histograms of outcomes for kps, ecog and nano during the early visits
+
+tmp_kps <- adeff |>
+    filter(paramcd == "kps" & cohortcd == 2 & avisitn %in% c(15, 29, 43)) |>
+    filter(cohortcd == 2) 
+
+tmp_ecog <- adeff |>
+    filter(paramcd == "ecog" & cohortcd == 2 & avisitn %in% c(15, 29, 43)) |>
+    filter(cohortcd == 2)
+
+tmp_nano <- adeff |>
+    filter(paramcd == "nano_tot" & cohortcd == 2 & avisitn %in% c(15, 29, 43)) |>
+    filter(cohortcd == 2)
+
+ggplot(tmp_kps, aes(x = aval)) +
+    geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
+    labs(title = "Histogram of KPS scores at early visits", x = "KPS Score", y = "Count") +
+    theme_minimal()
+
+ggplot(tmp_ecog, aes(x = aval)) +
+    geom_histogram(binwidth = 1, fill = "lightgreen", color = "black") +
+    labs(title = "Histogram of ECOG scores at early visits", x = "ECOG Score", y = "Count") +
+    theme_minimal()
+ggplot(tmp_nano, aes(x = aval)) +
+    geom_histogram(binwidth = 1, fill = "lightcoral", color = "black") +
+    labs(title = "Histogram of NANO scores at early visits", x = "NANO Score", y = "Count") +
+    theme_minimal()
+
+ggplot(tmp_kps, aes(x = chg)) +
+    geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
+    labs(title = "Histogram of change KPS scores at early visits", x = " Delta KPS Score", y = "Count") +
+    theme_minimal()
+
+ggplot(tmp_ecog, aes(x = chg)) +
+    geom_histogram(binwidth = 1, fill = "lightgreen", color = "black") +
+    labs(title = "Histogram of ECOG scores at early visits", x = " Delta ECOG Score", y = "Count") +
+    theme_minimal()
+ggplot(tmp_nano, aes(x = chg)) +
+    geom_histogram(binwidth = 1, fill = "lightcoral", color = "black") +
+    labs(title = "Histogram of change NANO scores at early visits", x = " Delta NANO Score", y = "Count") +
+    theme_minimal()
+
+```
+
+## Diagnostics for the residuals of the neurological performance models
+
+```{r }
+library(lme4)
+  m_kps <- lme4::lmer(chg ~ base + trtcd + avisitn + (1 | usubjid), data = tmp_kps)
+  # qq-plot of the residuals, Including a QQ line. Plot with ggplot2
+  res <- resid(m_kps)
+  ggplot(data = data.frame(res), aes(sample = res)) +
+      stat_qq() +
+      stat_qq_line() +
+      labs(title = "QQ-plot of residuals for KPS model") +
+      theme_minimal()
+  
+    m_ecog <- lme4::lmer(chg ~ base + trtcd + avisitn + (1 | usubjid), data = tmp_ecog)
+    # qq-plot of the residuals, Including a QQ line. Plot with ggplot2
+    res <- resid(m_ecog)
+    ggplot(data = data.frame(res), aes(sample = res)) +
+        stat_qq() +
+        stat_qq_line() +
+        labs(title = "QQ-plot of residuals for ECOG model") +
+        theme_minimal()
+    
+
+        m_nano <- lme4::lmer(chg ~ base + trtcd + avisitn + (1 | usubjid), data = tmp_nano)
+        # qq-plot of the residuals, Including a QQ line. Plot with ggplot2
+        res <- resid(m_nano)
+        ggplot(data = data.frame(res), aes(sample = res)) +
+            stat_qq() +
+            stat_qq_line() +
+            labs(title = "QQ-plot of residuals for NANO model") +
+            theme_minimal()
+        
+  
+```
+
+## Discussion on the histograms for neurological performance scores
+
+The histograms indicates very little change in the neurological performace scores. This is expected since the patients are newly diagnosed glioblastoma patients and the time frame is short. We therefore expect very limited treatment effects on these scores. These are very exploratory analyses, so we will keep the linear mixed regression model for these endpoints, noting the challenges in the interpretation of the results, especially due to the heavy tails of the KPS scor distribution.
+
+
+# Diagnostics for the Quality of Life fit_models
+
+```{r }
+adeff <- tar_read(adeff, store = "_targets")
+
+# Make histograms of outcomes for qlq_c30 and qlq_bn20
+
+tmp_qlq_c30 <- adeff |>
+    filter(paramcd == "qlq_c30" & cohortcd == 2) |>
+    filter(ablfl != "Y")
+
+tmp_qlq_bn20 <- adeff |>
+    filter(paramcd == "qlq_bn20" & cohortcd == 2) |>
+    filter(ablfl != "Y")
+
+
+ggplot(tmp_qlq_c30, aes(x = aval)) +
+    geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
+    labs(title = "Histogram of QLQ-C30 scores", x = "QLQ-C30 Score", y = "Count") +
+    theme_minimal()
+
+ggplot(tmp_qlq_bn20, aes(x = aval)) +
+    geom_histogram(binwidth = 5, fill = "lightgreen", color = "black") +
+    labs(title = "Histogram of QLQ-BN20 scores", x = "QLQ-BN20 Score", y = "Count") +
+    theme_minimal()
+
+
+# and then change scores
+
+ggplot(tmp_qlq_c30, aes(x = chg)) +
+    geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
+    labs(title = "Histogram of change QLQ-C30 scores", x = " Delta QLQ-C30 Score", y = "Count") +
+    theme_minimal()
+ggplot(tmp_qlq_bn20, aes(x = chg)) +
+    geom_histogram(binwidth = 5, fill = "lightgreen", color = "black") +
+    labs(title = "Histogram of change QLQ-BN20 scores", x = " Delta QLQ-BN20 Score", y = "Count") +
+    theme_minimal()
+```
+
+## Discussion on the histograms for Quality of Life scores
+
+The histograms indicate that the linear models should be reasonable for the Quality of Life scores. 
+
+
+# RANO criteria model diagnostics
+
+```{r }
+raw <- tar_read(raw, store = "_targets")
+
+tr <- raw |>
+    get_raw("tr")
+
+
+
+```
+ 

@@ -47,7 +47,7 @@
 
 # Specifications of the data including the variable names, labels, types, derivations, and source are given in the metadata/items.csv file.
 
-make_adbl <- function(raw, cfg, adsl, adeff) {
+make_adbl <- function(raw, cfg, adsl, admri) {
 
   resolve_visits <- function(cfg) {
     has_map <- function(x) !is.null(x$visits) && !is.null(x$visits$map)
@@ -570,7 +570,7 @@ make_adbl <- function(raw, cfg, adsl, adeff) {
     empty_adbl
   }
 
-  adeff_records <- adeff %>%
+  admri_records <- admri %>%
     filter(ablfl == "Y") %>%
     transmute(
       subjid,
@@ -687,7 +687,7 @@ make_adbl <- function(raw, cfg, adsl, adeff) {
     qlq_records,
     qlqbn_records,
     pre_records,
-    adeff_records
+    admri_records
   ) %>%
     mutate(
       avalc = dplyr::na_if(avalc, "")

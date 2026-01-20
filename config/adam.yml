@@ -301,7 +301,7 @@ datasets:
     # -------------------------
     value_level: []
  
-  ADEFF:
+  ADMRI:
     structure: "BDS"
     keys: ["USUBJID","PARAMCD","AVISIT"]
 
@@ -372,3 +372,59 @@ datasets:
     # value_level:
     #   - { variable: AVALU, where: "PARAMCD == 'MRI_VOL'", label: "Unit", type: char, length: 8, value: "mL" }
     #   - { variable: AVALU, where: "PARAMCD == 'EQ5D'", label: "Unit", type: char, length: 8, value: "index" }
+
+  ADEFF:
+    structure: "BDS"
+    keys: ["USUBJID","PARAMCD","AVISIT"]
+
+    variables:
+      - name: STUDYID
+        label: "Study Identifier"
+        type: char
+        length: 20
+        origin: Assigned
+        derivation: "cfg$studyid"
+
+      - name: USUBJID
+        type: char
+        origin: Collected
+        sources:
+          - { id: "USUBJID", dataset: "ADSL" }
+
+      # --- Timing ---
+      - name: EVENTNAME
+        type: char
+        length: 60
+        origin: Collected
+        sources:
+          - { id: "eventname", dataset: "RS" }
+        intermediate: true
+
+      - name: AVISIT
+        type: char
+        length: 40
+        origin: Derived
+        derivation: "lookup_avisit(EVENTNAME)"
+
+      - name: AVISITN
+        type: num
+        origin: Derived
+        derivation: "lookup_avisitn(EVENTNAME)"
+
+      - name: ADT
+        type: date
+        origin: Collected
+        sources:
+          - { id: "eventdate", dataset: "RS" }
+
+      - name: RFSTDT
+        type: date
+        origin: Derived
+        sources:
+          - { id: "RFSTDT", dataset: "ADSL" }
+        intermediate: true
+
+      - name: ADY
+        type: num
+        origin: Derived
+        derivation: "as.numeric(ADT - RFSTDT)"
