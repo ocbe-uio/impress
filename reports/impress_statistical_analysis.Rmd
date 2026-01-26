@@ -1,5 +1,5 @@
 ---
-title: "ImPRESS Statistical Analysis Report"
+title: "ImPRESS Statistical Analysis Mock-up report Report"
 author: "ImPRESS Statistical Team"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
@@ -62,6 +62,7 @@ tar_load(neuro_summaries)
 tar_load(qol_summaries)
 tar_load(steroid_summaries)
 tar_load(rano_summaries)
+tar_load(tte_sections)
 tbl_baseline |> 
   tt_to_flextable() %>%
   autofit()
@@ -117,7 +118,11 @@ for (nm in names(primary_mri_sections)) {
   purrr::walk(sec$plots$fit_models, print)
   cat("\n\n")
 
-
+  if (!is.null(sec$tables$anydose)) {
+    cat("### Supplementary analysis: any dose vs 0 mg\n\n")
+    print(sec$tables$anydose)
+    cat("\n\n")
+  }
 
 }
 ```
@@ -141,6 +146,10 @@ for (nm in names(other_mri_summaries)) {
   print(obj$diffs)
   cat("\n\n### Plot\n\n")
   print(obj$plot)
+  if (!is.null(obj$anydose)) {
+    cat("\n\n### Supplementary analysis: any dose vs 0 mg\n\n")
+    print(obj$anydose)
+  }
   cat("\n\n\\newpage\n\n")
 }
 ```
@@ -183,7 +192,7 @@ for (nm in names(neuro_summaries)) {
       cat("\n\n### Line plot by treatment start\n\n")
       print(obj$early$plot_step)
     }
-    cat("### Days 15/29/43 (change from baseline)\n\n")
+    cat("\n\n### Days 15/43 (change from baseline)\n\n")
     print(obj$early$means)
     cat("\n\n### Differences vs 0 mg\n\n")
     print(obj$early$diffs)
@@ -290,6 +299,24 @@ for (nm in names(rano_summaries)) {
     print(tbl$table)
     cat("\n\n")
   }
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Time-to-Event Endpoints
+
+Kaplan-Meier curves are shown with the at-risk table below. Overall log-rank p-values are reported for each endpoint, followed by Cox regression hazard ratios versus 0 mg.
+
+```{r tte-endpoints, message=FALSE, warning=FALSE, results='asis', fig.height=8}
+for (nm in names(tte_sections)) {
+  obj <- tte_sections[[nm]]
+  if (is.null(obj)) next
+  cat("## ", obj$label, "\n\n", sep = "")
+  print(obj$km_plot)
+  cat("\n\n### Log-rank p-value\n\n")
+  cat("Overall log-rank p-value: ", obj$logrank_p, "\n\n", sep = "")
+  cat("### Cox regression (vs 0 mg)\n\n")
+  print(obj$cox_table)
   cat("\n\n\\newpage\n\n")
 }
 ```

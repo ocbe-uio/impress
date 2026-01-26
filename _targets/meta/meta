@@ -31,14 +31,17 @@ other_mri_vars|stem|d104b80821b84477|36135dcf45851c8a|be531123b40f6be4|487417072
 adbl|stem|8af249a0311201dc|f7a31e83f2424864|f6cf02b659db1094|-602618161||t20469.6262875627s|s18997b|18997|rds|local|vector|||0.316||
 cycle11_mri_vars|stem|d4a20edad4060d2a|0fdd4bf602d8ef8d|89779e3889b40d2b|1916899887||t20469.6263106633s|s173b|173|rds|local|vector|||0||
 tbl_baseline|stem|6cef2909c1545e8a|3beb58957e96eb68|7810fb8918f0d132|-1741336211||t20469.6281726007s|s22394b|22394|rds|local|vector|||0.455||
-primary_mri_sections|stem|2ed0d702784a6599|468b4605b7970963|15b7503f073ffffc|-283662289||t20469.6501108609s|s3074603b|3074603|rds|local|vector|||1.469|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
 qol_summaries|stem|870813863c469b1a|dff733d228aa3eb5|165f668878fd6c57|-1772663730||t20469.6501177522s|s918495b|918495|rds|local|vector|||0.259||
 neuro_summaries|stem|2feb306f71b8602f|eb55c8b1850318f1|ff3347b6d1fc66bb|1539957373||t20469.6501820369s|s2950595b|2950595|rds|local|vector|||0.88||
-other_mri_summaries|stem|e89e39773adbd288|8afbce564fe5676f|eef7dc855f710bcd|1202295808||t20469.6502778654s|s15138902b|15138902|rds|local|vector|||3.124||
 cycle11_mri_summaries|stem|105935a904eec856|8d59fc169283febb|407ba7f2202f38a4|1328032111||t20469.6503216143s|s7645311b|7645311|rds|local|vector|||1.172||
 steroid_summaries|stem|8bc45cb998bf9af4|05ba9440145507f0|2b3a8da45bf9b418|400058816||t20469.6995862595s|s986404b|986404|rds|local|vector|||1.341||
 rano_vars|stem|17e766b89a3e0196|1e611ac15ea5d1e9|2c530c1562a7fbd1|2029611444||t20473.4186406448s|s91b|91|rds|local|vector|||1.376||
 rano_summaries|stem|5f000f5da457c297|ba75775b0c1f1f04|d652475157f341d0|-1376397391||t20473.4382964135s|s516b|516|rds|local|vector|||0.125||
+adtte|stem|7d17adab5716c569|ec54b748e37fc67c|19bcf3ce9491918a|-825610163||t20473.5078294853s|s6247b|6247|rds|local|vector|||0.086||
+tte_vars|stem|64ecc4d6276a3403|75f7398e950e8689|c3bbfb02979ebaf8|-2028261463||t20473.51114992s|s98b|98|rds|local|vector|||0.001||
+tte_sections|stem|e7f11e78b1252981|042fc64756aeee43|950e6c4a3b61e726|1852372942||t20476.5752936044s|s15796902b|15796902|rds|local|vector|||0.718|Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggpubr package.   Please report the issue at <https://github.com/kassambara/ggpubr/issues>.. Loglik converged before variable  1,2,3 ; coefficient may be infinite. . Loglik converged before variable  1,2,3 ; coefficient may be infinite. . Loglik converged before variable  1,2,3 ; coefficient may be infinite.|
+primary_mri_sections|stem|4a4b4451dda7e0e2|468b4605b7970963|299c348b7443399c|-283662289||t20476.5893893337s|s3562833b|3562833|rds|local|vector|||1.511|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
+other_mri_summaries|stem|8494e83eb78aca3e|8afbce564fe5676f|81c636b1568c86c5|1202295808||t20476.5894923285s|s17243157b|17243157|rds|local|vector|||3.631||
 factoriser|function|7900a5ce4d3e60be
 lookup_avisit|function|a9de9d89c724d927
 ae_n_pct|function|b786a18b099a0206
@@ -88,8 +91,10 @@ path_outputs|function|4b8e2859de017861
 path_adam|function|6486be04ca320746
 path_reports|function|94730faf6307f8d0
 path_meta|function|a401af64b00b114b
-make_contest|function|5cfa1ba450278dcb
+make_contest|function|6e9ec158fb783e99
+any_dose_vs_0mg|function|aed57ca6ff4d9e11
 trt_from_map|function|fa26858cfc94d9e9
+make_adtte|function|23b25316463db7cd
 make_adsl|function|561e49d14cce7e65
 make_adbl|function|9bc03e2bcc4e08ce
 make_shamrand|function|b998384fe96b71d6
@@ -102,14 +107,15 @@ steroid_baseline_map|function|17362b1a1eda5d51
 summarize_mri_cycle11|function|50d23815eddaac6e
 summarise_cont_early|function|6c033ab06038581b
 summarise_cont_lmm|function|14e3598f7024d674
-make_rdmri_section|function|a609328f69f75946
-summarize_mri_endpoint|function|6e513b1c34418ed3
+make_rdmri_section|function|b64429940150c8cb
+summarize_mri_endpoint|function|e6a06302e4e1b9a2
 summarise_rano_polr|function|0857b933ed460c2a
+make_tte_section|function|a0dd5787ae84ecfd
 path_rawfile|function|ec809a5f86908802
 summarise_steroid_early|function|2a51610acf3e0e0e
 summarise_steroid_lmm|function|54f79730d5526b8a
 make_cont_section|function|d521c441f7cd4426
-make_rdmri_batch|function|eefe7df7461eef18
+make_rdmri_batch|function|1118f7223cf25384
 make_raw|function|7d7ebbb2e2c74c2b
 make_steroid_section|function|4089690f41d7e55d
-report_docx|stem|e7aee3124d8b59df|aed165c34fa8f7f8|ea9584da062950a0|-1465342639|reports/impress_statistical_analysis.pdf*reports/impress_statistical_analysis.Rmd|t20473.4458380994s|s825312b|825312|file|local|vector|||18.412||
+report_docx|stem|c66921f650412fa9|182dfa7b9baa2dc9|f40a085fefa6b434|-1465342639|reports/impress_statistical_analysis.docx*reports/impress_statistical_analysis.Rmd|t20476.5944733208s|s2482199b|2482199|file|local|vector|||24.185||

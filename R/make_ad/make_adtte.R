@@ -45,7 +45,8 @@ make_adtte <- function(raw, adsl, cfg) {
     left_join(prog_dates, by = "subjid") %>%
     left_join(surv_dates, by = "subjid")
 
-  make_tte <- function(df, paramcd, param, eventdt, censor_dt, cutoff_days = NULL) {
+  make_tte <- function(df, paramcd, param, eventdt, censor_dt, cutoff_days = NULL,
+                       evntdesc = NULL, srcdom = NULL, srcvar = NULL) {
     startdt <- df$startdt
     cutoff_dt <- if (is.null(cutoff_days)) {
       rep(as.Date(NA), length(startdt))
@@ -73,29 +74,55 @@ make_adtte <- function(raw, adsl, cfg) {
       mutate(
         paramcd = paramcd,
         param = param,
+        astdt = startdt,
+        astdy = ifelse(!is.na(startdt) & !is.na(randdt), as.integer(startdt - randdt + 1L), NA_integer_),
         adt = adt,
-        cnsr = cnsr,
+        ady = ifelse(!is.na(adt) & !is.na(randdt), as.integer(adt - randdt + 1L), NA_integer_),
         aval = aval,
+        avalu = "DAYS",
+        cnsr = cnsr,
+        evntdesc = evntdesc,
+        evntstat = ifelse(cnsr == 0L, "EVENT", "CENSORED"),
+        srcdom = srcdom,
+        srcvar = srcvar,
         cutoff_days = if (is.null(cutoff_days)) NA_integer_ else as.integer(cutoff_days)
       )
   }
 
   pfs_event <- pmin(base$progdt, base$deathdt, na.rm = TRUE)
   pfs_event[is.infinite(pfs_event)] <- as.Date(NA)
+  pfs_srcdom <- ifelse(!is.na(base$progdt) & (is.na(base$deathdt) | base$progdt <= base$deathdt), "DP", "SA")
+  pfs_srcvar <- ifelse(pfs_srcdom == "DP", "DPDAT", "SADTDAT")
 
-  pfs <- make_tte(base, "PFS", "Progression-free survival", pfs_event, base$lastdt)
-  os <- make_tte(base, "OS", "Overall survival", base$deathdt, base$lastdt)
+  pfs <- make_tte(
+    base, "PFS", "Progression-free survival", pfs_event, base$lastdt,
+    evntdesc = "Progression or death", srcdom = pfs_srcdom, srcvar = pfs_srcvar
+  )
+  os <- make_tte(
+    base, "OS", "Overall survival", base$deathdt, base$lastdt,
+    evntdesc = "Death", srcdom = ifelse(!is.na(base$deathdt), "SA", NA_character_), srcvar = "SADTDAT"
+  )
 
-  pfs6 <- make_tte(base, "PFS6M", "6-month progression-free survival", pfs_event, base$lastdt, cutoff_days = 180L)
-  os12 <- make_tte(base, "OS12M", "Overall survival at 12 months", base$deathdt, base$lastdt, cutoff_days = 365L)
-  os24 <- make_tte(base, "OS24M", "Overall survival at 24 months", base$deathdt, base$lastdt, cutoff_days = 730L)
+  pfs6 <- make_tte(
+    base, "PFS6M", "6-month progression-free survival", pfs_event, base$lastdt, cutoff_days = 180L,
+    evntdesc = "Progression or death by day 180", srcdom = pfs_srcdom, srcvar = pfs_srcvar
+  )
+  os12 <- make_tte(
+    base, "OS12M", "Overall survival at 12 months", base$deathdt, base$lastdt, cutoff_days = 365L,
+    evntdesc = "Death by day 365", srcdom = ifelse(!is.na(base$deathdt), "SA", NA_character_), srcvar = "SADTDAT"
+  )
+  os24 <- make_tte(
+    base, "OS24M", "Overall survival at 24 months", base$deathdt, base$lastdt, cutoff_days = 730L,
+    evntdesc = "Death by day 730", srcdom = ifelse(!is.na(base$deathdt), "SA", NA_character_), srcvar = "SADTDAT"
+  )
 
   adtte <- bind_rows(pfs, pfs6, os, os12, os24) %>%
     mutate(
       domain = "ADTTE"
     ) %>%
     select(studyid, domain, usubjid, subjid, cohort, cohortcd, arm, armcd,
-           trt01p, trt02p, dose01p, dose02p, startdt, adt, aval, cnsr,
+           trt01p, trt02p, dose01p, dose02p, astdt, astdy, adt, ady,
+           aval, avalu, cnsr, evntdesc, evntstat, srcdom, srcvar,
            paramcd, param, cutoff_days, randdt, rfstdt, progdt, deathdt, lastdt)
 
   adtte

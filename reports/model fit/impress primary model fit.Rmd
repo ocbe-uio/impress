@@ -73,6 +73,25 @@ aic_table <- tibble(
 
 aic_table 
 ```
+## Diagnostic plots for the primary model fit
+```{r }
+# Residual plots for the three models
+plot_mmrm_residuals <- function(model, title) {
+    plot_data <- tibble(
+        fitted = fitted(model),
+        resid = residuals(model)
+    )
+    ggplot(plot_data, aes(x = fitted, y = resid)) +
+        geom_point(alpha = 0.6) +
+        geom_hline(yintercept = 0, linetype = "dashed") +
+        labs(title = title, x = "Fitted values", y = "Residuals") +
+        theme_minimal()
+}
+
+plot_mmrm_residuals(m, "Residuals vs Fitted - Unstructured")
+plot_mmrm_residuals(m2, "Residuals vs Fitted - Autoregressive")
+plot_mmrm_residuals(m3, "Residuals vs Fitted - Compound Symmetry")
+```
 
 ## Conclusion on the primary model fit
 

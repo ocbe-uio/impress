@@ -16,7 +16,7 @@ tar_option_set(
     "tibble", "labelled", "dplyr", "purrr", "readxl", "glue",
     "haven", "readr", "stringr", "tidyr", "yaml", "fs", "here",
     "rlang", "admiral", "lubridate", "quarto", "tern", "rtables.officer",
-    "ggplot2", "lme4", "emmeans", "broom", "DoseFinding"
+    "ggplot2", "lme4", "emmeans", "broom", "DoseFinding", "survival", "survminer"
   ) # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
@@ -66,6 +66,7 @@ tar_source("R/make_rd/make_rdbl.R")
 tar_source("R/make_rd/helpers_rd.R")
 tar_source("R/make_rd/make_rdmri.R")
 tar_source("R/make_rd/make_rdeff.R")
+tar_source("R/make_rd/make_rdtte.R")
 
 # Replace the target list below with your own:
 list(
@@ -114,6 +115,15 @@ list(
   tar_target(
     adtte,
     make_adtte(shamraw, adsl, cfg)
+  ),
+  tar_target(
+    tte_vars,
+    rlang::set_names(unique(as.character(adtte$paramcd)))
+  ),
+  tar_target(
+    tte_sections,
+    purrr::set_names(tte_vars) |>
+      purrr::map(~ make_tte_section(adtte, .x, cfg))
   ),
   tar_target(
     primary_mri_vars,
@@ -189,8 +199,8 @@ list(
   tarchetypes::tar_render(
     report_docx,
     path = "reports/impress_statistical_analysis.Rmd",
-    output_format = "pdf_document",
-    output_file = "impress_statistical_analysis.pdf",
+    output_format = "word_document",
+    output_file = "impress_statistical_analysis.docx",
     output_dir = "reports"
   )
 )

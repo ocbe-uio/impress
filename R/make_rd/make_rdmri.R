@@ -98,7 +98,7 @@ make_contest <- function(data, var) {
 
 table <- est %>%
   select(trt, mean_txt) |>
-  knitr::kable(col.names = c("Treatment", "Estimated Change from baseline (95% CI)"), digits = 2)
+  knitr::kable(col.names = c("Treatment", "Estimated Change from Baseline (95% CI)"), digits = 2)
 
   list(model = m, estimates = est, S = S, emmeans = est_raw, table = table)
 }
@@ -120,6 +120,37 @@ diff_vs_0mg <- function(est_obj) {
         ")"
       )
     )
+}
+
+any_dose_vs_0mg <- function(data, var) {
+  dt <- data %>%
+    filter(paramcd == var & avisitn <= 43) |>
+    filter(!is.na(chg), !is.na(trtcd)) |>
+    filter(ablfl != "Y") |>
+    mutate(
+      trt_num = suppressWarnings(readr::parse_number(as.character(trtcd))),
+      trt_any = if_else(trt_num > 0, "Any dose", "0 mg"),
+      trt_any = factor(trt_any, levels = c("0 mg", "Any dose"))
+    )
+
+  if (nrow(dt) == 0 || dplyr::n_distinct(dt$trt_any) < 2) {
+    return(NULL)
+  }
+
+  m <- lme4::lmer(chg ~ base + trt_any + avisitn + (1 | usubjid), data = dt)
+  emm <- emmeans::emmeans(m, specs = "trt_any")
+  contr <- emmeans::contrast(emm, method = list("Any dose vs 0 mg" = c(-1, 1)))
+
+  estimate <- broom::tidy(contr, conf.int = TRUE) %>%
+    mutate(
+      estimate_txt = format_estimate_ci(estimate, conf.low, conf.high, digits = 2)
+    )
+
+  table <- estimate %>%
+    select(contrast, estimate_txt) %>%
+    knitr::kable(col.names = c("Comparison", "Difference (95% CI)"), digits = 2)
+
+  list(model = m, estimate = estimate, table = table)
 }
 
 f_fitmod <- function(estobj, doses, fmodels) {
@@ -213,6 +244,7 @@ make_rdmri_section <- function(data, var, cfg) {
   lineplot <- make_lineplot1(data, var, cfg)
   cmodels  <- make_cmodels(cfg$doses, cfg$cmodels)
   est      <- make_contest(data, var)
+  anydose  <- any_dose_vs_0mg(data, var)
   contmat  <- f_contmat(est, cmodels$fmodels)
   mct      <- f_mcttest(cfg, est, cmodels$fmodels, contmat$contmat)
   fitmods <- f_fitmod(est, cfg$doses, cmodels$fmodels)
@@ -225,7 +257,7 @@ make_rdmri_section <- function(data, var, cfg) {
     text = list(
       intro = "The primary analysis follows the MCP-Mod methodology as detailed in the SAP, using pre-specified candidate dose-response models.",
       nsubj = paste0("A total of ", nsubj, " subjects were included in the analysis for this endpoint."),
-      models = "The four candidate models (linear, Emax, sigmoid Emax, logistic) are shown in Figure 1."
+      models = "The four candidate models (linear, piecewise linear, Emax, sigmoid Emax) are shown in Figure 1."
     ),
     plots = list(
       candidate_models = cmodels$plot,
@@ -234,12 +266,14 @@ make_rdmri_section <- function(data, var, cfg) {
     ),
     tables = list(
       estimates = est$table,
+      anydose = if (is.null(anydose)) NULL else anydose$table,
       contmat = contmat$table,
       mct = mct$p_table,
       fit = fitmods$table
     ),
     objects = list(
       est = est,
+      anydose = anydose,
       cmodels = cmodels,
       contmat = contmat,
       mct = mct,
@@ -304,7 +338,17 @@ summarize_mri_endpoint <- function(data, var, cfg) {
     distinct(usubjid) %>%
     nrow()
 
-  list(means = meanstbl, lineplot = lineplot, diffs = diffstbl, plot = plt, label = label, nsubj = nsubj)
+  anydose <- any_dose_vs_0mg(data, var)
+
+  list(
+    means = meanstbl,
+    lineplot = lineplot,
+    diffs = diffstbl,
+    anydose = if (is.null(anydose)) NULL else anydose$table,
+    plot = plt,
+    label = label,
+    nsubj = nsubj
+  )
 }
 
 summarize_mri_cycle11 <- function(data, var, cfg) {
