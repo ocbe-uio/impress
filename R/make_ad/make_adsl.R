@@ -7,13 +7,18 @@ make_adsl <- function(raw, cfg) {
 
   refdate <- raw %>%
     get_raw("event_dates") |>
-    group_by(subjectid) |>
-    filter(eventid %in% c("AR01", "AN01", "BM01")) |>
-    filter(eventstatus == "Initiated") |>
-    mutate(
-      rfstdt = as_date(eventinitiateddate)
-    ) %>%
-    select(subjid = subjectid, rfstdt)
+    dplyr::filter(
+      stringr::str_squish(eventname) == "Cycle 1",
+      eventstatus == "Initiated"
+    ) |>
+    dplyr::arrange(eventinitiateddate) |>
+    dplyr::group_by(subjectid) |>
+    dplyr::slice(1) |>
+    dplyr::ungroup() |>
+    dplyr::transmute(
+      subjid = subjectid,
+      rfstdt = lubridate::as_date(eventinitiateddate)
+    )
 
   add_observed_levels <- function(values, base_levels = NULL) {
     base_levels <- if (is.null(base_levels)) character() else base_levels
@@ -53,6 +58,7 @@ make_adsl <- function(raw, cfg) {
       by = "subjid"
     ) %>%
     mutate(
+      rfstdt   = dplyr::coalesce(rfstdt, randdt),
       dose01pu = "mg",
       dose02pu = "mg",
       trt01p   = if_else(!is.na(dose01p), paste0("losartan ", dose01p, " mg; step ", step), NA_character_),

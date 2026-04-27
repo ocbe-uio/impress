@@ -8,7 +8,7 @@ identifier;eventseq;Event sequence number;text;NA;NA;NA;NA;NA;2;EventSeq;0;;c
 identifier;eventid;Event Id;text;NA;NA;NA;NA;NA;8;EventId;0;;c
 identifier;eventname;Event name;text;NA;NA;NA;NA;NA;36;EventName;0;;c
 identifier;eventdate;Event date;date;NA;NA;NA;NA;NA;10;EventDate;0;;c
-identifier;activityid;Activity Id;text;NA;NA;NA;NA;NA;12;ActivityId;0;;c
+identifier;activityid;Activity Id;text;NA;NA;NA;NA;NA;13;ActivityId;0;;c
 identifier;activityname;Activity name;text;NA;NA;NA;NA;NA;36;ActivityName;0;;c
 identifier;formseq;Form sequence number;text;NA;NA;NA;NA;NA;1;FormSeq;0;;c
 identifier;subjectformseq;Subject form sequence number;integer;NA;NA;NA;NA;NA;2;SubjectFormSeq;0;;i
@@ -106,7 +106,7 @@ ds;dsmgmt;MGMT status;text;TRUE;NA;1;NA;PNNAFMT;14;DSMGMT;1;;c
 ds;dsmgmtcd;MGMT status - Code;integer;TRUE;NA;1;NA;PNNAFMT;2;DSMGMTCD;2;;i
 ds;dspdl1;PD-L1 expression;text;TRUE;NA;1;NA;PNNAFMT;14;DSPDL1;1;;c
 ds;dspdl1cd;PD-L1 expression - Code;integer;TRUE;NA;1;NA;PNNAFMT;2;DSPDL1CD;2;;i
-ds;dsmutcom;Comment (optional);text;FALSE;NA;1;NA;NA;0;DSMUTCOM;0;;c
+ds;dsmutcom;Comment (optional);text;FALSE;NA;1;NA;NA;44;DSMUTCOM;0;;c
 ds;dsluntyp;Type of lung cancer;text;TRUE;NA;1;NA;DSLTCFMT;13;DSLUNTYP;1;;c
 ds;dsluntypcd;Type of lung cancer - Code;integer;TRUE;NA;1;NA;DSLTCFMT;2;DSLUNTYPCD;2;;i
 ds;dsluntyp__2;Type of lung cancer__2;text;TRUE;NA;1;NA;DSLTCFMT__2F;0;DSLUNTYP__2;1;;c
@@ -754,7 +754,7 @@ exbm;exbmtdos;Dose administered in this cycle;double;TRUE;2;1;NA;NA;3;EXBMTDOS;0
 exbm;exbmint;Any dose reduction or postponed administration in this cycle?;text;TRUE;NA;1;NA;YNFMT;3;EXBMINT;1;;c
 exbm;exbmintcd;Any dose reduction or postponed administration in this cycle? - Code;integer;TRUE;NA;1;NA;YNFMT;1;EXBMINTCD;2;;i
 exbm;exbmdes;Please specify;text;TRUE;NA;1;NA;NA;22;EXBMDES;0;;c
-eot;eotyn;Did the subject complete the treatment phase?;text;TRUE;NA;1;NA;YNFMT;2;EOTYN;1;;c
+eot;eotyn;Did the subject complete the treatment phase?;text;TRUE;NA;1;NA;YNFMT;3;EOTYN;1;;c
 eot;eotyncd;Did the subject complete the treatment phase? - Code;integer;TRUE;NA;1;NA;YNFMT;1;EOTYNCD;2;;i
 eot;eotdat;Date completed treatment/discontinuedtreatment;date;TRUE;NA;1;NA;NA;10;EOTDAT;0;;c
 eot;eotrea;Reason for discontinuation treatment;text;TRUE;NA;1;NA;EOTRFMT;56;EOTREA;1;;c
@@ -881,7 +881,7 @@ ct;ctcycle;No. of cycles;double;FALSE;0;1;NA;NA;2;CTCYCLE;0;;d
 dp;dpdat;Disease progression date;date;TRUE;NA;1;NA;NA;10;DPDAT;0;;c
 dp;dpdistat;Disease status;text;TRUE;NA;1;NA;DPROGFMT;36;DPDISTAT;1;;c
 dp;dpdistatcd;Disease status - Code;integer;TRUE;NA;1;NA;DPROGFMT;1;DPDISTATCD;2;;i
-dp;dpcomm;Comment(optional);text;FALSE;NA;1;NA;NA;21;DPCOMM;0;;c
+dp;dpcomm;Comment(optional);text;FALSE;NA;1;NA;NA;51;DPCOMM;0;;c
 dv;dvspid;PD no.;double;TRUE;0;1;NA;NA;2;DVSPID;0;;d
 dv;dvrepby;Reported by;text;TRUE;NA;1;NA;PDREPFMT;12;DVREPBY;1;;c
 dv;dvrepbycd;Reported by - Code;integer;TRUE;NA;1;NA;PDREPFMT;1;DVREPBYCD;2;;i

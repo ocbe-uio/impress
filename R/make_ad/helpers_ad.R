@@ -1,3 +1,11 @@
+# Return the appropriate raw data object based on cfg$mode.
+# When mode == "sham", shamraw carries sham-randomised treatment assignments;
+# otherwise raw and shamraw are identical and either may be used.
+# Always call this rather than choosing raw/shamraw manually.
+effective_raw <- function(raw, shamraw, cfg) {
+  if (isTRUE(cfg$mode == "sham")) shamraw else raw
+}
+
 visits_from_yaml <- function(ln) {
   v <- ln$visits
   if (is.null(v) || is.null(v$map)) stop("No 'visits: map:' section in cfg.yml")

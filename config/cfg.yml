@@ -8,7 +8,7 @@ country: "Norway"
 country_code: "NOR" # ISO3 country code
 shammseed: 42424            # seed for shan randomisation
 mode: "sham"         # options: sham | true
-export: "_20250729_133232" # Export folder with timestamp. Exported from Viedoc
+export: "_20260327_090638" # Export folder with timestamp. Exported from Viedoc
 
 #cfg_adam: "config/adam.yml"     # ADaM config file
 
@@ -191,7 +191,7 @@ trt_map:
 
 paths:
   raw: "data/raw"
-  adam: "data/adam"
+  adam: "data/ad"
   reports: "reports"
   outputs: "outputs"
   metadata: "metadata"

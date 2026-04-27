@@ -63,6 +63,8 @@ tar_load(qol_summaries)
 tar_load(steroid_summaries)
 tar_load(rano_summaries)
 tar_load(tte_sections)
+tar_load(lb_summaries)
+tar_load(lb_late_summaries)
 tbl_baseline |> 
   tt_to_flextable() %>%
   autofit()
@@ -299,6 +301,68 @@ for (nm in names(rano_summaries)) {
     print(tbl$table)
     cat("\n\n")
   }
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Biomarker Endpoints (Serum Cytokines / Angiogenic Factors)
+
+Serum cytokine and angiogenic-factor concentrations from Bio-Plex 19-plex and 14-plex
+panels are analysed as exploratory biomarker endpoints.  For each analyte, a linear
+mixed model with random subject intercept is fitted with change from Screening baseline
+as the response.  Where the log-scale model fits better (lower AIC), the analysis is
+performed on the log-concentration scale and results are labelled accordingly.
+
+Biomarker samples are collected at screening (baseline), Day 15 (Cycle 2), and Day 43 (Cycle 4) for the early analysis, and again at Cycle 17 (Day 225) and later for the long-term analysis. The early analysis uses the stepped-wedge treatment assignment; the long-term analysis uses the assigned long-term dose (`trt02p`).
+
+
+A formal model selection and residual diagnostic assessment is available in
+a separate document (impress_lb_model_fit.pdf).
+
+```{r lb-outcomes, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(lb_summaries)) {
+  obj <- lb_summaries[[nm]]
+  if (is.null(obj)) next
+
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " participants contributed data for this analyte.\n\n",
+      sep = "")
+
+  cat("### Estimated change from baseline by dose\n\n")
+  print(obj$means)
+  cat("\n\n### Differences vs 0 mg\n\n")
+  print(obj$diffs)
+  cat("\n\n### Model comparison (AIC)\n\n")
+  print(obj$aic)
+  cat("\n\n### Plot\n\n")
+  print(obj$plot)
+
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Biomarker Endpoints — Long-term (Cycle 15+)
+
+Model-based estimates of change from baseline at Cycle 15 and later are reported below for analytes with available long-term samples. The same scale (linear or log-transformed) as selected for the early analysis is used for each analyte.
+
+```{r lb-late-outcomes, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(lb_late_summaries)) {
+  obj <- lb_late_summaries[[nm]]
+  if (is.null(obj)) next
+
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " participants contributed data for this analyte.\n\n",
+      sep = "")
+
+  cat("### Estimated change from baseline by long-term dose\n\n")
+  print(obj$means)
+  cat("\n\n### Differences vs 0 mg\n\n")
+  print(obj$diffs)
+  cat("\n\n### Model comparison (AIC)\n\n")
+  print(obj$aic)
+  cat("\n\n### Plot\n\n")
+  print(obj$plot)
+
   cat("\n\n\\newpage\n\n")
 }
 ```
