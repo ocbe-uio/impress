@@ -16,7 +16,8 @@ tar_option_set(
     "tibble", "labelled", "dplyr", "purrr", "readxl", "glue",
     "haven", "readr", "stringr", "tidyr", "yaml", "fs", "here",
     "rlang", "admiral", "lubridate", "quarto", "tern", "rtables.officer",
-    "ggplot2", "lme4", "emmeans", "broom", "DoseFinding", "survival", "survminer"
+    "ggplot2", "lme4", "emmeans", "broom", "DoseFinding", "survival", "survminer",
+    "patchwork"
   ) # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
@@ -67,6 +68,8 @@ tar_source("R/make_rd/helpers_rd.R")
 tar_source("R/make_rd/make_rdmri.R")
 tar_source("R/make_rd/make_rdeff.R")
 tar_source("R/make_rd/make_rdtte.R")
+tar_source("R/make_ad/make_adlb.R")
+tar_source("R/make_rd/make_rdlb.R")
 
 # Replace the target list below with your own:
 list(
@@ -97,24 +100,51 @@ list(
     make_shamrand(raw, cfg)
   ),
   tar_target(
+    dat,
+    effective_raw(raw, shamraw, cfg)
+  ),
+  tar_target(
     adsl,
-    make_adsl(shamraw, cfg)
+    make_adsl(dat, cfg)
   ),
   tar_target(
     admri,
-    make_admri(shamraw, adsl, cfg)
+    make_admri(dat, adsl, cfg)
   ),
   tar_target(
     adeff,
-    make_adeff(shamraw, adsl, cfg)
+    make_adeff(dat, adsl, cfg)
   ),
   tar_target(
     adbl,
-    make_adbl(shamraw, cfg, adsl, admri)
+    make_adbl(dat, cfg, adsl, admri)
   ),
   tar_target(
     adtte,
-    make_adtte(shamraw, adsl, cfg)
+    make_adtte(dat, adsl, cfg)
+  ),
+  tar_target(
+    adlb,
+    make_adlb(dat, adsl, cfg)
+  ),
+  tar_target(
+    lb_vars,
+    rlang::set_names(unique(as.character(adlb$paramcd)))
+  ),
+  tar_target(
+    lb_summaries,
+    make_rdlb_batch(adlb, lb_vars, cfg)
+  ),
+  tar_target(
+    lb_late_summaries,
+    make_rdlb_late_batch(adlb, lb_vars, cfg, lb_summaries)
+  ),
+  tarchetypes::tar_render(
+    lb_modelfit_report,
+    path       = "reports/model fit/impress_lb_model_fit.Rmd",
+    output_format = "pdf_document",
+    output_file   = "impress_lb_model_fit.pdf",
+    output_dir    = "reports/model fit"
   ),
   tar_target(
     tte_vars,
@@ -202,5 +232,13 @@ list(
     output_format = "word_document",
     output_file = "impress_statistical_analysis.docx",
     output_dir = "reports"
+  ),
+  tarchetypes::tar_render(
+    report_pdf,
+    path = "reports/impress_statistical_analysis.Rmd",
+    output_format = "pdf_document",
+    output_file = "impress_statistical_analysis.pdf",
+    output_dir = "reports"
   )
+
 )
