@@ -69,3 +69,52 @@ make_tte_section <- function(data, paramcd, cfg) {
     cox_table = cox_tbl
   )
 }
+
+# Deaths summary and listing (SAP §7) -----------------------------------------
+# Built from the OS rows of adtte (one row per subject), grouped by long-term
+# planned dose. Returns knitr::kable summary + listing tables.
+make_deaths_section <- function(adtte, cfg) {
+  dt <- adtte %>%
+    filter_cohort(cfg) %>%
+    dplyr::filter(paramcd == "OS") %>%
+    dplyr::mutate(
+      grp = factor(paste0(dose02p, " mg"),
+                   levels = c("0 mg", "25 mg", "50 mg", "100 mg")),
+      died = cnsr == 0L
+    ) %>%
+    dplyr::filter(!is.na(grp))
+
+  if (nrow(dt) == 0) {
+    return(NULL)
+  }
+
+  Ntot <- nrow(dt)
+
+  summary_tbl <- dt %>%
+    dplyr::group_by(grp, .drop = FALSE) %>%
+    dplyr::summarise(N = dplyr::n(), deaths = sum(died, na.rm = TRUE), .groups = "drop") %>%
+    dplyr::mutate(`Deaths n (%)` = sprintf("%d (%.1f%%)", deaths,
+                                           dplyr::if_else(N > 0, 100 * deaths / N, 0))) %>%
+    dplyr::transmute(`Long-term dose` = grp, `N` = N, `Deaths n (%)`) %>%
+    knitr::kable()
+
+  listing <- dt %>%
+    dplyr::filter(died) %>%
+    dplyr::arrange(grp, deathdt) %>%
+    dplyr::transmute(
+      Subject       = usubjid,
+      `Dose`        = grp,
+      `Death date`  = as.character(deathdt),
+      `Days from start` = ady,
+      `Cause`       = dplyr::coalesce(as.character(dthcaus), "Not recorded")
+    )
+
+  listing_tbl <- if (nrow(listing) == 0) NULL else knitr::kable(listing)
+
+  list(
+    nsubj   = Ntot,
+    ndeaths = sum(dt$died, na.rm = TRUE),
+    summary = summary_tbl,
+    listing = listing_tbl
+  )
+}

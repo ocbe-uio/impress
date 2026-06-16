@@ -98,7 +98,8 @@ make_contest <- function(data, var) {
 
 table <- est %>%
   select(trt, mean_txt) |>
-  knitr::kable(col.names = c("Treatment", "Estimated Change from Baseline (95% CI)"), digits = 2)
+  knitr::kable(col.names = c("Treatment", "Estimated Change from Baseline (95% CI)"), digits = 2) |> 
+    kableExtra::footnote(general = "Fitted models are presented with AIC and ED for reference")
 
   list(model = m, estimates = est, S = S, emmeans = est_raw, table = table)
 }
