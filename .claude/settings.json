@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pdftotext reports/impress_statistical_analysis.pdf /tmp/main.txt)"
+    ]
+  }
+}

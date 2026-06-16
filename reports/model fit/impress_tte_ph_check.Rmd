@@ -1,0 +1,209 @@
+---
+title: "ImPRESS — Time-to-Event Proportional-Hazards Assessment"
+author: "ImPRESS Statistical Team"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    latex_engine: xelatex
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.width = 7, fig.height = 4.5, out.width = "100%")
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+library(targets)
+library(dplyr)
+library(survival)
+library(survminer)
+library(broom)
+library(tibble)
+library(knitr)
+
+# Strip element_markdown themes that survminer sometimes attaches (they do not
+# render under the standard graphics device). Mirrors make_rdtte.R.
+sanitize_theme <- function(p) {
+  if (is.null(p) || is.null(p$theme)) return(p)
+  th <- p$theme
+  for (nm in names(th)) {
+    if (inherits(th[[nm]], "element_markdown")) {
+      th[[nm]] <- ggplot2::element_text()
+    }
+  }
+  p$theme <- th
+  p
+}
+```
+
+```{r load-data}
+tar_load(adtte)
+tar_load(cfg)
+
+cohortcd_analysis <- as.character(cfg$analysis$cohortcd)
+adtte_cohort <- adtte %>%
+  dplyr::filter(cohortcd == cohortcd_analysis)
+
+endpoints <- adtte_cohort %>%
+  dplyr::distinct(paramcd, param) %>%
+  dplyr::arrange(paramcd)
+n_subj <- dplyr::n_distinct(adtte_cohort$usubjid)
+```
+
+# Introduction
+
+This document provides a pre-unblinding assessment of the **proportional-hazards (PH)
+assumption** for the Cox models reported in the time-to-event section of the main
+mock-up report (`make_rdtte.R`), in **`r n_subj` subjects** (cohort
+`r cohortcd_analysis`). It addresses consistency-review point **C3** (SAP states the
+PH assumption is assessed by standard diagnostics; the main report shows hazard ratios
+without the diagnostics).
+
+For each endpoint the Cox model is `coxph(Surv(aval, 1 - cnsr) ~ trtcd)`, where `trtcd`
+is the long-term planned dose (0/25/50/100 mg) — the same specification used for the
+reported hazard ratios. The PH assumption is assessed with:
+
+1. **Scaled Schoenfeld residual test** (`survival::cox.zph`) — a global test plus a
+   per-term test; small p-values indicate a time-varying (non-proportional) effect.
+2. **Schoenfeld residual plots** — scaled residuals against transformed time; a
+   non-zero slope signals departure from PH.
+3. **Complementary log-log survival plots** — `log(-log S(t))` against `log(time)` by
+   dose; approximately parallel curves are consistent with PH.
+
+All analyses use sham-randomised data and are descriptive.
+
+> **Interpretation guide.** Treat the global Schoenfeld p-value as the headline:
+> p > 0.10 — no evidence against PH; 0.05–0.10 — borderline, inspect plots;
+> p < 0.05 — evidence of non-proportionality, consider a time-varying coefficient,
+> stratification, or reporting a time-averaged hazard ratio with this caveat.
+
+---
+
+# Per-endpoint diagnostics
+
+```{r ph-diagnostics, results='asis', fig.height=5}
+zph_summary <- list()
+
+for (i in seq_len(nrow(endpoints))) {
+  pcd <- endpoints$paramcd[i]
+  lbl <- endpoints$param[i]
+
+  dt <- adtte_cohort %>%
+    dplyr::filter(paramcd == pcd, !is.na(aval), !is.na(cnsr)) %>%
+    dplyr::mutate(
+      trtcd = factor(dose02p, levels = c(0, 25, 50, 100)),
+      trt   = factor(paste0(trtcd, " mg"), levels = c("0 mg", "25 mg", "50 mg", "100 mg"))
+    ) %>%
+    dplyr::filter(!is.na(trtcd))
+
+  cat("\n\n## ", lbl, " (`", pcd, "`)\n\n", sep = "")
+
+  n_events <- sum(dt$cnsr == 0L, na.rm = TRUE)
+  if (nrow(dt) == 0 || dplyr::n_distinct(dt$trtcd) < 2 || n_events < 5) {
+    cat("Insufficient data for a PH assessment (",
+        n_events, " events, ", dplyr::n_distinct(dt$trtcd),
+        " dose groups).\n\n", sep = "")
+    next
+  }
+
+  cat(n_events, " events in ", nrow(dt), " subjects.\n\n", sep = "")
+
+  cox <- tryCatch(
+    survival::coxph(survival::Surv(aval, 1L - cnsr) ~ trtcd, data = dt),
+    error = function(e) NULL
+  )
+  if (is.null(cox)) { cat("Cox model failed to fit.\n\n"); next }
+
+  zph <- tryCatch(survival::cox.zph(cox), error = function(e) NULL)
+  if (is.null(zph)) { cat("Schoenfeld test could not be computed.\n\n"); next }
+
+  # ---- Schoenfeld test table ----------------------------------------------
+  zph_tbl <- as.data.frame(zph$table)
+  zph_tbl$Term <- rownames(zph_tbl)
+  zph_tbl <- zph_tbl %>%
+    dplyr::transmute(
+      Term = dplyr::recode(Term, GLOBAL = "GLOBAL (overall)"),
+      chisq = round(chisq, 3),
+      df = df,
+      p = round(p, 4)
+    )
+  global_p <- zph$table["GLOBAL", "p"]
+  zph_summary[[pcd]] <- tibble::tibble(
+    paramcd = pcd, param = lbl, global_p = round(global_p, 4),
+    conclusion = dplyr::case_when(
+      is.na(global_p)     ~ "Not estimable",
+      global_p > 0.10     ~ "No evidence against PH",
+      global_p > 0.05     ~ "Borderline",
+      TRUE                ~ "Evidence of non-proportionality"
+    )
+  )
+
+  print(knitr::kable(zph_tbl,
+                     col.names = c("Term", "Chi-square", "df", "p-value"),
+                     caption = paste0("Scaled Schoenfeld test — ", lbl)))
+  cat("\n\n")
+
+  cat("**Global Schoenfeld p-value:** ",
+      ifelse(is.na(global_p), "NA",
+             ifelse(global_p < 0.001, "<0.001", format(round(global_p, 3), nsmall = 3))),
+      " — ", zph_summary[[pcd]]$conclusion, ".\n\n", sep = "")
+
+  # ---- Schoenfeld residual plot -------------------------------------------
+  cat("### Scaled Schoenfeld residuals\n\n")
+  sp <- tryCatch(survminer::ggcoxzph(zph), error = function(e) NULL)
+  if (!is.null(sp)) {
+    print(sp)
+  } else {
+    op <- graphics::par(no.readonly = TRUE)
+    plot(zph)
+    graphics::par(op)
+  }
+  cat("\n\n")
+
+  # ---- Complementary log-log plot -----------------------------------------
+  cat("### Complementary log-log survival\n\n")
+  fit <- survival::survfit(survival::Surv(aval, 1L - cnsr) ~ trt, data = dt)
+  cl <- tryCatch(
+    survminer::ggsurvplot(
+      fit, data = dt, fun = "cloglog",
+      legend.title = "Dose", legend.labs = levels(droplevels(dt$trt)),
+      xlab = "log(days since randomisation)", ylab = "log(-log S(t))"
+    ),
+    error = function(e) NULL
+  )
+  if (!is.null(cl)) {
+    cl$plot <- sanitize_theme(cl$plot)
+    print(cl$plot)
+  }
+  cat("\n\n---\n\n")
+}
+```
+
+# Summary
+
+```{r ph-summary}
+if (length(zph_summary) == 0) {
+  cat("No endpoints had sufficient data for a PH assessment.\n")
+} else {
+  dplyr::bind_rows(zph_summary) %>%
+    knitr::kable(
+      col.names = c("PARAMCD", "Parameter", "Global Schoenfeld p", "Conclusion"),
+      caption = "Global proportional-hazards test by endpoint"
+    )
+}
+```
+
+Endpoints flagged as borderline or non-proportional should be interpreted with the
+corresponding plots; for those a time-averaged hazard ratio is reported in the main
+document with this caveat, and a time-varying-coefficient or stratified sensitivity
+analysis can be added at database lock.
+
+---
+
+*Generated from `reports/model fit/impress_tte_ph_check.Rmd` — sham-randomised data.*

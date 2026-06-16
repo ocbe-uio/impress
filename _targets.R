@@ -70,6 +70,15 @@ tar_source("R/make_rd/make_rdeff.R")
 tar_source("R/make_rd/make_rdtte.R")
 tar_source("R/make_ad/make_adlb.R")
 tar_source("R/make_rd/make_rdlb.R")
+# Safety (SAP §7)
+tar_source("R/make_ad/make_adae.R")
+tar_source("R/make_ad/make_advs.R")
+tar_source("R/make_ad/make_adex.R")
+tar_source("R/make_ad/make_adlbsaf.R")
+tar_source("R/make_rd/make_rdae.R")
+tar_source("R/make_rd/make_rdvs.R")
+tar_source("R/make_rd/make_rdlbsaf.R")
+tar_source("R/make_rd/make_rdex.R")
 
 # Replace the target list below with your own:
 list(
@@ -146,6 +155,13 @@ list(
     output_file   = "impress_lb_model_fit.pdf",
     output_dir    = "reports/model fit"
   ),
+  tarchetypes::tar_render(
+    tte_ph_report,
+    path       = "reports/model fit/impress_tte_ph_check.Rmd",
+    output_format = "pdf_document",
+    output_file   = "impress_tte_ph_check.pdf",
+    output_dir    = "reports/model fit"
+  ),
   tar_target(
     tte_vars,
     rlang::set_names(unique(as.character(adtte$paramcd)))
@@ -220,6 +236,47 @@ list(
     cycle11_mri_summaries,
     purrr::set_names(cycle11_mri_vars) |>
       purrr::map(~ summarize_mri_cycle11(admri, .x, cfg))
+  ),
+  # ---- Safety (SAP §7) ----------------------------------------------------
+  tar_target(
+    adae,
+    make_adae(dat, adsl, cfg)
+  ),
+  tar_target(
+    advs,
+    make_advs(dat, adsl, cfg)
+  ),
+  tar_target(
+    adex,
+    make_adex(dat, adsl, cfg)
+  ),
+  tar_target(
+    adlbsaf,
+    make_adlbsaf(dat, adsl, cfg)
+  ),
+  tar_target(
+    ae_summaries,
+    make_rdae(adae, adsl, cfg)
+  ),
+  tar_target(
+    vs_vars,
+    rlang::set_names(c("SBP", "DBP", "PULSE"))
+  ),
+  tar_target(
+    vs_summaries,
+    make_rdvs_batch(advs, vs_vars, cfg)
+  ),
+  tar_target(
+    lbsaf_summaries,
+    make_rdlbsaf(adlbsaf, cfg)
+  ),
+  tar_target(
+    ex_summary,
+    make_rdex(adex, cfg)
+  ),
+  tar_target(
+    deaths_summary,
+    make_deaths_section(adtte, cfg)
   ),
   tar_target(
     tbl_baseline,
