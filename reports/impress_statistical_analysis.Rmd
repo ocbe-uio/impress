@@ -17,7 +17,7 @@ subtitle: Fully planned efficacy and safety results of the Newly Diagnosed Gliob
 
 # Introduction
 
-The ImPRESS study is a prospective investigation of losartan as an adjunctive therapy for patients with glioblastoma. According to Protocol Version 7.0 (17-Dec-2024), the trial collects comprehensive demographic, clinical, imaging, and quality-of-life information prior to treatment initiation. The statistical objectives for the interim analyses focus on characterising baseline status, neurological function, and tumour burden before randomisation to evaluate comparability across planned treatment arms.
+The ImPRESS study is a prospective investigation of losartan as an adjunctive therapy for patients with glioblastoma. According to Protocol Version 8.0 (14-Nov-2025), the trial collects comprehensive demographic, clinical, imaging, and quality-of-life information prior to treatment initiation. The statistical objectives for the interim analyses focus on characterising baseline status, neurological function, and tumour burden before randomisation to evaluate comparability across planned treatment arms.
 
 
 

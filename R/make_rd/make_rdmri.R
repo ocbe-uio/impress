@@ -74,6 +74,10 @@ make_cmodels <- function(doses, cmodels) {
   )
   fmodels_names <- names(fmodels)
   names(fmodels_names) <- names(fmodels)
+  out_dir <- here::here("reports", "outputs")
+  if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+  grDevices::pdf(file.path(out_dir, "candidate-dose-response-models.pdf"))
+  on.exit(grDevices::dev.off(), add = TRUE)
   plot <- plot(fmodels, ylab = "Dose response", main = "Figure 1: Pre-specified candidate dose-response models")
   return(list(fmodels = fmodels, plot = plot))
 }
@@ -163,8 +167,12 @@ f_fitmod <- function(estobj, doses, fmodels) {
   if (any(is.na(cov_ord))) stop("Covariance matrix could not be aligned to treatment levels.")
 
   model_names <- names(fmodels)
+  out_dir <- here::here("reports", "outputs")
+  if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
   fit_one <- function(model_name) {
     fitmod <- fitMod(doses, est_df$estimate, S = cov_ord, model = model_name, type = "general")
+    grDevices::pdf(file.path(out_dir, paste0("fitted-dose-response-", model_name, ".pdf")))
+    on.exit(grDevices::dev.off(), add = TRUE)
     plot <- plot(
       fitmod,
       CI = TRUE,
