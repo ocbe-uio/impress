@@ -44,7 +44,6 @@ steroid_summaries|stem|30626cc112f7c4a4|05ba9440145507f0|21188c4570c62d22|400058
 lbsaf_summaries|stem|2d2c8feb4d847da1|9022af579cd211de|7d975f4105ca033e|-1271626585||t20628.6084710499s|s502541b|502541|rds|local|vector|||0.228||
 cycle11_mri_vars|stem|577e6c96985ac7e2|0fdd4bf602d8ef8d|dc87fdbc1d3a1e9f|1916899887||t20628.6084714007s|s174b|174|rds|local|vector|||0.001||
 adbl|stem|4cadba9938c44752|8d6b7d70e58186dd|ec48dc03bccccd32|-602618161||t20628.608476867s|s18972b|18972|rds|local|vector|||0.321||
-primary_mri_sections|stem|7ba8068a27a7d88e|468b4605b7970963|b8025c5b698811a1|-283662289||t20628.6085090223s|s3525031b|3525031|rds|local|vector|||1.849|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
 other_mri_vars|stem|dea52b70955b437f|36135dcf45851c8a|3f2e848247c28621|487417072||t20628.6085093662s|s139b|139|rds|local|vector|||0||
 lb_vars|stem|574de10527387789|891b7691b2863f94|2563f21bfec14a04|755867864||t20628.608509719s|s256b|256|rds|local|vector|||0||
 lb_modelfit_report|stem|cd7c4adfe6a2ee3b|f4ad7491df5bcee5|5ac57b035f25b0c2|-1273746283|reports/model fit/impress_lb_model_fit.pdf*reports/model fit/impress_lb_model_fit.Rmd|t20628.6091403846s|s2504673b|2504673|file|local|vector|||54.479|LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.|
@@ -60,8 +59,7 @@ other_mri_summaries|stem|3d6568d12daaa60f|8afbce564fe5676f|3b7fae50f7ea0419|1202
 lb_summaries|stem|d723e53512108529|d758bc7d0b6bd099|064f3dee5419265b|1034279601||t20628.6095133125s|s17039594b|17039594|rds|local|vector|||6.23|Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.|
 tte_sections|stem|f5990fd9095239db|042fc64756aeee43|3944cdd3df3f0289|1852372942||t20628.6095898404s|s15894973b|15894973|rds|local|vector|||0.528||
 lb_late_summaries|stem|9e8ae172ec4990b8|bcf1a10ed7dfa8ea|e28a101f9653d09e|1004447658||t20628.6097278085s|s15564493b|15564493|rds|local|vector|||4.244||
-report_pdf|stem|9c6d05ccdd352bb5|3d24cf497d7df202|0d56a03fc16b2bb1|-794766957|reports/impress_statistical_analysis.pdf*reports/impress_statistical_analysis.Rmd|t20628.6105815615s|s1331001b|1331001|file|local|vector|||55.024||
-report_docx|stem|f11ea2031faf16a2|0ff0512fb5e55214|0d56a03fc16b2bb1|-1465342639|reports/impress_statistical_analysis.docx*reports/impress_statistical_analysis.Rmd|t20628.6112769012s|s4232613b|4232613|file|local|vector|||33.504||
+cfg_file|stem|0c9bc35f43a42bc5|51c9fe44fb68ab11|2c530c1562a7fbd1|-2098879298|config/cfg.yml|t20628.6140047773s|s8310b|8310|file|local|vector|||1.985||
 f_mcttest|function|2603643cd88963aa
 format_estimate_ci|function|aaebab8ad3ae5887
 lb_log_offset|function|5a60ef115b7aa012
@@ -82,8 +80,8 @@ binary_yesno|function|48eb92969273cc7f
 pick|function|89f01345861778d4
 steroid_paramcd|function|41fe8fbc4d99ca14
 f_contmat|function|614e9b8a4229954c
-f_fitmod|function|4cdd06d7c41c1513
-make_cmodels|function|e425511bf4e674a8
+f_fitmod|function|c4de8b57ad70b7f7
+make_cmodels|function|1a0573c59630140f
 analysis_cohortcd|function|1c4b18b9fa6b2558
 make_rdbl|function|6cb04b4c43911c23
 get_plot_dodge_width|function|a03c752f135d530e
@@ -97,7 +95,7 @@ my_read_items|function|1f9eee1b81e558bf
 my_read_excel|function|03e397e25854682c
 an_trt|function|69181cbb7b23a06d
 median_iqr|function|3ba9c70b60db6ad5
-diff_vs_0mg|function|95096092459bd141
+diff_vs_0mg|function|c3738ebb1aca545c
 missing_f|function|c45b9872819546cf
 neuro_paramcds|function|ed6b846e1183013a
 rano_paramcds|function|674e5d939bb9b8cd
@@ -109,7 +107,7 @@ build_ae_tables|function|d69d14bb58024daa
 qol_paramcds|function|6f052d59cffb0656
 plot_cont_margins|function|2b468b6f32cad0f3
 n_pct|function|6fa695711dd45718
-make_contest|function|bd96b35242482369
+make_contest|function|6e9ec158fb783e99
 any_dose_vs_0mg|function|aed57ca6ff4d9e11
 make_adsl|function|6e4a808113f4f520
 make_adtte|function|8aa74083ae9931d1
@@ -139,7 +137,7 @@ safety_lab_refrange|function|3434b731213b81c5
 make_tte_section|function|a0dd5787ae84ecfd
 summarise_rano_polr|function|0857b933ed460c2a
 summarize_mri_cycle11|function|50d23815eddaac6e
-make_rdmri_section|function|103199f4bc4d3006
+make_rdmri_section|function|04e042a98236c9f7
 summarize_mri_endpoint|function|e6a06302e4e1b9a2
 make_advs|function|a0503eeb4103f546
 make_adlbsaf|function|4e088c712bf049e9
@@ -155,9 +153,11 @@ summarise_steroid_early|function|2a51610acf3e0e0e
 make_rdlb_batch|function|6ad52b03568be2e2
 make_cont_section|function|d521c441f7cd4426
 make_rdvs_section|function|3ae18f83a647d75e
-make_rdmri_batch|function|45edc4dc2bf8f599
+make_rdmri_batch|function|ac46f8ce49dab278
 make_raw|function|7d7ebbb2e2c74c2b
 make_steroid_section|function|4089690f41d7e55d
 make_rdvs_batch|function|7ab6110a20b402b0
 make_rdlbsaf|function|eb8639f669506b19
-cfg_file|stem|0c9bc35f43a42bc5|51c9fe44fb68ab11|2c530c1562a7fbd1|-2098879298|config/cfg.yml|t20628.6140047773s|s8310b|8310|file|local|vector|||1.985||
+primary_mri_sections|stem|2423ac58ef55f652|468b4605b7970963|32ae4d6605220726|-283662289||t20629.5036223437s|s3522060b|3522060|rds|local|vector|||1.964|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
+report_pdf|stem|a62344d5e94c4b12|3d24cf497d7df202|e4becf5be06c6f83|-794766957|reports/impress_statistical_analysis.pdf*reports/impress_statistical_analysis.Rmd|t20629.5043706019s|s1331464b|1331464|file|local|vector|||45.756||
+report_docx|stem|cd70cb59b9f7bd9b|0ff0512fb5e55214|e4becf5be06c6f83|-1465342639|reports/impress_statistical_analysis.docx*reports/impress_statistical_analysis.Rmd|t20629.5049933683s|s4232661b|4232661|file|local|vector|||35.256||
