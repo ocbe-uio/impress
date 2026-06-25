@@ -1,11 +1,9 @@
-
 # library(dplyr)
 # library(lme4)
 # library(ggplot2)
 # library(purrr)
 
 make_lineplot1 <- function(data, var, cfg) {
-
   dt0 <- data %>%
     filter(paramcd == var & avisitn <= 43)
 
@@ -25,7 +23,7 @@ make_lineplot1 <- function(data, var, cfg) {
     summarise(mean = mean(base, na.rm = TRUE)) %>%
     pull(mean)
 
-  m <- lme4::lmer(aval ~ base + step*vis + (1 | usubjid), data = dt)
+  m <- lme4::lmer(aval ~ base + step * vis + (1 | usubjid), data = dt)
   raw_est <- emmeans::emmeans(
     m,
     specs = c("vis", "step"),
@@ -49,14 +47,23 @@ make_lineplot1 <- function(data, var, cfg) {
   )
 
   plot_df <- plot_df %>%
-    mutate(vis = factor(as.character(vis), levels = c("Baseline", levels(dt$vis)))) %>%
+    mutate(
+      vis = factor(as.character(vis), levels = c("Baseline", levels(dt$vis)))
+    ) %>%
     bind_rows(base_rows)
 
   dodge <- position_dodge(width = get_plot_dodge_width(cfg))
-  plot <- ggplot(plot_df, aes(x = vis, y = emmean, color = factor(step), group = factor(step))) +
+  plot <- ggplot(
+    plot_df,
+    aes(x = vis, y = emmean, color = factor(step), group = factor(step))
+  ) +
     geom_point(position = dodge) +
     geom_line(position = dodge) +
-    geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.2, position = dodge) +
+    geom_errorbar(
+      aes(ymin = lower.CL, ymax = upper.CL),
+      width = 0.2,
+      position = dodge
+    ) +
     labs(
       x = "Visit",
       y = "Mean Response",
@@ -64,21 +71,29 @@ make_lineplot1 <- function(data, var, cfg) {
     ) +
     theme_minimal() +
     ggtitle(paste("Mean Response over Time for", unique(dt$param)))
-  
 }
 
 make_cmodels <- function(doses, cmodels) {
   fmodels <- Mods(
-    linear = NULL, emax = cmodels$emax, sigEmax = cmodels$sigEmax, linInt = cmodels$linInt,
+    linear = NULL,
+    emax = cmodels$emax,
+    sigEmax = cmodels$sigEmax,
+    linInt = cmodels$linInt,
     doses = doses
   )
   fmodels_names <- names(fmodels)
   names(fmodels_names) <- names(fmodels)
   out_dir <- here::here("reports", "outputs")
-  if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+  if (!dir.exists(out_dir)) {
+    dir.create(out_dir, recursive = TRUE)
+  }
   grDevices::pdf(file.path(out_dir, "candidate-dose-response-models.pdf"))
   on.exit(grDevices::dev.off(), add = TRUE)
-  plot <- plot(fmodels, ylab = "Dose response", main = "Figure 1: Pre-specified candidate dose-response models")
+  plot <- plot(
+    fmodels,
+    ylab = "Dose response",
+    main = "Figure 1: Pre-specified candidate dose-response models"
+  )
   return(list(fmodels = fmodels, plot = plot))
 }
 
@@ -87,7 +102,7 @@ make_cmodels <- function(doses, cmodels) {
 make_contest <- function(data, var) {
   dt <- data %>%
     filter(paramcd == var & avisitn <= 43) |>
-    filter(ablfl != "Y") 
+    filter(ablfl != "Y")
 
   m <- lme4::lmer(chg ~ base + trtcd + avisitn + (1 | usubjid), data = dt)
 
@@ -100,17 +115,21 @@ make_contest <- function(data, var) {
       mean_txt = format_estimate_ci(estimate, conf.low, conf.high, digits = 2)
     )
 
-table <- est %>%
-  select(trt, mean_txt) |>
-  knitr::kable(col.names = c("Treatment", "Estimated Change from Baseline (95% CI)"), digits = 2) |> 
-    kableExtra::footnote(general = "Fitted models are presented with AIC and ED for reference")
+  table <- est %>%
+    select(trt, mean_txt) |>
+    knitr::kable(
+      col.names = c("Treatment", "Estimated Change from Baseline (95% CI)"),
+      digits = 2
+    )
 
   list(model = m, estimates = est, S = S, emmeans = est_raw, table = table)
 }
 
 # Differences vs 0 mg reference
 diff_vs_0mg <- function(est_obj) {
-  if (is.null(est_obj$emmeans)) stop("est_obj must contain emmeans component")
+  if (is.null(est_obj$emmeans)) {
+    stop("est_obj must contain emmeans component")
+  }
 
   contr <- emmeans::contrast(est_obj$emmeans, method = "trt.vs.ctrl")
   broom::tidy(contr, conf.int = TRUE) %>%
@@ -148,7 +167,12 @@ any_dose_vs_0mg <- function(data, var) {
 
   estimate <- broom::tidy(contr, conf.int = TRUE) %>%
     mutate(
-      estimate_txt = format_estimate_ci(estimate, conf.low, conf.high, digits = 2)
+      estimate_txt = format_estimate_ci(
+        estimate,
+        conf.low,
+        conf.high,
+        digits = 2
+      )
     )
 
   table <- estimate %>%
@@ -163,15 +187,32 @@ f_fitmod <- function(estobj, doses, fmodels) {
     mutate(trtcd = suppressWarnings(as.numeric(trtcd))) %>%
     arrange(match(trtcd, doses))
 
-  cov_ord <- estobj$S[as.character(est_df$trtcd), as.character(est_df$trtcd), drop = FALSE]
-  if (any(is.na(cov_ord))) stop("Covariance matrix could not be aligned to treatment levels.")
+  cov_ord <- estobj$S[
+    as.character(est_df$trtcd),
+    as.character(est_df$trtcd),
+    drop = FALSE
+  ]
+  if (any(is.na(cov_ord))) {
+    stop("Covariance matrix could not be aligned to treatment levels.")
+  }
 
   model_names <- names(fmodels)
   out_dir <- here::here("reports", "outputs")
-  if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+  if (!dir.exists(out_dir)) {
+    dir.create(out_dir, recursive = TRUE)
+  }
   fit_one <- function(model_name) {
-    fitmod <- fitMod(doses, est_df$estimate, S = cov_ord, model = model_name, type = "general")
-    grDevices::pdf(file.path(out_dir, paste0("fitted-dose-response-", model_name, ".pdf")))
+    fitmod <- fitMod(
+      doses,
+      est_df$estimate,
+      S = cov_ord,
+      model = model_name,
+      type = "general"
+    )
+    grDevices::pdf(file.path(
+      out_dir,
+      paste0("fitted-dose-response-", model_name, ".pdf")
+    ))
     on.exit(grDevices::dev.off(), add = TRUE)
     plot <- plot(
       fitmod,
@@ -200,17 +241,19 @@ f_fitmod <- function(estobj, doses, fmodels) {
     select(Model, name, value) %>%
     tidyr::pivot_wider(names_from = name, values_from = value) %>%
     arrange(AIC) %>%
-    knitr::kable(col.names = c("Model", "AIC-value", "ED~50~", "ED~70~", "ED~90~"), digits = 2)
+    knitr::kable(
+      col.names = c("Model", "AIC-value", "ED~50~", "ED~70~", "ED~90~"),
+      digits = 2
+    )
 
   list(fitmod = fitmod, table = table)
 }
 
 f_contmat <- function(estobj, fmodels) {
-
   contMat <- optContr(fmodels, S = estobj$S)
   table <- contMat$contMat %>%
     as_tibble(rownames = NA) %>%
-    rownames_to_column(var="Treatment") %>%
+    rownames_to_column(var = "Treatment") %>%
     mutate(Treatment = paste0(Treatment, " mg")) %>%
     knitr::kable(digits = 3)
 
@@ -218,29 +261,43 @@ f_contmat <- function(estobj, fmodels) {
 }
 
 
-f_mcttest <- function(cfg, estobj, fmodels, contmat_obj){
-
-  MCTtest <- MCTtest(cfg$doses, estobj$estimates$estimate,
-                     S = estobj$S,
-                     models = fmodels$fmodels,
-                     type = "general",
-                     contMat = contmat_obj$contMat,
-                     pVal = TRUE, alternative = "one.sided",
-                     alpha = 0.025,
-                     critV = TRUE)
+f_mcttest <- function(cfg, estobj, fmodels, contmat_obj) {
+  MCTtest <- MCTtest(
+    cfg$doses,
+    estobj$estimates$estimate,
+    S = estobj$S,
+    models = fmodels$fmodels,
+    type = "general",
+    contMat = contmat_obj$contMat,
+    pVal = TRUE,
+    alternative = "one.sided",
+    alpha = 0.025,
+    critV = TRUE
+  )
   p_table <- MCTtest$tStat %>%
-    as_tibble(rownames=NA) %>%
-    rownames_to_column(var="cm") %>%
-    mutate(pval_ = attr(value,"pVal")) %>%
-    mutate(pval = if_else(pval_<0.001, "<0.001",
-                  if_else(pval_ <0.1, as.character(round(pval_,digits=3), digits=3),
-                         as.character(round(pval_,digits=2),digits=2)))) %>%
+    as_tibble(rownames = NA) %>%
+    rownames_to_column(var = "cm") %>%
+    mutate(pval_ = attr(value, "pVal")) %>%
+    mutate(
+      pval = if_else(
+        pval_ < 0.001,
+        "<0.001",
+        if_else(
+          pval_ < 0.1,
+          as.character(round(pval_, digits = 3), digits = 3),
+          as.character(round(pval_, digits = 2), digits = 2)
+        )
+      )
+    ) %>%
     arrange(pval_) %>%
     select(-pval_) %>%
-    knitr::kable(digits=2, align=c("lrr"),col.names = c("Candidate model", "t-statistic", "Adjusted p-value"))
+    knitr::kable(
+      digits = 2,
+      align = c("lrr"),
+      col.names = c("Candidate model", "t-statistic", "Adjusted p-value")
+    )
 
-  list(mcttest=MCTtest, p_table = p_table)
-
+  list(mcttest = MCTtest, p_table = p_table)
 }
 
 #' Bundle MCP-Mod outputs for R Markdown
@@ -251,11 +308,11 @@ f_mcttest <- function(cfg, estobj, fmodels, contmat_obj){
 make_rdmri_section <- function(data, var, cfg) {
   data <- filter_cohort(data, cfg)
   lineplot <- make_lineplot1(data, var, cfg)
-  cmodels  <- make_cmodels(cfg$doses, cfg$cmodels)
-  est      <- make_contest(data, var)
-  anydose  <- any_dose_vs_0mg(data, var)
-  contmat  <- f_contmat(est, cmodels$fmodels)
-  mct      <- f_mcttest(cfg, est, cmodels$fmodels, contmat$contmat)
+  cmodels <- make_cmodels(cfg$doses, cfg$cmodels)
+  est <- make_contest(data, var)
+  anydose <- any_dose_vs_0mg(data, var)
+  contmat <- f_contmat(est, cmodels$fmodels)
+  mct <- f_mcttest(cfg, est, cmodels$fmodels, contmat$contmat)
   fitmods <- f_fitmod(est, cfg$doses, cmodels$fmodels)
   nsubj <- data %>%
     filter(paramcd == var) %>%
@@ -265,7 +322,11 @@ make_rdmri_section <- function(data, var, cfg) {
   list(
     text = list(
       intro = "The primary analysis follows the MCP-Mod methodology as detailed in the SAP, using pre-specified candidate dose-response models.",
-      nsubj = paste0("A total of ", nsubj, " subjects were included in the analysis for this endpoint."),
+      nsubj = paste0(
+        "A total of ",
+        nsubj,
+        " subjects were included in the analysis for this endpoint."
+      ),
       models = "The four candidate models (linear, piecewise linear, Emax, sigmoid Emax) are shown in Figure 1."
     ),
     plots = list(
@@ -308,7 +369,7 @@ summarize_mri_endpoint <- function(data, var, cfg) {
   if (nrow(dt) == 0 || dplyr::n_distinct(dt$trtcd) < 2) {
     return(NULL)
   }
-  
+
   lineplot <- make_lineplot1(data, var, cfg)
 
   m <- lme4::lmer(chg ~ base + trtcd + avisitn + (1 | usubjid), data = dt)
@@ -321,13 +382,21 @@ summarize_mri_endpoint <- function(data, var, cfg) {
     )
   meanstbl <- means |>
     select(trt, mean_txt) |>
-    knitr::kable(col.names = c("Dose", "Estimated change from baseline (95% CI)"), digits = 2)
+    knitr::kable(
+      col.names = c("Dose", "Estimated change from baseline (95% CI)"),
+      digits = 2
+    )
 
   diffstbl <- emmeans::contrast(emm, method = "trt.vs.ctrl") %>%
     broom::tidy(conf.int = TRUE) %>%
     mutate(
       contrast = paste0(c(25, 50, 100), " mg vs 0 mg"),
-      estimate_txt = format_estimate_ci(estimate, conf.low, conf.high, digits = 2)
+      estimate_txt = format_estimate_ci(
+        estimate,
+        conf.low,
+        conf.high,
+        digits = 2
+      )
     ) |>
     select(contrast, estimate_txt) |>
     knitr::kable(col.names = c("Comparison", "Difference (95% CI)"), digits = 2)
@@ -340,9 +409,9 @@ summarize_mri_endpoint <- function(data, var, cfg) {
     geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 1) +
     labs(x = "Dose (mg)", y = "Estimated mean") +
     theme_minimal()
-  
+
   label <- as.character(unique(dt$param))
-  
+
   nsubj <- dt %>%
     distinct(usubjid) %>%
     nrow()
@@ -371,7 +440,7 @@ summarize_mri_cycle11 <- function(data, var, cfg) {
     return(NULL)
   }
 
-  m <- lm(chg ~ base + trt02p , data = dt)
+  m <- lm(chg ~ base + trt02p, data = dt)
   emm <- emmeans::emmeans(m, specs = "trt02p")
 
   means <- broom::tidy(emm, conf.int = TRUE) %>%
@@ -389,7 +458,10 @@ summarize_mri_cycle11 <- function(data, var, cfg) {
     )
   meanstbl <- means |>
     select(trt, mean_txt) |>
-    knitr::kable(col.names = c("Treatment", "Estimated change from baseline (95% CI)"), digits = 2)
+    knitr::kable(
+      col.names = c("Treatment", "Estimated change from baseline (95% CI)"),
+      digits = 2
+    )
 
   diffstbl <- emmeans::contrast(emm, method = "trt.vs.ctrl", ref = 1) %>%
     broom::tidy(conf.int = TRUE) %>%
@@ -420,6 +492,11 @@ summarize_mri_cycle11 <- function(data, var, cfg) {
     distinct(usubjid) %>%
     nrow()
 
-  list(means = meanstbl, diffs = diffstbl, plot = plt, label = label, nsubj = nsubj)
+  list(
+    means = meanstbl,
+    diffs = diffstbl,
+    plot = plt,
+    label = label,
+    nsubj = nsubj
+  )
 }
-  

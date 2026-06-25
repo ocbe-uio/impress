@@ -115,6 +115,7 @@ for (nm in names(primary_mri_sections)) {
 
   cat("### Fitted model parameters (AIC/ED)\n\n")
   print(sec$tables$fit)
+  cat("\n Note \n Fitted models are presented with AIC and ED for reference")
   cat("\n\n")
 
   cat("### Estimated means by dose\n\n")
