@@ -7,8 +7,8 @@ studyid: "ImPRESS"  # study identifier
 country: "Norway"
 country_code: "NOR" # ISO3 country code
 shammseed: 42424            # seed for shan randomisation
-mode: "sham"         # options: sham | true
-export: "_20260624_143005" # Export folder with timestamp. Exported from Viedoc
+mode: "true"         # options: sham | true
+export: "_20260626_083406" # Export folder with timestamp. Exported from Viedoc
 
 #cfg_adam: "config/adam.yml"     # ADaM config file
 

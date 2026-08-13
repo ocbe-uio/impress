@@ -1,7 +1,7 @@
-# Reporting for extent of exposure (SAP §7).
+# Reporting for extent of exposure (SAP §7.7).
 #
-# Descriptive summaries on the configured cohort (cohortcd == 2), grouped by planned
-# dose (FAS mock-up; _EX.csv dosing is empty, see make_adex.R).
+# Descriptive summaries on the configured cohort (cohortcd == 2), grouped by randomised 
+# arm and planned dose 
 #
 # Outputs (all knitr::kable): N/% exposed per planned dose level, treatment duration
 # overall and by long-term dose, short-term-only vs continued-to-long-term, switched
@@ -17,11 +17,13 @@ make_rdex <- function(adex, cfg) {
     return(NULL)
   }
 
-  Ntot <- nrow(dt)
+  Ntot <- length(unique(dt$subjid))
 
   # ---- N / % exposed per planned dose level --------------------------------
   exposed_tbl <- function(dose_var, lbl) {
     dt %>%
+      group_by(subjid) |> 
+      filter(row_number() == 1) |> 
       dplyr::mutate(dose = factor(.data[[dose_var]], levels = c(0, 25, 50, 100))) %>%
       dplyr::filter(!is.na(dose)) %>%
       dplyr::group_by(dose, .drop = FALSE) %>%
@@ -38,67 +40,68 @@ make_rdex <- function(adex, cfg) {
     knitr::kable(caption = NULL)
 
   # ---- Duration overall and by long-term dose ------------------------------
-  dur_summary <- function(df) {
-    d <- df$trtdurd[!is.na(df$trtdurd)]
-    if (length(d) == 0) {
-      return(tibble::tibble(N = 0L, `Median (range), days` = "-", `Mean (SD), days` = "-"))
-    }
-    tibble::tibble(
-      N = length(d),
-      `Median (range), days` = sprintf("%.0f (%.0f-%.0f)", stats::median(d), min(d), max(d)),
-      `Mean (SD), days`      = sprintf("%.1f (%.1f)", mean(d), stats::sd(d))
-    )
-  }
 
-  duration_overall <- dur_summary(dt) %>%
-    dplyr::mutate(Group = "Overall", .before = 1) %>%
-    knitr::kable(caption = NULL)
 
-  duration_by_dose <- dt %>%
-    dplyr::mutate(dose = factor(dose02p, levels = c(0, 25, 50, 100))) %>%
-    dplyr::filter(!is.na(dose)) %>%
-    dplyr::group_by(dose) %>%
-    dplyr::group_modify(~ dur_summary(.x)) %>%
-    dplyr::ungroup() %>%
-    dplyr::rename(`Long-term dose (mg)` = dose) %>%
-    knitr::kable(caption = NULL)
 
-  # ---- Short-term-only vs continued, switched, discontinued early ----------
-  flag_pct <- function(flag) {
-    n <- sum(dt[[flag]] == "Y", na.rm = TRUE)
-    sprintf("%d (%.1f%%)", n, 100 * n / Ntot)
-  }
+ 
 
-  status <- tibble::tibble(
-    Measure = c("Continued to long-term treatment",
-                "Short-term assignment only",
-                "Switched dose (short- vs long-term)",
-                "Discontinued treatment early"),
-    `N (%)` = c(
-      flag_pct("ltfl"),
-      sprintf("%d (%.1f%%)", sum(dt$ltfl != "Y", na.rm = TRUE),
-              100 * sum(dt$ltfl != "Y", na.rm = TRUE) / Ntot),
-      flag_pct("switchfl"),
-      flag_pct("discfl")
-    )
-  ) %>%
-    knitr::kable(caption = NULL)
+ exposure_table <- dt |>
+   group_by(arm) |> 
+  summarise(
+    `N`                            = n(),
+    `Duration (days), Mean (SD)`          = sprintf("%.1f (%.1f)", mean(totdur, na.rm = TRUE), sd(totdur, na.rm = TRUE)),
+    `Duration (days), Median (Min - Max)`  = sprintf("%.1f (%.1f - %.1f)", median(totdur, na.rm = TRUE), min(totdur, na.rm = TRUE), max(totdur, na.rm = TRUE)),
+    `Total dose (mg), Mean (SD)`        = sprintf("%.1f (%.1f)", mean(totdose, na.rm = TRUE), sd(totdose, na.rm = TRUE)),
+    `Total dose(mg), Median (Min - Max)`= sprintf("%.1f (%.1f - %.1f)", median(totdose, na.rm = TRUE), min(totdose, na.rm = TRUE), max(totdose, na.rm = TRUE)),
+    `Daily dose (mg), Mean (SD)`        = sprintf("%.1f (%.1f)", mean(dailydose, na.rm = TRUE), sd(dailydose, na.rm = TRUE)),
+    `Daily dose(mg), Median (Min - Max)`= sprintf("%.1f (%.1f - %.1f)", median(dailydose, na.rm = TRUE), min(dailydose, na.rm = TRUE), max(dailydose, na.rm = TRUE)),
+    .groups = "drop"
+  ) |>
+  rename(Arm = arm) |> 
+   knitr::kable(
+  align = c("l", "c", "c", "c", "c", "c"),
+  caption = "Exposure to randomised arm"
+  )
+exposure_table2 <- dt |>
+  mutate(Dose = paste0(dose01p, " mg"),
+         Dose = factor(Dose, levels = c("25 mg", "50 mg", "100 mg"))) |> 
+   group_by(Dose) |> 
+  summarise(
+    `N`                            = n(),
+    `Daily dose (mg), Mean (SD)`        = sprintf("%.1f (%.1f)", mean(dailydose, na.rm = TRUE), sd(dailydose, na.rm = TRUE)),
+    `Daily dose(mg), Median (Min - Max)`= sprintf("%.1f (%.1f - %.1f)", median(dailydose, na.rm = TRUE), min(dailydose, na.rm = TRUE), max(dailydose, na.rm = TRUE)),
+    .groups = "drop"
+  ) |>
+   knitr::kable(
+  align = c("l", "c", "c", "c", "c", "c"),
+  caption = "Exposure to treatment (mean daily dose) by dose"
+  )
+dose_mod_table <- dt |>
+  distinct(arm, subjid, moddose) |>   # adjust if moddose is already one row per subject
+  count(arm, moddose) |>
+  group_by(arm) |>
+  mutate(pct = n / sum(n) * 100, 
+         N = sum(n)) |>
+  ungroup() |>
+  filter(moddose == TRUE) |>
+  transmute(
+    Arm = arm,
+    N = N,
+    `Dose modified, n (%)` = sprintf("%d (%.1f%%)", n, pct)
+  )
 
-  # ---- Duration categories --------------------------------------------------
-  durcat <- dt %>%
-    dplyr::filter(!is.na(durcat)) %>%
-    dplyr::group_by(durcat, .drop = FALSE) %>%
-    dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
-    dplyr::mutate(`N (%)` = sprintf("%d (%.1f%%)", n, 100 * n / Ntot)) %>%
-    dplyr::transmute(`Duration category` = durcat, `N (%)`) %>%
-    knitr::kable(caption = NULL)
+dosemodtbl <- knitr::kable(
+  dose_mod_table,
+  align = c("l", "c"),
+  caption = "Dose modification by treatment arm"
+)
 
+ 
   list(
     nsubj            = Ntot,
     exposed          = exposed,
-    duration_overall = duration_overall,
-    duration_by_dose = duration_by_dose,
-    status           = status,
-    durcat           = durcat
+    exposure_table = exposure_table,
+    exposure_table2 = exposure_table2,
+    dosemodtbl           = dosemodtbl
   )
 }

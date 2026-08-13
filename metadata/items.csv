@@ -400,18 +400,18 @@ elig;eiranyn;Is the subject already randomized?;text;TRUE;NA;1;NA;YNFMT;3;EIRANY
 elig;eiranyncd;Is the subject already randomized? - Code;integer;TRUE;NA;1;NA;YNFMT;1;EIRANYNCD;2;;i
 elig;eiranno;Randomization no.;text;TRUE;NA;1;NA;EIRANFMT;4;EIRANNO;1;;c
 elig;eirannocd;Randomization no. - Code;integer;TRUE;NA;1;NA;EIRANFMT;4;EIRANNOCD;2;;i
-ran;randat;Randomization date;date;TRUE;NA;1;NA;NA;0;RANDAT;0;;c
-ran;randia;Diagnosis;text;FALSE;NA;1;NA;COHORFMT;0;RANDIA;1;;c
-ran;randiacd;Diagnosis - Code;string;FALSE;NA;1;NA;COHORFMT;0;RANDIACD;2;;c
+ran;randat;Randomization date;date;TRUE;NA;1;NA;NA;10;RANDAT;0;;c
+ran;randia;Diagnosis;text;FALSE;NA;1;NA;COHORFMT;28;RANDIA;1;;c
+ran;randiacd;Diagnosis - Code;string;FALSE;NA;1;NA;COHORFMT;28;RANDIACD;2;;c
 ran;ranno;Randomization number;double;TRUE;0;1;NA;NA;0;RANNO;0;;d
-ran;rantrt;Treatment group;text;TRUE;NA;1;NA;RTRTFMT;0;RANTRT;1;;c
-ran;rantrtcd;Treatment group - Code;string;TRUE;NA;1;NA;RTRTFMT;0;RANTRTCD;2;;c
-ran;randos;Dose;text;TRUE;NA;1;NA;LDOSFMT;0;RANDOS;1;;c
-ran;randoscd;Dose - Code;string;TRUE;NA;1;NA;LDOSFMT;0;RANDOSCD;2;;c
-ran;ranst;Start up time;text;TRUE;NA;1;NA;RANSTFMT;0;RANST;1;;c
-ran;ranstcd;Start up time - Code;string;TRUE;NA;1;NA;RANSTFMT;0;RANSTCD;2;;c
-ran;ranfudos;Follow-up dose;text;TRUE;NA;1;NA;DOSEFMT;0;RANFUDOS;1;;c
-ran;ranfudoscd;Follow-up dose - Code;string;TRUE;NA;1;NA;DOSEFMT;0;RANFUDOSCD;2;;c
+ran;rantrt;Treatment group;text;TRUE;NA;1;NA;RTRTFMT;5;RANTRT;1;;c
+ran;rantrtcd;Treatment group - Code;string;TRUE;NA;1;NA;RTRTFMT;5;RANTRTCD;2;;c
+ran;randos;Dose;text;TRUE;NA;1;NA;LDOSFMT;5;RANDOS;1;;c
+ran;randoscd;Dose - Code;string;TRUE;NA;1;NA;LDOSFMT;3;RANDOSCD;2;;c
+ran;ranst;Start up time;text;TRUE;NA;1;NA;RANSTFMT;17;RANST;1;;c
+ran;ranstcd;Start up time - Code;string;TRUE;NA;1;NA;RANSTFMT;3;RANSTCD;2;;c
+ran;ranfudos;Follow-up dose;text;TRUE;NA;1;NA;DOSEFMT;5;RANFUDOS;1;;c
+ran;ranfudoscd;Follow-up dose - Code;string;TRUE;NA;1;NA;DOSEFMT;3;RANFUDOSCD;2;;c
 mri;mridat;Date of MRI exam;date;TRUE;NA;1;NA;NA;10;MRIDAT;0;;c
 mri;mrfuplyn;Result file from MRI is uploaded;text;TRUE;NA;1;NA;YNFMT;3;MRFUPLYN;1;;c
 mri;mrfuplyncd;Result file from MRI is uploaded - Code;integer;TRUE;NA;1;NA;YNFMT;1;MRFUPLYNCD;2;;i
@@ -592,42 +592,42 @@ lbe;lbucs;Urea CS?;text;FALSE;NA;1;NA;YNFMT;0;LBUCS;1;;c
 lbe;lbucscd;Urea CS? - Code;integer;FALSE;NA;1;NA;YNFMT;0;LBUCSCD;2;;i
 lbe;scope_591;Laboratory range - OUS;text;FALSE;NA;NA;NA;CL_S591F;22;SCOPE_591;1;;c
 lbe;scope_591cd;Laboratory range - OUS - Code;integer;FALSE;NA;NA;NA;CL_S591F;4;SCOPE_591CD;2;;i
-ex;eximpdos;IMP administration in this cycle(and next cycle if not registered);text;TRUE;NA;1;NA;EXIMPFMT;0;EXIMPDOS;1;;c
-ex;eximpdoscd;IMP administration in this cycle(and next cycle if not registered) - Code;integer;TRUE;NA;1;NA;EXIMPFMT;0;EXIMPDOSCD;2;;i
-ex;eximpnd;Reason for no administration;text;TRUE;NA;1;NA;NA;0;EXIMPND;0;;c
-ex;exrandos;The subject is randomized to dose:(displayed from the randomization form);text;FALSE;NA;1;NA;DOSFMT;0;EXRANDOS;1;;c
-ex;exrandoscd;The subject is randomized to dose:(displayed from the randomization form) - Code;integer;FALSE;NA;1;NA;DOSFMT;0;EXRANDOSCD;2;;i
-ex;exranst;Start up time(displayed from the randomization form);text;FALSE;NA;1;NA;RANS2FMT;0;EXRANST;1;;c
-ex;exranstcd;Start up time(displayed from the randomization form) - Code;integer;FALSE;NA;1;NA;RANS2FMT;0;EXRANSTCD;2;;i
-ex;exfudos;Follow-up dose:(displayed from the randomization form);text;FALSE;NA;1;NA;FUDOSFMT;0;EXFUDOS;1;;c
-ex;exfudoscd;Follow-up dose:(displayed from the randomization form) - Code;integer;FALSE;NA;1;NA;FUDOSFMT;0;EXFUDOSCD;2;;i
-ex;exstdat;IMP start date;date;TRUE;NA;1;NA;NA;0;EXSTDAT;0;;c
-ex;exendat;IMP stop date;date;FALSE;NA;1;NA;NA;0;EXENDAT;0;;c
-ex;exmodyn;Has there been any modification of randomized dose;text;TRUE;NA;1;NA;YNFMT;0;EXMODYN;1;;c
-ex;exmodyncd;Has there been any modification of randomized dose - Code;integer;TRUE;NA;1;NA;YNFMT;0;EXMODYNCD;2;;i
-ex;exnddos;New daily dose;double;TRUE;1;1;NA;NA;0;EXNDDOS;0;;d
-ex;exmstdat;From date;date;TRUE;NA;1;NA;NA;0;EXMSTDAT;0;;c
-ex;exmodoth;Reason for modification;text;TRUE;NA;1;NA;NA;0;EXMODOTH;0;;c
-ex;exint;Has there been any interruption of dose;text;TRUE;NA;1;NA;YNFMT;0;EXINT;1;;c
-ex;exintcd;Has there been any interruption of dose - Code;integer;TRUE;NA;1;NA;YNFMT;0;EXINTCD;2;;i
-ex;exstpyn;Is the dose stopped;text;TRUE;NA;1;NA;YNFMT;0;EXSTPYN;1;;c
-ex;exstpyncd;Is the dose stopped - Code;integer;TRUE;NA;1;NA;YNFMT;0;EXSTPYNCD;2;;i
-ex;exstpdat;From date;date;TRUE;NA;1;NA;NA;0;EXSTPDAT;0;;c
-ex;exintoth;Reason for stop IMP;text;TRUE;NA;1;NA;NA;0;EXINTOTH;0;;c
-ex;exintdur;Duration of the interruption;double;TRUE;0;1;NA;NA;0;EXINTDUR;0;;d
-ex;ex3pmryn;Has IMP been taken 3 days prior to MRI?;text;TRUE;NA;1;NA;YNFMT;0;EX3PMRYN;1;;c
-ex;ex3pmryncd;Has IMP been taken 3 days prior to MRI? - Code;integer;TRUE;NA;1;NA;YNFMT;0;EX3PMRYNCD;2;;i
-ex;ex3pdes;Reason for the interuption;text;TRUE;NA;1;NA;NA;0;EX3PDES;0;;c
+ex;eximpdos;IMP administration in this cycle(and next cycle if not registered);text;TRUE;NA;1;NA;EXIMPFMT;17;EXIMPDOS;1;;c
+ex;eximpdoscd;IMP administration in this cycle(and next cycle if not registered) - Code;integer;TRUE;NA;1;NA;EXIMPFMT;3;EXIMPDOSCD;2;;i
+ex;eximpnd;Reason for no administration;text;TRUE;NA;1;NA;NA;44;EXIMPND;0;;c
+ex;exrandos;The subject is randomized to dose:(displayed from the randomization form);text;FALSE;NA;1;NA;DOSFMT;5;EXRANDOS;1;;c
+ex;exrandoscd;The subject is randomized to dose:(displayed from the randomization form) - Code;integer;FALSE;NA;1;NA;DOSFMT;3;EXRANDOSCD;2;;i
+ex;exranst;Start up time(displayed from the randomization form);text;FALSE;NA;1;NA;RANS2FMT;17;EXRANST;1;;c
+ex;exranstcd;Start up time(displayed from the randomization form) - Code;integer;FALSE;NA;1;NA;RANS2FMT;3;EXRANSTCD;2;;i
+ex;exfudos;Follow-up dose:(displayed from the randomization form);text;FALSE;NA;1;NA;FUDOSFMT;5;EXFUDOS;1;;c
+ex;exfudoscd;Follow-up dose:(displayed from the randomization form) - Code;integer;FALSE;NA;1;NA;FUDOSFMT;3;EXFUDOSCD;2;;i
+ex;exstdat;IMP start date;date;TRUE;NA;1;NA;NA;10;EXSTDAT;0;;c
+ex;exendat;IMP stop date;date;FALSE;NA;1;NA;NA;10;EXENDAT;0;;c
+ex;exmodyn;Has there been any modification of randomized dose;text;TRUE;NA;1;NA;YNFMT;3;EXMODYN;1;;c
+ex;exmodyncd;Has there been any modification of randomized dose - Code;integer;TRUE;NA;1;NA;YNFMT;1;EXMODYNCD;2;;i
+ex;exnddos;New daily dose;double;TRUE;1;1;NA;NA;2;EXNDDOS;0;;d
+ex;exmstdat;From date;date;TRUE;NA;1;NA;NA;10;EXMSTDAT;0;;c
+ex;exmodoth;Reason for modification;text;TRUE;NA;1;NA;NA;76;EXMODOTH;0;;c
+ex;exint;Has there been any interruption of dose;text;TRUE;NA;1;NA;YNFMT;3;EXINT;1;;c
+ex;exintcd;Has there been any interruption of dose - Code;integer;TRUE;NA;1;NA;YNFMT;1;EXINTCD;2;;i
+ex;exstpyn;Is the dose stopped;text;TRUE;NA;1;NA;YNFMT;3;EXSTPYN;1;;c
+ex;exstpyncd;Is the dose stopped - Code;integer;TRUE;NA;1;NA;YNFMT;1;EXSTPYNCD;2;;i
+ex;exstpdat;From date;date;TRUE;NA;1;NA;NA;10;EXSTPDAT;0;;c
+ex;exintoth;Reason for stop IMP;text;TRUE;NA;1;NA;NA;86;EXINTOTH;0;;c
+ex;exintdur;Duration of the interruption;double;TRUE;0;1;NA;NA;2;EXINTDUR;0;;d
+ex;ex3pmryn;Has IMP been taken 3 days prior to MRI?;text;TRUE;NA;1;NA;YNFMT;3;EX3PMRYN;1;;c
+ex;ex3pmryncd;Has IMP been taken 3 days prior to MRI? - Code;integer;TRUE;NA;1;NA;YNFMT;1;EX3PMRYNCD;2;;i
+ex;ex3pdes;Reason for the interuption;text;TRUE;NA;1;NA;NA;46;EX3PDES;0;;c
 ex;exbatch;Batch number;text;FALSE;NA;1;NA;NA;0;EXBATCH;0;;c
 ex;exexpdat;Expiry date;date;FALSE;NA;1;NA;NA;0;EXEXPDAT;0;;c
 ex;ex2batch;Batch number;text;FALSE;NA;1;NA;NA;0;EX2BATCH;0;;c
 ex;ex2exdat;Expiry date;date;FALSE;NA;1;NA;NA;0;EX2EXDAT;0;;c
-ex;excons;#tablets taken in this cycle(and next cycle if not registered);double;TRUE;0;1;NA;NA;0;EXCONS;0;;d
-ex;exdosstr;Dosage strength;text;TRUE;NA;1;NA;DSTRFMT;0;EXDOSSTR;1;;c
-ex;exdosstrcd;Dosage strength - Code;string;TRUE;NA;1;NA;DSTRFMT;0;EXDOSSTRCD;2;;c
-ex;exdisp;#tablets in this cycle (and next cycle if not registered) according to protocol;double;TRUE;0;1;NA;NA;0;EXDISP;0;;d
-ex;ex2cons;#tablets (12,5mg) taken in this cycle(and next cycle if not registered);double;TRUE;0;1;NA;NA;0;EX2CONS;0;;d
-ex;ex2disp;#tablets (12,5mg) in this cycle (and next cycle if not registered) according to protocol;double;TRUE;0;1;NA;NA;0;EX2DISP;0;;d
+ex;excons;#tablets taken in this cycle(and next cycle if not registered);double;TRUE;0;1;NA;NA;3;EXCONS;0;;d
+ex;exdosstr;Dosage strength;text;TRUE;NA;1;NA;DSTRFMT;5;EXDOSSTR;1;;c
+ex;exdosstrcd;Dosage strength - Code;string;TRUE;NA;1;NA;DSTRFMT;4;EXDOSSTRCD;2;;c
+ex;exdisp;#tablets in this cycle (and next cycle if not registered) according to protocol;double;TRUE;0;1;NA;NA;3;EXDISP;0;;d
+ex;ex2cons;#tablets (12,5mg) taken in this cycle(and next cycle if not registered);double;TRUE;0;1;NA;NA;2;EX2CONS;0;;d
+ex;ex2disp;#tablets (12,5mg) in this cycle (and next cycle if not registered) according to protocol;double;TRUE;0;1;NA;NA;2;EX2DISP;0;;d
 ch;chyn;Does the patient receive chemotherapy in this cycle;text;TRUE;NA;1;NA;YNFMT;3;CHYN;1;;c
 ch;chyncd;Does the patient receive chemotherapy in this cycle - Code;integer;TRUE;NA;1;NA;YNFMT;1;CHYNCD;2;;i
 ch;chregime;Chosen chemotherapy regimen;text;TRUE;NA;1;NA;CHREGFMT;40;CHREGIME;1;;c

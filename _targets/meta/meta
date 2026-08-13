@@ -7,8 +7,6 @@ lookup_avisit_yaml|function|c038fb4b61f8bd83
 as_raw_domains|function|cce910bbcb3c55d8
 report_file|stem|f8807fc321d6316e|900bc310907d60fe|2c530c1562a7fbd1|97616872|reports/impress_statistical_analysis.qmd|t20385.6090585729s|s5187b|5187|file|local|vector|||0.301||
 report|stem|d27e033c2e130ef0|cb1101cbb26faa65|2c530c1562a7fbd1|787668912|reports/impress_statistical_analysis.html*reports/impress_statistical_analysis.pdf|t20385.587516288s||81591|file|local|vector|||2.175||! Error running quarto CLI from R. Caused by error: ✖ Error returned by quarto CLI. ℹ Rerun with `quiet = FALSE` to see the full error message. Caused by error: ! System command 'quarto' failed
-primary_mri_vars|stem|12157d656d34f8f4|c78affe6f51991ab|2c530c1562a7fbd1|2117268287||t20461.352213792s|s91b|91|rds|local|vector|||1.518||
-primary_mri_labels|stem|9bcbea89a255387d|def52ff90d4b7b5a|2c530c1562a7fbd1|1176111387||t20461.3522141277s|s168b|168|rds|local|vector|||0||
 make_splines|function|0e16a91e57c6318b
 make_linsp|function|b068b9a0994c39b2
 summarize_mri_cycle17|function|eb794e793f75d1ca
@@ -16,50 +14,53 @@ cycle17_mri_vars|stem|d4a20edad4060d2a|0fdd4bf602d8ef8d|942b45386016cc4f|-169980
 cycle17_mri_summaries|stem|576c04227669c729|b54758f240f794a8|bc3e111a9634fe98|38009780||t20467.6401901435s|s7760614b|7760614|rds|local|vector|||1.139||
 make_rdeff_section|function|617b1f26b2345ae1
 make_rdeff_batch|function|20db473a54aaa6ac
-cfg_adam_file|stem|ea02f8d90265cdcd|1efdd77af1e49c08|2c530c1562a7fbd1|1512137267|config/adam.yml|t20467.661911506s|s11172b|11172|file|local|vector|||1.322||
-cfg_adam|stem|b417282376a3a3ce|ed4b1d57366042a9|9cfd3b8b6b524217|-2080421085||t20467.6628680908s|s2020b|2020|rds|local|vector|||0.001||
-neuro_vars|stem|809dd702722f2ebf|97f22e7c3f59358c|2c530c1562a7fbd1|767160958||t20468.4145402382s|s91b|91|rds|local|vector|||1.426||
-qol_vars|stem|f752f18cb3841c2d|067b06805ffe057b|2c530c1562a7fbd1|2035343107||t20468.4145405072s|s91b|91|rds|local|vector|||0||
-rano_vars|stem|17e766b89a3e0196|1e611ac15ea5d1e9|2c530c1562a7fbd1|2029611444||t20473.4186406448s|s91b|91|rds|local|vector|||1.376||
 summarise_lb_lmm|function|012bf108ab1e5a54
 make_lb_section|function|3260054613af573a
-vs_vars|stem|7ee8cd24319826ff|9373a1401de86aa4|2c530c1562a7fbd1|-1351644203||t20620.4291630676s|s83b|83|rds|local|vector|||1.75||
-cfg|stem|c0ebc209cc026e52|18aad761e62f3c93|c08bb19ea57fc6b4|1339945205||t20628.6081439116s|s1742b|1742|rds|local|vector|||0.001||
-raw|stem|18549ca7b4daa3cd|93990d6b4f441507|93623e70625159ea|727646308||t20628.608361422s|s1041803b|1041803|rds|local|vector|||18.527||
-shamraw|stem|102051ca39618c13|686f2027d9267b9c|a19f2c903ed17927|791270680||t20628.6083668629s|s1046838b|1046838|rds|local|vector|||0.096||
-dat|stem|102051ca39618c13|040a16a7e159fe49|a9aac5ea564916cb|963459267||t20628.6083725302s|s1046838b|1046838|rds|local|vector|||0||
-adsl|stem|7132893f12e54459|82bf8e43f44fa52b|5f83443cc62bd523|2106936910||t20628.6083752798s|s2776b|2776|rds|local|vector|||0.107|There was 1 warning in `arrange()`. ℹ In argument: `..1 = as.numeric(step)`. Caused by warning: ! NAs introduced by coercion|
-adeff|stem|7c0730d99bea5094|1d1b997de1b667cd|a70f90ea431ae086|2044678021||t20628.6083799277s|s22224b|22224|rds|local|vector|||0.262||
-adlbsaf|stem|a1d18724290db0d6|246baab05d8cc7bc|71c727d5e9727be3|-1284116182||t20628.6083827067s|s8369b|8369|rds|local|vector|||0.111||
-admri|stem|2ec9938bcba3fbb0|f85683866ce3d276|cf8c03caa1357702|1742296487||t20628.6083862539s|s104509b|104509|rds|local|vector|||0.153||
-adlb|stem|c156f330a76a2379|867b69a2bfc3ce23|47e44f97b3ad3e73|-1442034349||t20628.6084001964s|s202224b|202224|rds|local|vector|||1.018||
-adtte|stem|ea6cd29b89a307c5|689be11811243816|630ccb8038b25cd1|-825610163||t20628.6084050276s|s7530b|7530|rds|local|vector|||0.282||
-adae|stem|17fa08429c89caad|e7dbec7c0a72a2b2|7ad26a43463bb5db|1840915189||t20628.6084071774s|s5566b|5566|rds|local|vector|||0.057||
-advs|stem|211c84c44618a4b1|289e5d7f2b3c39bc|d7a318a86c51fa51|-455461254||t20628.6084102752s|s29229b|29229|rds|local|vector|||0.134||
-adex|stem|a7d9d8dbf7453b21|31bf1e5d0672e31a|7abea7b39b7ac9ed|-752720039||t20628.6084125108s|s3736b|3736|rds|local|vector|||0.065||
-rano_summaries|stem|00a7d3ea84c1a9d4|ba75775b0c1f1f04|1880505ebef48503|-1376397391||t20628.6084148924s|s518b|518|rds|local|vector|||0.194|There was 1 warning in `mutate()`. ℹ In argument: `avalc_norm = dplyr::case_when(...)`. Caused by warning: ! Calling `case_when()` with size 1 LHS inputs and size >1 RHS inputs was   deprecated in dplyr 1.2.0. ℹ This `case_when()` statement can result in subtle silent bugs and is very inefficient.    Please use a series of if statements instead:    ```   # Previously   case_when(scalar_lhs1 ~ rhs1, scalar_lhs2 ~ rhs2, .default = default)    # Now   if (scalar_lhs1) {     rhs1   } else if (scalar_lhs2) {     rhs2   } else {     default   }   ```|
-neuro_summaries|stem|4a784d84a55e41b2|eb55c8b1850318f1|da3d8cd70eb41205|1539957373||t20628.6084415313s|s2914719b|2914719|rds|local|vector|||1.257||
-qol_summaries|stem|c64154d2c29da195|dff733d228aa3eb5|603848412df44ad9|-1772663730||t20628.6084482644s|s881298b|881298|rds|local|vector|||0.269||
-steroid_summaries|stem|30626cc112f7c4a4|05ba9440145507f0|21188c4570c62d22|400058816||t20628.6084664157s|s948662b|948662|rds|local|vector|||1.242|Unable to extract a variance-covariance matrix using this `vcov` argument. Standard errors are computed using the default variance instead. Perhaps the model or argument is not supported by the `sandwich` ('HC0', 'HC3', ~clusterid, etc.) or `clubSandwich` ('CR0', etc.) packages. If you believe that the model is supported by one of these two packages, you can open a feature request on Github.. Unable to extract a variance-covariance matrix using this `vcov` argument. Standard errors are computed using the default variance instead. Perhaps the model or argument is not supported by the `sandwich` ('HC0', 'HC3', ~clusterid, etc.) or `clubSandwich` ('CR0', etc.) packages. If you believe that the model is supported by one of these two packages, you can open a feature request on Github.|
-lbsaf_summaries|stem|2d2c8feb4d847da1|9022af579cd211de|7d975f4105ca033e|-1271626585||t20628.6084710499s|s502541b|502541|rds|local|vector|||0.228||
-cycle11_mri_vars|stem|577e6c96985ac7e2|0fdd4bf602d8ef8d|dc87fdbc1d3a1e9f|1916899887||t20628.6084714007s|s174b|174|rds|local|vector|||0.001||
-adbl|stem|4cadba9938c44752|8d6b7d70e58186dd|ec48dc03bccccd32|-602618161||t20628.608476867s|s18972b|18972|rds|local|vector|||0.321||
-other_mri_vars|stem|dea52b70955b437f|36135dcf45851c8a|3f2e848247c28621|487417072||t20628.6085093662s|s139b|139|rds|local|vector|||0||
-lb_vars|stem|574de10527387789|891b7691b2863f94|2563f21bfec14a04|755867864||t20628.608509719s|s256b|256|rds|local|vector|||0||
-lb_modelfit_report|stem|cd7c4adfe6a2ee3b|f4ad7491df5bcee5|5ac57b035f25b0c2|-1273746283|reports/model fit/impress_lb_model_fit.pdf*reports/model fit/impress_lb_model_fit.Rmd|t20628.6091403846s|s2504673b|2504673|file|local|vector|||54.479|LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.|
-tte_vars|stem|9552cfc270b54a3e|75f7398e950e8689|9800d6548d8ccfe9|-2028261463||t20628.6091407548s|s97b|97|rds|local|vector|||0||
-deaths_summary|stem|20fd392a3a3c30ea|997a7afda3b01ad7|f49519999c856af0|1422660799||t20628.6091411492s|s786b|786|rds|local|vector|||0.025||
-tte_ph_report|stem|d5aab8c029ffeb77|2872cb02a63318f3|7f3ac12dc515a7eb|1348364452|reports/model fit/impress_tte_ph_check.pdf*reports/model fit/impress_tte_ph_check.Rmd|t20628.609189055s|s107875b|107875|file|local|vector|||4.142||
-ae_summaries|stem|6ec48c97022497b0|5d839dc8dde2c637|59b5268158719bd8|-706686637||t20628.6091931787s|s1809b|1809|rds|local|vector|||0.332||
-vs_summaries|stem|5d2058f0577f8e0d|40b60aa2f5f4b8c4|f406230954d10de6|758879258||t20628.6092105441s|s2103890b|2103890|rds|local|vector|||0.773||
-ex_summary|stem|ab8008dbe9c6fd8d|949ced0bafde129b|812a4a07dd69c1fa|819102869||t20628.6092112891s|s694b|694|rds|local|vector|||0.051||
-cycle11_mri_summaries|stem|bf57999d17d6f40e|8d59fc169283febb|7fc4c13371625efc|1328032111||t20628.6092568193s|s7650256b|7650256|rds|local|vector|||1.51||
-tbl_baseline|stem|845f9b10bd3a8826|3beb58957e96eb68|c748c58923f08fa9|-1741336211||t20628.6092632338s|s22611b|22611|rds|local|vector|||0.52||
-other_mri_summaries|stem|3d6568d12daaa60f|8afbce564fe5676f|3b7fae50f7ea0419|1202295808||t20628.6093849283s|s17221972b|17221972|rds|local|vector|||5.023||
-lb_summaries|stem|d723e53512108529|d758bc7d0b6bd099|064f3dee5419265b|1034279601||t20628.6095133125s|s17039594b|17039594|rds|local|vector|||6.23|Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.|
-tte_sections|stem|f5990fd9095239db|042fc64756aeee43|3944cdd3df3f0289|1852372942||t20628.6095898404s|s15894973b|15894973|rds|local|vector|||0.528||
-lb_late_summaries|stem|9e8ae172ec4990b8|bcf1a10ed7dfa8ea|e28a101f9653d09e|1004447658||t20628.6097278085s|s15564493b|15564493|rds|local|vector|||4.244||
-cfg_file|stem|0c9bc35f43a42bc5|51c9fe44fb68ab11|2c530c1562a7fbd1|-2098879298|config/cfg.yml|t20628.6140047773s|s8310b|8310|file|local|vector|||1.985||
+rano_vars|stem|0b58d0d741f83604|1e611ac15ea5d1e9|2c530c1562a7fbd1|2029611444||t20629.5264035663s|s90b|90|rds|local|vector|||2.888||
+cfg_adam_file|stem|ea02f8d90265cdcd|1efdd77af1e49c08|2c530c1562a7fbd1|1512137267|config/adam.yml|t20629.3855271831s|s11172b|11172|file|local|vector|||1.322||
+neuro_vars|stem|4c3559663cef6062|97f22e7c3f59358c|2c530c1562a7fbd1|767160958||t20629.526404689s|s90b|90|rds|local|vector|||0.001||
+qol_vars|stem|859ec4dd2d789191|067b06805ffe057b|2c530c1562a7fbd1|2035343107||t20629.5264048047s|s90b|90|rds|local|vector|||0||
+primary_mri_vars|stem|68f508bab04058a5|c78affe6f51991ab|2c530c1562a7fbd1|2117268287||t20629.5264049321s|s90b|90|rds|local|vector|||0||
+primary_mri_labels|stem|da682f0a321e0afa|def52ff90d4b7b5a|2c530c1562a7fbd1|1176111387||t20629.5264050709s|s167b|167|rds|local|vector|||0||
+vs_vars|stem|7ee8cd24319826ff|9373a1401de86aa4|2c530c1562a7fbd1|-1351644203||t20629.4360939114s|s83b|83|rds|local|vector|||1.75||
+cfg_adam|stem|3a37a4d0f49c1d8d|ed4b1d57366042a9|9cfd3b8b6b524217|-2080421085||t20629.5264053834s|s2020b|2020|rds|local|vector|||0.001||
+cfg_file|stem|906c9036c314e80a|51c9fe44fb68ab11|2c530c1562a7fbd1|-2098879298|config/cfg.yml|t20630.3587098159s|s8310b|8310|file|local|vector|||2.844||
+cfg|stem|b8e8c823eb107cfb|18aad761e62f3c93|2e4ce19459bd0171|1339945205||t20630.3589503457s|s1742b|1742|rds|local|vector|||0.002||
+raw|stem|d10b0c36c3675180|93990d6b4f441507|63df857a8fac9ec4|727646308||t20630.3593231553s|s1079085b|1079085|rds|local|vector|||31.87||
+shamraw|stem|d10b0c36c3675180|686f2027d9267b9c|528b00718379bfa7|791270680||t20630.3593302271s|s1079085b|1079085|rds|local|vector|||0.152||
+dat|stem|d10b0c36c3675180|040a16a7e159fe49|8236e6bb8d3ee3d8|963459267||t20630.3593366854s|s1079085b|1079085|rds|local|vector|||0||
+adsl|stem|69901fe54806dc47|82bf8e43f44fa52b|8c698d0d4d5c7838|2106936910||t20636.3379824072s|s2753b|2753|rds|local|vector|||0.364|There was 1 warning in `arrange()`. ℹ In argument: `..1 = as.numeric(step)`. Caused by warning: ! NAs introduced by coercion|
+adeff|stem|fb79a39c7e2dabd6|1d1b997de1b667cd|e2cec4981b2ffeb7|2044678021||t20636.3379896988s|s22453b|22453|rds|local|vector|||0.452||
+adlbsaf|stem|e524b5fc9608201e|246baab05d8cc7bc|7a79e199754ba6f0|-1284116182||t20636.337994039s|s8325b|8325|rds|local|vector|||0.176||
+admri|stem|5b9e57e32648ca7f|f85683866ce3d276|21d55e5f86d24822|1742296487||t20636.338004363s|s104487b|104487|rds|local|vector|||0.721||
+adlb|stem|b8915c92d83734a0|867b69a2bfc3ce23|14c0d8280987401f|-1442034349||t20636.3380246174s|s202158b|202158|rds|local|vector|||1.556||
+adtte|stem|d8975a44c1c2d392|689be11811243816|51c5174442dcd98d|-825610163||t20636.3380284368s|s7473b|7473|rds|local|vector|||0.183||
+adae|stem|f3af6d26859b056b|e7dbec7c0a72a2b2|1b99e191b09a0cb6|1840915189||t20636.3380313766s|s5564b|5564|rds|local|vector|||0.121||
+advs|stem|766938e858e69440|289e5d7f2b3c39bc|6b004c24b123da6d|-455461254||t20636.3380404853s|s29203b|29203|rds|local|vector|||0.644||
+adex|stem|4c505b6887430fd9|31bf1e5d0672e31a|8d61dc04e19eec8a|-752720039||t20636.3396379224s|s3739b|3739|rds|local|vector|||0.334|There were 9 warnings in `summarise()`. The first warning was: ℹ In argument: `totdur = max(trtdur, na.rm = TRUE)`. ℹ In group 84: `subjid = 'ImPR-3003'`. Caused by warning in `max()`: ! no non-missing arguments to max; returning -Inf ℹ Run `dplyr::last_dplyr_warnings()` to see the 8 remaining warnings.|
+rano_summaries|stem|70e8f0d81d4d8aec|ba75775b0c1f1f04|b56d236e8dfc1def|-1376397391||t20636.3396421122s|s541b|541|rds|local|vector|||0.323|There was 1 warning in `mutate()`. ℹ In argument: `avalc_norm = dplyr::case_when(...)`. Caused by warning: ! Calling `case_when()` with size 1 LHS inputs and size >1 RHS inputs was   deprecated in dplyr 1.2.0. ℹ This `case_when()` statement can result in subtle silent bugs and is very inefficient.    Please use a series of if statements instead:    ```   # Previously   case_when(scalar_lhs1 ~ rhs1, scalar_lhs2 ~ rhs2, .default = default)    # Now   if (scalar_lhs1) {     rhs1   } else if (scalar_lhs2) {     rhs2   } else {     default   }   ```|
+neuro_summaries|stem|ac91a9f88d013754|eb55c8b1850318f1|7ebbf40bc73bf0f7|1539957373||t20636.3397229447s|s9194285b|9194285|rds|local|vector|||2.467||
+qol_summaries|stem|d2198d771f0bb2de|dff733d228aa3eb5|9539ea41894452f6|-1772663730||t20636.3397538818s|s4893247b|4893247|rds|local|vector|||0.446||
+steroid_summaries|stem|508772be704cafb0|05ba9440145507f0|b3e2d8bedb6d7c15|400058816||t20636.3397985689s|s4803838b|4803838|rds|local|vector|||1.685|unable to evaluate scaled gradient. Model failed to converge: degenerate  Hessian with 1 negative eigenvalues   See ?lme4::convergence and ?lme4::troubleshooting.. Unable to extract a variance-covariance matrix using this `vcov` argument. Standard errors are computed using the default variance instead. Perhaps the model or argument is not supported by the `sandwich` ('HC0', 'HC3', ~clusterid, etc.) or `clubSandwich` ('CR0', etc.) packages. If you believe that the model is supported by one of these two packages, you can open a feature request on Github.. Unable to extract a variance-covariance matrix using this `vcov` argument. Standard errors are computed using the default variance instead. Perhaps the model or argument is not supported by the `sandwich` ('HC0', 'HC3', ~clusterid, etc.) or `clubSandwich` ('CR0', etc.) packages. If you believe that the model is supported by one of these two packages, you can open a feature request on Github.|
+lbsaf_summaries|stem|b839b3db26cbdcd8|9022af579cd211de|73c14995def24b20|-1271626585||t20636.3398229321s|s3943084b|3943084|rds|local|vector|||0.383||
+cycle11_mri_vars|stem|577e6c96985ac7e2|0fdd4bf602d8ef8d|9a4d5b5b872f409f|1916899887||t20636.3398233487s|s174b|174|rds|local|vector|||0.001||
+adbl|stem|c475d0439216c64b|8d6b7d70e58186dd|18e516267a844626|-602618161||t20636.3398316125s|s18959b|18959|rds|local|vector|||0.55||
+primary_mri_sections|stem|96b997ca456bd054|468b4605b7970963|a1ebfb40ba215844|-283662289||t20636.3399054196s|s8855372b|8855372|rds|local|vector|||2.844|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
+other_mri_vars|stem|dea52b70955b437f|36135dcf45851c8a|7f7e6e71e588424a|487417072||t20636.3399059173s|s139b|139|rds|local|vector|||0||
+lb_vars|stem|574de10527387789|891b7691b2863f94|8d7e60e5429861d2|755867864||t20636.3399063571s|s256b|256|rds|local|vector|||0||
+lb_modelfit_report|stem|0269f862eedb8074|f4ad7491df5bcee5|b04476b5ca280ff9|-1273746283|reports/model fit/impress_lb_model_fit.pdf*reports/model fit/impress_lb_model_fit.Rmd|t20636.3409669711s|s2508712b|2508712|file|local|vector|||91.621|LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.|
+tte_vars|stem|9552cfc270b54a3e|75f7398e950e8689|d8e4d7f6cdc205fc|-2028261463||t20636.3409674456s|s97b|97|rds|local|vector|||0||
+deaths_summary|stem|626c4ae4fd91a9d8|997a7afda3b01ad7|aaabd14ff71a53fb|1422660799||t20636.3409681054s|s771b|771|rds|local|vector|||0.044||
+tte_ph_report|stem|e7726d9c5adb98ae|2872cb02a63318f3|bb6e412f08f4dcd6|1348364452|reports/model fit/impress_tte_ph_check.pdf*reports/model fit/impress_tte_ph_check.Rmd|t20636.3410325839s|s107873b|107873|file|local|vector|||5.568||
+ae_summaries|stem|67a23b59af96de63|5d839dc8dde2c637|d7d628cc885eea97|-706686637||t20636.3410406509s|s1823b|1823|rds|local|vector|||0.668||
+vs_summaries|stem|771a8ca8cff67996|40b60aa2f5f4b8c4|392b777feda2d764|758879258||t20636.3410986248s|s7841669b|7841669|rds|local|vector|||1.213||
+ex_summary|stem|599099cd08860f76|949ced0bafde129b|b93a9d1ab68d4741|819102869||t20636.3523112402s|s1526b|1526|rds|local|vector|||0.166||
+cycle11_mri_summaries|stem|3657f9f8b2ec0b70|8d59fc169283febb|50d3501ce27261c9|1328032111||t20636.3524336s|s12259337b|12259337|rds|local|vector|||4.729||
+tbl_baseline|stem|52193aaf0eb0e05c|3beb58957e96eb68|40798b41961ac5f5|-1741336211||t20636.3524462504s|s57637b|57637|rds|local|vector|||1.004||
+other_mri_summaries|stem|aff46cc2904a66eb|8afbce564fe5676f|3126c139442b5642|1202295808||t20636.3526818845s|s24973477b|24973477|rds|local|vector|||8.616||
+lb_summaries|stem|0978c845369dc5db|d758bc7d0b6bd099|e4bdec19c81f88c3|1034279601||t20636.3529190001s|s23636077b|23636077|rds|local|vector|||9.876|Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.. Some predictor variables are on very different scales: consider rescaling.  You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.|
+tte_sections|stem|55fe66f9df580515|042fc64756aeee43|e8f1ccef0052f409|1852372942||t20636.3531046116s|s28846524b|28846524|rds|local|vector|||1.131||
+lb_late_summaries|stem|f21af671af246642|bcf1a10ed7dfa8ea|44dd452e7496c3fe|1004447658||t20636.3533744121s|s22103080b|22103080|rds|local|vector|||7.526||
 f_mcttest|function|2603643cd88963aa
 format_estimate_ci|function|aaebab8ad3ae5887
 lb_log_offset|function|5a60ef115b7aa012
@@ -109,10 +110,10 @@ plot_cont_margins|function|2b468b6f32cad0f3
 n_pct|function|6fa695711dd45718
 make_contest|function|6e9ec158fb783e99
 any_dose_vs_0mg|function|aed57ca6ff4d9e11
-make_adsl|function|6e4a808113f4f520
+make_adsl|function|fa097d2ff2e254f1
 make_adtte|function|8aa74083ae9931d1
-make_adex|function|6ced67aeecce11ee
 make_adbl|function|9bc03e2bcc4e08ce
+make_adex|function|af56bb588af00a5e
 path_raw|function|c819961adc847fe6
 path_adam|function|6486be04ca320746
 path_outputs|function|4b8e2859de017861
@@ -123,7 +124,7 @@ filter_cohort|function|185244efd95ddd69
 make_lineplot1|function|aab38d84b4a3e8fe
 trt_from_map|function|fa26858cfc94d9e9
 path_export|function|e5b365ed152b1c1d
-make_rdex|function|bd9581115e5adb4b
+make_rdex|function|a7fbda7af11400ee
 summarise_lb_late|function|6903020eeebe5def
 make_deaths_section|function|9e9e91bc4f3b0d50
 steroid_baseline_map|function|17362b1a1eda5d51
@@ -158,6 +159,5 @@ make_raw|function|7d7ebbb2e2c74c2b
 make_steroid_section|function|4089690f41d7e55d
 make_rdvs_batch|function|7ab6110a20b402b0
 make_rdlbsaf|function|eb8639f669506b19
-primary_mri_sections|stem|2423ac58ef55f652|468b4605b7970963|32ae4d6605220726|-283662289||t20629.5036223437s|s3522060b|3522060|rds|local|vector|||1.964|cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.. cannot calculate covariance matrix. singular matrix in calculation of covariance matrix.|
-report_pdf|stem|a62344d5e94c4b12|3d24cf497d7df202|e4becf5be06c6f83|-794766957|reports/impress_statistical_analysis.pdf*reports/impress_statistical_analysis.Rmd|t20629.5043706019s|s1331464b|1331464|file|local|vector|||45.756||
-report_docx|stem|cd70cb59b9f7bd9b|0ff0512fb5e55214|e4becf5be06c6f83|-1465342639|reports/impress_statistical_analysis.docx*reports/impress_statistical_analysis.Rmd|t20629.5049933683s|s4232661b|4232661|file|local|vector|||35.256||
+report_pdf|stem|54e2866a5efa3e0f|3d24cf497d7df202|465a3ff2f7631fe3|-794766957|reports/impress_statistical_analysis.pdf*reports/impress_statistical_analysis.Rmd|t20636.3671838302s|s1343350b|1343350|file|local|vector|||91.07||
+report_docx|stem|e16bb29c018b4827|0ff0512fb5e55214|465a3ff2f7631fe3|-1465342639|reports/impress_statistical_analysis.docx*reports/impress_statistical_analysis.Rmd|t20636.3684517918s|s2214848b|2214848|file|local|vector|||77.988||

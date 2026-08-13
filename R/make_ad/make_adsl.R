@@ -4,6 +4,53 @@ make_adsl <- function(raw, cfg) {
 
   dm <- raw |> get_raw("dm")
   ran <- raw |> get_raw("ran")
+  ex <- raw |> get_raw("ex")
+  elig <- raw |> get_raw("elig")
+
+  #######
+  # Get those that were manually randomised
+  ######
+
+  man_ran_id <- elig |> 
+    filter(!is.na(eirannocd)) |> 
+    select(subjectid)
+
+  #####################
+  # Get randomisation info from the ex dataset
+  ####################
+
+  ran_ex <- man_ran_id |> 
+    left_join(ex, by = "subjectid") |> 
+    group_by(subjectid) |> 
+    filter(row_number() ==1) |> 
+    select(sitecode, subjectid, randat = eventdate, ranst = exranst, randos = exrandos, ranfudos = exfudos) |> 
+    mutate(rantrt = case_when(
+      sitecode == 1 & randos == "25mg" & ranst == "Cycle 1 - day 1" ~ "AR1_1",
+      sitecode == 1 & randos == "25mg" & ranst == "Cycle 2 - day 15" ~ "AR1_2",
+      sitecode == 1 & randos == "25mg" & ranst == "Cycle 3 - day 29" ~ "AR1_3",
+      sitecode == 1 & randos == "50mg" & ranst == "Cycle 1 - day 1" ~ "AR2_4",
+      sitecode == 1 & randos == "50mg" & ranst == "Cycle 2 - day 15" ~ "AR2_5",
+      sitecode == 1 & randos == "50mg" & ranst == "Cycle 3 - day 29" ~ "AR2_6",
+      sitecode == 1 & randos == "100mg" & ranst == "Cycle 1 - day 1" ~ "AR3_1",
+      sitecode == 1 & randos == "100mg" & ranst == "Cycle 2 - day 15" ~ "AR3_2",
+      sitecode == 1 & randos == "100mg" & ranst == "Cycle 3 - day 29" ~ "AR3_3",
+      sitecode == 2 & randos == "25mg" & ranst == "Cycle 1 - day 1" ~ "AN1_1",
+      sitecode == 2 & randos == "25mg" & ranst == "Cycle 2 - day 15" ~ "AN1_2",
+      sitecode == 2 & randos == "25mg" & ranst == "Cycle 3 - day 29" ~ "AN1_3",
+      sitecode == 2 & randos == "50mg" & ranst == "Cycle 1 - day 1" ~ "AN2_4",
+      sitecode == 2 & randos == "50mg" & ranst == "Cycle 2 - day 15" ~ "AN2_5",
+      sitecode == 2 & randos == "50mg" & ranst == "Cycle 3 - day 29" ~ "AN2_6",
+      sitecode == 2 & randos == "100mg" & ranst == "Cycle 1 - day 1" ~ "AN3_1",
+      sitecode == 2 & randos == "100mg" & ranst == "Cycle 2 - day 15" ~ "AN3_2",
+      sitecode == 2 & randos == "100mg" & ranst == "Cycle 3 - day 29" ~ "AN3_3"
+    ))
+
+  ##########################
+  # Add to the ran dataset
+  ##########################
+  ran <- ran |> 
+    add_row(ran_ex)
+
 
   refdate <- raw %>%
     get_raw("event_dates") |>
