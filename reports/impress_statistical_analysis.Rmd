@@ -1,0 +1,575 @@
+---
+title: "ImPRESS Statistical Analysis Report"
+author: "ImPRESS Statistical Team"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: '2'
+  word_document:
+    toc: true
+    toc_depth: 2
+  html_document:
+    toc: true
+    toc_depth: 2
+subtitle: Efficacy and safety results of the Newly Diagnosed Glioblastoma Cohort
+---
+
+# Introduction
+
+The ImPRESS trial is a prospective investigation of losartan as an adjunctive therapy for patients with glioblastoma. According to Protocol Version 8.0 (14-Nov-2025), the trial collects comprehensive demographic, clinical, imaging, and quality-of-life information prior to treatment initiation. The statistical objectives for the interim analyses focus on characterising baseline status, neurological function, and tumour burden before randomisation to evaluate comparability across planned treatment arms.
+
+
+
+# Randomisation Status
+
+This report presents the statistical analyses of the ImPRESS trial. Previous versions of this report has used a  *sham randomisation*, but this report uses the genuine randomised allocation. The report uses an export from the Viedoc database with timestamp `r cfg$export`.
+
+# Cohort Scope
+
+The results herein are restricted to participants with newly diagnosed glioblastomare. Subjects from other cohorts are excluded from all summaries, figures, and tables in this draft. A combined-cohort analysis can be delivered once recruitment and cleaning are complete for all strata.
+
+# Baseline Characteristics
+
+This section summarises baseline characteristics for the newly diagnosed glioblastoma cohort using the `adbl` ADaM dataset.
+
+```{r setup, message=FALSE, warning=FALSE, echo = FALSE, include = FALSE}
+library(targets)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(rlang)
+library(flextable)
+library(rtables.officer)
+library(rtables)
+library(ggplot2)
+knitr::opts_chunk$set(echo = FALSE)
+options(tidyverse.quiet = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+
+
+```
+
+```{r load-data, message=FALSE, warning=FALSE}
+tar_load(cfg)
+tar_load(tbl_baseline)
+tar_load(primary_mri_sections)
+tar_load(primary_mri_labels)
+tar_load(other_mri_summaries)
+tar_load(cycle11_mri_summaries)
+tar_load(neuro_summaries)
+tar_load(qol_summaries)
+tar_load(steroid_summaries)
+tar_load(rano_summaries)
+tar_load(tte_sections)
+tar_load(lb_summaries)
+tar_load(lb_late_summaries)
+tar_load(ex_summary)
+tar_load(ae_summaries)
+tar_load(vs_summaries)
+tar_load(lbsaf_summaries)
+tar_load(deaths_summary)
+tbl_baseline |> 
+  tt_to_flextable() %>%
+  autofit()
+
+```
+
+# Primary Efficacy Analyses (MRI)
+
+The primary variable is analysed with the MCP-Mod methodology as described in the protocol and SAP. We pre-specify four candidate dose-response models (linear, piecewise linear, Emax, sigmoid Emax) and derive optimal contrasts using the estimated variance-covariance from the mixed model. The MCP step tests for a dose-response signal across candidate models with multiplicity control; the Mod step presents the model fit by AIC and reports ED values. Results below are grouped by MRI endpoint (primary and sensitivity (ROI2)). All analyses are based on data up to and including Day 43 (Week 6).
+
+## Candidate dose-response models
+
+```{r mri-models, message=FALSE, warning=FALSE}
+print(primary_mri_sections[[1]]$plots$candidate_models)
+```
+
+
+```{r mri-primary, message=FALSE, warning=FALSE, results='asis'}
+
+
+for (nm in names(primary_mri_sections)) {
+  sec <- primary_mri_sections[[nm]]
+  lbl <- primary_mri_labels[[nm]] %||% nm
+
+  cat("## ", lbl, "\n\n", sep = "")
+
+  cat(sec$text$intro, "\n\n")
+  cat(sec$text$nsubj, "\n\n")
+  cat(sec$text$models, "\n\n")
+
+
+  cat("### Line plot \n\n")
+  print(sec$plots$lineplot)
+  cat("\n\n") 
+
+  cat("### Optimal contrasts\n\n")
+  print(sec$tables$contmat)
+  cat("\n\n")
+
+  cat("### MCP-Mod tests\n\n")
+  print(sec$tables$mct)
+  cat("\n\n")
+
+  cat("### Fitted model parameters (AIC/ED)\n\n")
+  print(sec$tables$fit)
+  cat("\n Note \n Fitted models are presented with AIC and ED for reference")
+  cat("\n\n")
+
+  cat("### Estimated means by dose\n\n")
+  print(sec$tables$estimates)
+  cat("\n\n")
+
+  cat("### Fitted dose-response curves\n\n")
+  purrr::walk(sec$plots$fit_models, print)
+  cat("\n\n")
+
+  if (!is.null(sec$tables$anydose)) {
+    cat("### Supplementary analysis: any dose vs 0 mg\n\n")
+    print(sec$tables$anydose)
+    cat("\n\n")
+  }
+
+}
+```
+
+# Other MRI Endpoints up to Day 43
+
+For remaining MRI endpoints, we present estimated means by dose, contrasts vs 0 mg, and a plot with confidence intervals. 
+
+```{r mri-other, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(other_mri_summaries)) {
+  obj <- other_mri_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " subjects were included in the analysis for this endpoint.\n\n", sep = "")
+  cat("### Line plot by treatment start\n\n")
+  print(obj$lineplot)
+  cat("\n\n") 
+  cat("### Means by dose\n\n")
+  print(obj$means)
+  cat("\n\n### Differences vs 0 mg\n\n")
+  print(obj$diffs)
+  cat("\n\n### Plot\n\n")
+  print(obj$plot)
+  if (!is.null(obj$anydose)) {
+    cat("\n\n### Supplementary analysis: any dose vs 0 mg\n\n")
+    print(obj$anydose)
+  }
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# MRI Endpoints at Cycle 11 (Day 141)
+
+For all MRI endpoints, we report estimated change from baseline at Cycle 11 (day 141), grouped by the extended treatment variable. The summaries include mean estimates, contrasts versus the reference group, and a plot with confidence intervals.
+
+```{r mri-cycle11, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(cycle11_mri_summaries)) {
+  obj <- cycle11_mri_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " subjects were included in the analysis for this endpoint.\n\n", sep = "")
+  cat("### Means by treatment\n\n")
+  print(obj$means)
+  cat("\n\n### Differences vs reference\n\n")
+  print(obj$diffs)
+  cat("\n\n### Plot\n\n")
+  print(obj$plot)
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Neurologic Performance
+
+Change from baseline in KPS, ECOG, and NANO scores at Days 15/43 and model-based estimates at Days 155/239 are reported below for the newly diagnosed glioblastoma cohort. Note that since the day 29 is not measured for any of the measures, the dose-response analyses are based on Days 15 and 43 only for the early timepoints. There might therefore be a limited ability to detect dose-response relationships at these early visits becasue we are lacking one contrast. 
+
+
+
+```{r neuro-performance, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(neuro_summaries)) {
+  obj <- neuro_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " subjects were included in the analysis for this endpoint.\n\n", sep = "")
+
+  if (!is.null(obj$early)) {
+     if (!is.null(obj$early$plot_step)) {
+      cat("\n\n### Line plot by treatment start\n\n")
+      print(obj$early$plot_step)
+    }
+    cat("\n\n### Days 15/43 (change from baseline)\n\n")
+    print(obj$early$means)
+    cat("\n\n### Differences vs 0 mg\n\n")
+    print(obj$early$diffs)
+    cat("\n\n### Plot\n\n")
+    print(obj$early$plot)
+   
+    cat("\n\n")
+  }
+
+  if (!is.null(obj$late)) {
+    cat("### Days 155/239 (mixed model)\n\n")
+    print(obj$late$means)
+    cat("\n\n### Differences vs reference\n\n")
+    print(obj$late$diffs)
+    cat("\n\n### Plot\n\n")
+    print(obj$late$plot)
+    cat("\n\n")
+  }
+
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Quality of Life Outcomes
+
+Model based estimates of change from baseline in QLQ-C30 and QLQ-BN20 scores at Days 155/239 are reported below for the newly diagnosed glioblastoma cohort. Note that even if the QoL outcomes were collected at Day 43 it is not possible to make a meaningful analysis of the effect of losartan as all participants received the treatment at that time point.
+
+```{r qol-outcomes, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(qol_summaries)) {
+  obj <- qol_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " subjects were included in the analysis for this endpoint.\n\n", sep = "")
+
+  if (!is.null(obj$early)) {
+    cat("### Days 15/29/43 (change from baseline)\n\n")
+    print(obj$early$means)
+    cat("\n\n### Differences vs 0 mg\n\n")
+    print(obj$early$diffs)
+    cat("\n\n### Plot\n\n")
+    print(obj$early$plot)
+    cat("\n\n")
+  }
+
+  if (!is.null(obj$late)) {
+    cat("### Days 155/239 (mixed model)\n\n")
+    print(obj$late$means)
+    cat("\n\n### Differences vs reference\n\n")
+    print(obj$late$diffs)
+    cat("\n\n### Plot\n\n")
+    print(obj$late$plot)
+    cat("\n\n")
+  }
+
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Steroid Use
+
+Binary steroid use is analysed with longitudinal logistic regression and population-averaged marginal risk differences for early (Days 15/29/43) and late (Days 155/239) visits in the newly diagnosed glioblastoma cohort.
+
+```{r steroid-use, message=FALSE, warning=FALSE, results='asis'}
+obj <- steroid_summaries
+if (!is.null(obj)) {
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " subjects were included in the analysis.\n\n", sep = "")
+
+  if (!is.null(obj$early)) {
+    cat("### Days 15/29/43 (by dose)\n\n")
+    print(obj$early$means)
+    cat("\n\n### Risk differences vs 0 mg\n\n")
+    print(obj$early$diffs)
+    cat("\n\n### Plot\n\n")
+    print(obj$early$plot)
+    cat("\n\n")
+  }
+
+  if (!is.null(obj$late)) {
+    cat("### Days 155/239 (population-averaged risk)\n\n")
+    print(obj$late$means)
+    cat("\n\n### Risk differences vs reference\n\n")
+    print(obj$late$diffs)
+    cat("\n\n### Plot\n\n")
+    print(obj$late$plot)
+    cat("\n\n")
+  }
+
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# RANO Responses
+
+Ordinal RANO outcomes are analysed using proportional odds models within the configured cohort. For `r rano_summaries$trsdisea$label`, visits at Days 141 and 225 are included; for `r rano_summaries$trorresp$label`, only Day 225 is included. Proportional odds ratios and confidence intervals are reported below.
+
+```{r rano-responses, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(rano_summaries)) {
+  obj <- rano_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("## ", obj$label, "\n\n", sep = "")
+  for (tbl in obj$tables) {
+    cat("### Visit ", tbl$avisitn, "\n\n", sep = "")
+    print(tbl$table)
+    cat("\n\n")
+  }
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Biomarker Endpoints (Serum Cytokines / Angiogenic Factors)
+
+Serum cytokine and angiogenic-factor concentrations from Bio-Plex 19-plex and 14-plex
+panels are analysed as exploratory biomarker endpoints.  For each analyte, a linear
+mixed model with random subject intercept is fitted with change from Screening baseline
+as the response.  Where the log-scale model fits better (lower AIC), the analysis is
+performed on the log-concentration scale and results are labelled accordingly.
+
+Biomarker samples are collected at screening (baseline), Day 15 (Cycle 2), and Day 43 (Cycle 4) for the early analysis, and again at Cycle 17 (Day 225) and later for the long-term analysis. The early analysis uses the stepped-wedge treatment assignment; the long-term analysis uses the assigned long-term dose (`trt02p`). The early analyses results are presented first, then the long term. 
+
+
+A formal model selection and residual diagnostic assessment is available in
+a separate document (impress_lb_model_fit.pdf).
+
+```{r lb-outcomes, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(lb_summaries)) {
+  obj <- lb_summaries[[nm]]
+  if (is.null(obj)) next
+
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " participants contributed data for this analyte.\n\n",
+      sep = "")
+
+  cat("### Estimated change from baseline by dose (early analyses (baseline to Day 43)) \n\n")
+  print(obj$means)
+  cat("\n\n### Differences vs 0 mg (early analyses (baseline to Day 43)) \n\n")
+  print(obj$diffs)
+  cat("\n\n### Model comparison (AIC)\n\n")
+  print(obj$aic)
+  cat("\n\n### Plot\n\n")
+  print(obj$plot)
+
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Biomarker Endpoints — Long-term (Cycle 15+)
+
+Model-based estimates of change from baseline at Cycle 15 and later are reported below for analytes with available long-term samples. The same scale (linear or log-transformed) as selected for the early analysis is used for each analyte.
+
+```{r lb-late-outcomes, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(lb_late_summaries)) {
+  obj <- lb_late_summaries[[nm]]
+  if (is.null(obj)) next
+
+  cat("## ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " participants contributed data for this analyte.\n\n",
+      sep = "")
+
+  cat("### Estimated change from baseline by long-term dose\n\n")
+  print(obj$means)
+  cat("\n\n### Differences vs 0 mg by long-term dose\n\n")
+  print(obj$diffs)
+  cat("\n\n### Model comparison (AIC)\n\n")
+  print(obj$aic)
+  cat("\n\n### Plot\n\n")
+  print(obj$plot)
+
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Time-to-Event Endpoints
+
+Kaplan-Meier curves are shown with the at-risk table below. Overall log-rank p-values are reported for each endpoint, followed by Cox regression hazard ratios versus 0 mg.
+
+The proportional-hazards assumption underlying the Cox hazard ratios is assessed with standard diagnostics (scaled Schoenfeld residual tests and plots, and complementary log-log survival plots) in a separate document (`impress_tte_ph_check.pdf`).
+
+```{r tte-endpoints, message=FALSE, warning=FALSE, results='asis', fig.height=8}
+for (nm in names(tte_sections)) {
+  obj <- tte_sections[[nm]]
+  if (is.null(obj)) next
+  cat("## ", obj$label, "\n\n", sep = "")
+  print(obj$km_plot)
+  cat("\n\n### Log-rank p-value\n\n")
+  cat("Overall log-rank p-value: ", obj$logrank_p, "\n\n", sep = "")
+  cat("### Cox regression (vs 0 mg)\n\n")
+  print(obj$cox_table)
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+# Safety
+
+Safety analyses follow SAP §7 and are descriptive/exploratory only, by treatment
+dose group and over time, with no formal hypothesis testing. The Safety Set is
+nominally all participants who received at least one dose of losartan, analysed by
+treatment actually received. **In this sham mock-up the dosing export (`_EX.csv`) is
+empty, so the Safety Set is approximated by the Full Analysis Set and all safety
+outputs are grouped by *planned* dose.** Assessment by treatment actually received
+will be added at database lock and unblinding. Conventional laboratory parameters
+are limited to creatinine, the only safety-lab assay populated in the current export.
+
+## Extent of Exposure
+
+N/% exposed per planned dose level, treatment duration overall and by long-term dose,
+short-term vs continued treatment, dose switches / early discontinuation, and duration
+categories, for the newly diagnosed glioblastoma cohort.
+
+```{r safety-exposure, message=FALSE, warning=FALSE, results='asis'}
+if (!is.null(ex_summary)) {
+  cat("A total of ", ex_summary$nsubj, " subjects are included.\n\n", sep = "")
+  cat("### Subjects exposed per planned dose level\n\n")
+  print(ex_summary$exposed)
+  cat("\n\n### Treatment exposure by randomised arm\n\n")
+  print(ex_summary$exposure_table)
+  cat("\n\n### Treatment exposure (daily dose) by randomised dose\n\n")
+  print(ex_summary$exposure_table2)
+  cat("\n\n### Treatment modifications\n\n")
+  print(ex_summary$dosemodtbl)
+  cat("\n\n\\newpage\n\n")
+} else {
+  cat("No exposure data available.\n\n")
+}
+```
+
+## Adverse Events
+
+Treatment-emergent adverse event (TEAE) incidence (subjects with at least one event),
+coded with MedDRA, split by onset into an **early** phase (onset Day <= 44) and a
+**late** phase (onset Day >= 45). Early-phase events are grouped by the stepped-wedge
+dose in effect at onset (a 0 mg group captures events before a subject's randomised
+step started; columns are not mutually exclusive, and each denominator is the number
+of subjects ever at that dose during Days 1-44). Late-phase events are grouped by the
+long-term planned dose (denominator = subjects per dose in the analysis set).
+
+```{r safety-ae, message=FALSE, warning=FALSE, results='asis'}
+print_ae_phase <- function(obj, heading) {
+  if (is.null(obj)) {
+    cat("### ", heading, "\n\nNo events in this phase.\n\n", sep = "")
+    return(invisible())
+  }
+  cat("### ", heading, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " subjects had at least one TEAE in this phase.\n\n", sep = "")
+  cat("#### Overall summary\n\n")
+  print(obj$summary)
+  if (!is.null(obj$severity)) {
+    cat("\n\n#### Subjects by maximum severity\n\n")
+    print(obj$severity)
+  }
+  if (!is.null(obj$relationship)) {
+    cat("\n\n#### Subjects by relationship to treatment\n\n")
+    print(obj$relationship)
+  }
+  cat("\n\n#### Incidence by system organ class and preferred term\n\n")
+  print(obj$soc_pt)
+  cat("\n\n\\newpage\n\n")
+}
+
+if (!is.null(ae_summaries)) {
+  print_ae_phase(ae_summaries$early, "Early phase (onset Day <= 44, by stepped-wedge dose)")
+  print_ae_phase(ae_summaries$late,  "Late phase (onset Day >= 45, by long-term dose)")
+} else {
+  cat("No adverse event data available.\n\n")
+}
+```
+
+## Vital Signs
+
+Systolic and diastolic blood pressure and pulse rate are summarised descriptively by
+dose group and visit (observed and change from baseline) and analysed with a repeated-
+measures linear mixed model analogous to the efficacy endpoints: change from baseline
+with baseline value, nominal visit and treatment group as fixed effects and a subject
+random intercept. Short-term (Days 15/29/43) and long-term (Days 155/239) windows are
+reported.
+
+```{r safety-vs, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(vs_summaries)) {
+  obj <- vs_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("### ", obj$label, "\n\n", sep = "")
+  cat("A total of ", obj$nsubj, " subjects contributed to the model-based analyses.\n\n", sep = "")
+  if (!is.null(obj$descriptive)) {
+    cat("#### Descriptive summary by dose and visit\n\n")
+    print(obj$descriptive)
+    cat("\n\n")
+  }
+  if (!is.null(obj$early)) {
+    cat("#### Days 15/29/43 (change from baseline, by dose)\n\n")
+    print(obj$early$means)
+    cat("\n\n#### Differences vs 0 mg\n\n")
+    print(obj$early$diffs)
+    cat("\n\n#### Plot\n\n")
+    print(obj$early$plot)
+    cat("\n\n")
+  }
+  if (!is.null(obj$late)) {
+    cat("#### Days 155/239 (mixed model)\n\n")
+    print(obj$late$means)
+    cat("\n\n#### Differences vs reference\n\n")
+    print(obj$late$diffs)
+    cat("\n\n#### Plot\n\n")
+    print(obj$late$plot)
+    cat("\n\n")
+  }
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+## Conventional Laboratory Parameters
+
+Conventional clinical laboratory parameters (creatinine in this export) are summarised
+descriptively and with the same repeated-measures mixed model as vital signs, plus
+categorisation against reference ranges (counts/proportions outside the normal range).
+
+```{r safety-labs, message=FALSE, warning=FALSE, results='asis'}
+for (nm in names(lbsaf_summaries)) {
+  obj <- lbsaf_summaries[[nm]]
+  if (is.null(obj)) next
+  cat("### ", obj$label, "\n\n", sep = "")
+  if (!is.null(obj$refrange)) {
+    cat("#### Reference-range categorisation by dose\n\n")
+    print(obj$refrange)
+    cat("\n\n")
+  }
+  if (!is.null(obj$descriptive)) {
+    cat("#### Descriptive summary by dose and visit\n\n")
+    print(obj$descriptive)
+    cat("\n\n")
+  }
+  if (!is.null(obj$early)) {
+    cat("#### Days 15/29/43 (change from baseline, by dose)\n\n")
+    print(obj$early$means)
+    cat("\n\n#### Differences vs 0 mg\n\n")
+    print(obj$early$diffs)
+    cat("\n\n#### Plot\n\n")
+    print(obj$early$plot)
+    cat("\n\n")
+  }
+  if (!is.null(obj$late)) {
+    cat("#### Days 155/239 (mixed model)\n\n")
+    print(obj$late$means)
+    cat("\n\n#### Differences vs reference\n\n")
+    print(obj$late$diffs)
+    cat("\n\n#### Plot\n\n")
+    print(obj$late$plot)
+    cat("\n\n")
+  }
+  cat("\n\n\\newpage\n\n")
+}
+```
+
+## Deaths
+
+Deaths are summarised by long-term planned dose group (in addition to the overall
+survival analysis in the time-to-event section) and listed with date and cause.
+
+```{r safety-deaths, message=FALSE, warning=FALSE, results='asis'}
+if (!is.null(deaths_summary)) {
+  cat("A total of ", deaths_summary$ndeaths, " deaths were observed among ",
+      deaths_summary$nsubj, " subjects.\n\n", sep = "")
+  cat("### Deaths by dose group\n\n")
+  print(deaths_summary$summary)
+  if (!is.null(deaths_summary$listing)) {
+    cat("\n\n### Listing of deaths\n\n")
+    print(deaths_summary$listing)
+  }
+  cat("\n\n\\newpage\n\n")
+} else {
+  cat("No deaths recorded.\n\n")
+}
+```

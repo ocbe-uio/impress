@@ -1,0 +1,447 @@
+---
+title: "ImPRESS — Biomarker Model Fit Assessment"
+author: "ImPRESS Statistical Team"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    latex_engine: xelatex
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.width = 7, fig.height = 4.5, out.width = "100%")
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+library(targets)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(lme4)
+library(broom)
+library(tibble)
+library(purrr)
+library(patchwork)
+library(knitr)
+
+# ---- inline helpers (no extra package needed) ----------------------------
+calc_skewness <- function(x) {
+  x <- x[!is.na(x)]
+  n <- length(x)
+  if (n < 3) return(NA_real_)
+  m <- mean(x); s <- sd(x)
+  if (s == 0) return(NA_real_)
+  (sum((x - m)^3) / n) / s^3
+}
+
+calc_excess_kurtosis <- function(x) {
+  x <- x[!is.na(x)]
+  n <- length(x)
+  if (n < 4) return(NA_real_)
+  m <- mean(x); s <- sd(x)
+  if (s == 0) return(NA_real_)
+  (sum((x - m)^4) / n) / s^4 - 3
+}
+
+# ---- diagnostic plot grid for one model ----------------------------------
+# Returns a patchwork of 4 panels; NULL if model is NULL.
+make_diag_plots <- function(model, scale_label) {
+  if (is.null(model)) return(NULL)
+
+  fitted_vals <- fitted(model)
+  resid_vals  <- residuals(model)
+  re          <- as.numeric(lme4::ranef(model)$usubjid[[1]])
+
+  df_res <- tibble::tibble(
+    fitted    = fitted_vals,
+    resid     = resid_vals,
+    sqrt_abs  = sqrt(abs(resid_vals))
+  )
+
+  p_rv <- ggplot(df_res, aes(x = fitted, y = resid)) +
+    geom_point(alpha = 0.4, size = 1) +
+    geom_smooth(se = FALSE, method = "loess", color = "red", linewidth = 0.7,
+                formula = y ~ x) +
+    geom_hline(yintercept = 0, linetype = "dashed") +
+    labs(title = paste0("Residuals vs Fitted [", scale_label, "]"),
+         x = "Fitted", y = "Residuals") +
+    theme_minimal(base_size = 9)
+
+  p_qq <- ggplot(tibble::tibble(r = resid_vals), aes(sample = r)) +
+    stat_qq(size = 1, alpha = 0.5) +
+    stat_qq_line(color = "red") +
+    labs(title = "QQ-plot of residuals",
+         x = "Theoretical quantiles", y = "Sample quantiles") +
+    theme_minimal(base_size = 9)
+
+  p_sl <- ggplot(df_res, aes(x = fitted, y = sqrt_abs)) +
+    geom_point(alpha = 0.4, size = 1) +
+    geom_smooth(se = FALSE, method = "loess", color = "red", linewidth = 0.7,
+                formula = y ~ x) +
+    labs(title = "Scale-Location",
+         x = "Fitted", y = expression(sqrt("|Residuals|"))) +
+    theme_minimal(base_size = 9)
+
+  p_re <- ggplot(tibble::tibble(re = re), aes(sample = re)) +
+    stat_qq(size = 1, alpha = 0.5) +
+    stat_qq_line(color = "blue") +
+    labs(title = "Random effects QQ",
+         x = "Theoretical", y = "Subject random intercepts") +
+    theme_minimal(base_size = 9)
+
+  (p_rv | p_qq) / (p_sl | p_re)
+}
+```
+
+```{r load-data}
+tar_load(adlb)
+tar_load(cfg)
+
+cohortcd_analysis <- as.character(cfg$analysis$cohortcd)
+adlb_cohort <- adlb %>%
+  dplyr::filter(cohortcd == cohortcd_analysis)
+
+analytes   <- sort(unique(adlb_cohort$paramcd))
+n_analytes <- length(analytes)
+n_subj     <- dplyr::n_distinct(adlb_cohort$usubjid)
+```
+
+# Introduction
+
+This document provides a pre-unblinding assessment of model fit for the **`r n_analytes`
+ADLB analytes** from Bio-Plex 19-plex and 14-plex serum panels in
+**`r n_subj` subjects** (cohort `r cohortcd_analysis`).
+
+The primary analysis (`make_rdlb.R`) fits two competing LMMs per analyte:
+
+| Model | Response | Interpretation |
+|---|---|---|
+| **Linear** | `chg = aval - base` | Mean change from Screening baseline (pg/mL) |
+| **Log-ratio** | `log(aval/base)` ≈ `log_chg` | Mean log-fold change from Screening baseline |
+
+For both models the fixed effects are: baseline value, stepped-wedge dose (`trtcd`),
+and visit day (`avisitn`), with a random intercept per subject.  AIC selects the
+preferred model per analyte.
+
+This report assesses:
+
+1. Data completeness and out-of-range proportions
+2. Concentration distributions (raw and log scale)
+3. Change-score distributions
+4. Residual diagnostics (both models) per analyte
+5. AIC comparison summary and recommendations
+
+---
+
+# Data overview
+
+```{r data-overview}
+oor_summary <- adlb_cohort %>%
+  dplyr::group_by(paramcd, param, parcat1) %>%
+  dplyr::summarise(
+    n_obs           = dplyr::n(),
+    n_subjects      = dplyr::n_distinct(usubjid),
+    pct_missing_aval = round(100 * mean(is.na(aval)), 1),
+    n_oor_hi        = sum(avalc == ">ULOQ", na.rm = TRUE),
+    n_oor_lo        = sum(avalc == "<LLOQ", na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(parcat1, paramcd)
+
+knitr::kable(
+  oor_summary,
+  col.names = c("PARAMCD", "Parameter", "Panel",
+                "N obs", "N subjects", "% missing AVAL", "N >ULOQ", "N <LLOQ"),
+  caption = "Table 1: Data completeness by analyte (analysis cohort)"
+)
+```
+
+> **Note:** >ULOQ values are set to NA in `aval`.  If >ULOQ exceeds ~20% of
+> observations for an analyte, consider a Tobit (censored) mixed model for that
+> analyte.
+
+---
+
+# Concentration distributions
+
+```{r dist-aval, results='asis', fig.height=3.5}
+for (a in analytes) {
+  dt_a <- adlb_cohort %>%
+    dplyr::filter(paramcd == a, !is.na(aval), aval >= 0)
+
+  if (nrow(dt_a) < 5) next
+
+  lbl     <- as.character(unique(dt_a$param))
+  sk_orig <- round(calc_skewness(dt_a$aval), 2)
+  sk_log  <- round(calc_skewness(log(dt_a$aval + 0.001)), 2)
+
+  cat("\n\n## ", lbl, " (`", a, "`)\n\n", sep = "")
+  cat("Skewness: original scale = ", sk_orig,
+      " | log scale = ", sk_log, "\n\n", sep = "")
+
+  p1 <- ggplot(dt_a, aes(x = aval)) +
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "steelblue", alpha = 0.6, color = "white") +
+    geom_density(color = "red", linewidth = 0.7) +
+    labs(title = "Original scale", x = "pg/mL", y = "Density") +
+    theme_minimal(base_size = 9)
+
+  p2 <- ggplot(dt_a, aes(x = log(aval + 0.001))) +
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "steelblue", alpha = 0.6, color = "white") +
+    geom_density(color = "red", linewidth = 0.7) +
+    labs(title = "Log scale", x = "log(pg/mL)", y = "Density") +
+    theme_minimal(base_size = 9)
+
+  print(p1 | p2)
+  cat("\n\n")
+}
+```
+
+---
+
+# Change-score distributions
+
+Change scores (`chg = aval - base`) are the response variable in the linear model.
+The log-ratio model uses `log(aval/base)` ~ `log(aval + offset) - log(base + offset)`.
+
+```{r dist-chg, results='asis', fig.height=3.5}
+for (a in analytes) {
+  dt_a <- adlb_cohort %>%
+    dplyr::filter(paramcd == a,
+                  avisitn %in% c(1L, 15L, 29L, 43L),
+                  ablfl != "Y",
+                  !is.na(chg))
+
+  if (nrow(dt_a) < 5) next
+
+  lbl      <- as.character(unique(dt_a$param))
+  sk_chg   <- round(calc_skewness(dt_a$chg), 2)
+  ex_kurt  <- round(calc_excess_kurtosis(dt_a$chg), 2)
+
+  # log-ratio
+  pos  <- dt_a$aval[dt_a$aval > 0 & !is.na(dt_a$aval)]
+  off  <- if (length(pos)) min(pos) / 2 else 0.001
+  dt_a <- dt_a %>%
+    dplyr::filter(!is.na(aval), !is.na(base)) %>%
+    dplyr::mutate(log_chg = log(aval + off) - log(base + off))
+  sk_log <- round(calc_skewness(dt_a$log_chg), 2)
+
+  cat("\n\n## ", lbl, "\n\n", sep = "")
+  cat("Linear chg: skewness = ", sk_chg, ", excess kurtosis = ", ex_kurt,
+      " | Log-ratio skewness = ", sk_log, "\n\n", sep = "")
+
+  p1 <- ggplot(dt_a, aes(x = chg)) +
+    geom_histogram(aes(y = after_stat(density)), bins = 25,
+                   fill = "darkorange", alpha = 0.6, color = "white") +
+    geom_density(color = "red", linewidth = 0.7) +
+    labs(title = "Change from baseline (pg/mL)", x = "chg", y = "Density") +
+    theme_minimal(base_size = 9)
+
+  p2 <- ggplot(dt_a, aes(x = log_chg)) +
+    geom_histogram(aes(y = after_stat(density)), bins = 25,
+                   fill = "darkorange", alpha = 0.6, color = "white") +
+    geom_density(color = "red", linewidth = 0.7) +
+    labs(title = "Log-ratio (log(post/pre))", x = "log-fold change", y = "Density") +
+    theme_minimal(base_size = 9)
+
+  print(p1 | p2)
+  cat("\n\n")
+}
+```
+
+---
+
+# Residual diagnostics per analyte
+
+For each analyte both LMMs are fitted on early visits (Days 1–43). Four diagnostic
+panels are shown per model: **Residuals vs Fitted** (homoscedasticity), **QQ-plot**
+(normality), **Scale-Location** (trend in residual variance), and
+**Random effects QQ** (normality of subject-level intercepts).
+A Shapiro-Wilk test is reported when the residual sample size is between 5 and 5000.
+
+```{r residual-diag, results='asis', fig.height=5}
+aic_results <- list()
+
+for (a in analytes) {
+  dt <- adlb_cohort %>%
+    dplyr::filter(paramcd == a,
+                  avisitn %in% c(1L, 15L, 29L, 43L),
+                  ablfl != "Y",
+                  !is.na(chg), !is.na(base), !is.na(trtcd))
+
+  if (nrow(dt) < 10 || dplyr::n_distinct(dt$trtcd) < 2) next
+
+  lbl <- as.character(unique(dt$param))
+  cat("\n\n## ", lbl, " (`", a, "`)\n\n", sep = "")
+
+  # ---- fit linear model ---------------------------------------------------
+  m_lin <- tryCatch(
+    lme4::lmer(chg ~ base + trtcd + avisitn + (1 | usubjid), data = dt),
+    error = function(e) NULL
+  )
+
+  # ---- fit log-ratio model ------------------------------------------------
+  pos   <- dt$aval[!is.na(dt$aval) & dt$aval > 0]
+  off   <- if (length(pos)) min(pos) / 2 else 0.001
+  dt_lg <- dt %>%
+    dplyr::filter(!is.na(aval), !is.na(base)) %>%
+    dplyr::mutate(
+      log_chg  = log(aval + off) - log(base + off),
+      log_base = log(base + off)
+    )
+
+  m_log <- NULL
+  if (nrow(dt_lg) >= 10 && dplyr::n_distinct(dt_lg$trtcd) >= 2) {
+    m_log <- tryCatch(
+      lme4::lmer(log_chg ~ log_base + trtcd + avisitn + (1 | usubjid),
+                 data = dt_lg),
+      error = function(e) NULL
+    )
+  }
+
+  aic_lin <- if (!is.null(m_lin)) round(AIC(m_lin), 1) else NA_real_
+  aic_log <- if (!is.null(m_log)) round(AIC(m_log), 1) else NA_real_
+  pref    <- dplyr::case_when(
+    is.na(aic_lin) ~ "log",
+    is.na(aic_log) ~ "linear",
+    aic_log < aic_lin ~ "log",
+    TRUE ~ "linear"
+  )
+
+  aic_results[[a]] <- tibble::tibble(
+    paramcd    = a,
+    param      = lbl,
+    AIC_linear = aic_lin,
+    AIC_log    = aic_log,
+    preferred  = pref
+  )
+
+  cat("**AIC linear:** ", aic_lin,
+      " | **AIC log-ratio:** ", aic_log,
+      " | **Preferred:** **", pref, "**\n\n", sep = "")
+
+  # ---- diagnostic plots ---------------------------------------------------
+  p_lin <- make_diag_plots(m_lin, "linear")
+  p_log <- make_diag_plots(m_log, "log-ratio")
+
+  if (!is.null(p_lin)) { print(p_lin); cat("\n\n") }
+  if (!is.null(p_log)) { print(p_log); cat("\n\n") }
+
+  # ---- Shapiro-Wilk -------------------------------------------------------
+  sw_row <- function(m, label) {
+    if (is.null(m)) return(NULL)
+    r  <- residuals(m)
+    nr <- length(r[!is.na(r)])
+    if (nr < 5 || nr > 5000) return(NULL)
+    sw <- shapiro.test(r[!is.na(r)])
+    tibble::tibble(
+      Scale          = label,
+      W              = round(sw$statistic, 4),
+      p_value        = round(sw$p.value, 4),
+      Interpretation = dplyr::case_when(
+        sw$p.value > 0.10 ~ "No evidence of non-normality",
+        sw$p.value > 0.05 ~ "Borderline",
+        sw$p.value > 0.01 ~ "Some departure from normality",
+        TRUE              ~ "Strong departure from normality"
+      )
+    )
+  }
+  sw_tbl <- dplyr::bind_rows(sw_row(m_lin, "linear"), sw_row(m_log, "log-ratio"))
+  if (nrow(sw_tbl)) {
+    print(knitr::kable(sw_tbl,
+                       col.names = c("Scale", "W", "p-value", "Interpretation"),
+                       caption = paste0("Shapiro-Wilk — ", lbl)))
+  }
+
+  cat("\n\n---\n\n")
+}
+```
+
+---
+
+# AIC comparison summary
+
+```{r aic-summary}
+if (length(aic_results) == 0) {
+  cat("No analytes had sufficient data to fit both models.\n")
+} else {
+  aic_df <- dplyr::bind_rows(aic_results) %>%
+    dplyr::mutate(
+      delta_AIC = round(AIC_linear - AIC_log, 1),
+      recommendation = dplyr::case_when(
+        is.na(AIC_log)              ~ "Log model failed to fit",
+        AIC_log < AIC_linear - 4   ~ "Strong preference for log-ratio",
+        AIC_log < AIC_linear - 2   ~ "Moderate preference for log-ratio",
+        AIC_linear < AIC_log - 4   ~ "Strong preference for linear",
+        AIC_linear < AIC_log - 2   ~ "Moderate preference for linear",
+        TRUE                       ~ "Comparable fit"
+      )
+    ) %>%
+    dplyr::arrange(delta_AIC)
+
+  knitr::kable(
+    aic_df %>%
+      dplyr::select(paramcd, param, AIC_linear, AIC_log, delta_AIC,
+                    preferred, recommendation),
+    col.names = c("PARAMCD", "Parameter", "AIC linear", "AIC log-ratio",
+                  "dAIC (lin - log)", "Preferred", "Recommendation"),
+    caption = "Table 2: AIC comparison — linear vs log-ratio LMM (early visits, Days 1–43)"
+  )
+
+  n_log <- sum(aic_df$preferred == "log",    na.rm = TRUE)
+  n_lin <- sum(aic_df$preferred == "linear", na.rm = TRUE)
+  n_fail<- sum(is.na(aic_df$AIC_log))
+  cat("\n\n**Summary:** ",  n_log, " analytes favour log-ratio; ",
+      n_lin, " favour linear; ",
+      n_fail, " log models failed to converge.\n\n", sep = "")
+}
+```
+
+---
+
+# Recommendations
+
+## Log-ratio model preferred (ΔAIC > 2)
+
+Back-transform emmeans with `exp()` to obtain **fold-changes** (e.g. exp(0.30) ≈ 1.35
+= 35% increase over baseline).  Report geometric means rather than arithmetic means
+in tables.  Document the per-analyte offset used in `lb_log_offset()`.
+
+## Linear model preferred or comparable fit
+
+Retain the linear model.  If this is driven by many OOR values collapsing
+variability on the log scale, flag the analyte and consider a Tobit LMM.
+
+## High >ULOQ proportion (> 20%)
+
+For analytes with >20% of observations censored above ULOQ: the linear and
+log-ratio models will underestimate concentrations.  Consider:
+
+- Substituting `ULOQ` for `>ULOQ` values (imputation at upper bound) as a
+  sensitivity analysis.
+- A **Tobit mixed model** (`censReg` or `crch` packages) for the primary analysis.
+
+## Non-normality not resolved by log-ratio (Shapiro-Wilk p < 0.01)
+
+If both models show strong residual non-normality:
+
+1. Check for outliers: flag observations with |standardised residual| > 4 for
+   data-quality review.
+2. Report a sensitivity analysis excluding confirmed outliers.
+3. Consider a **robust LMM** (`robustlmm::rlmer`) for the primary analysis.
+
+## Heavy tails (excess kurtosis > 7 in `chg`)
+
+Common for VEGF-A, IL-6, IL-8 due to extreme responders.  These analytes are
+strong candidates for the log-ratio model and outlier review.
+
+---
+
+*Generated from `reports/model fit/impress_lb_model_fit.Rmd` — sham-randomised data.*
